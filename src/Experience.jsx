@@ -1,4 +1,5 @@
-import MyCameraHelper from "./CameraHelper.jsx";
+import Cube from "./Cube.jsx";
+import LightingAndGround from "./LightingAndGround.jsx";
 
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3, Quaternion, Euler } from "three";
@@ -34,34 +35,30 @@ export default function Experience() {
   const lastClickedCube = useRef(null);
   const isCameraAtInitialPosition = useRef(true);
 
-  const cubes = Array(15)
-    .fill()
-    .map((_, index) => {
-      const angle = (index / 15) * 2 * Math.PI;
-      const x = radius * Math.cos(angle);
-      const z = radius * Math.sin(angle);
+  const [active, setActive] = useState(false);
 
-      return {
-        position: new Vector3(x, 0, z),
-        onClick: () => {
-          if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
-            // Clicked on the same cube and the camera is not at its initial position, move the camera back
-            positionRef.current.set(0, cameraHeight, 0);
-            rotationRef.current.copy(initialCameraRotation);
-            setTarget(cube1Position);
-            isCameraAtInitialPosition.current = true;
-          } else {
-            // Clicked on a different cube or the camera is at its initial position, move the camera forward
-            positionRef.current = camera.position
-              .clone()
-              .lerp(cubes[index].position, cameraZoom);
-            setTarget(cubes[index].position);
-            lastClickedCube.current = index;
-            isCameraAtInitialPosition.current = false;
-          }
-        },
-      };
-    });
+  const handleCubeClick = (index) => {
+    const angle = (index / 15) * 2 * Math.PI;
+    const x = radius * Math.cos(angle);
+    const z = radius * Math.sin(angle);
+    const cubePosition = new Vector3(x, 0, z);
+
+    setActive(index);
+
+    if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
+      // Clicked on the same cube and the camera is not at its initial position, move the camera back
+      positionRef.current.set(0, cameraHeight, 0);
+      rotationRef.current.copy(initialCameraRotation);
+      setTarget(cube1Position);
+      isCameraAtInitialPosition.current = true;
+    } else {
+      // Clicked on a different cube or the camera is at its initial position, move the camera forward
+      positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
+      setTarget(cubePosition);
+      lastClickedCube.current = index;
+      isCameraAtInitialPosition.current = false;
+    }
+  };
 
   // Update the camera's position and orientation on each frame
   useFrame(() => {
@@ -72,31 +69,18 @@ export default function Experience() {
     }
   });
 
-  const [hovered, setHover] = useState(null);
-  const [active, setActive] = useState(null);
-
   return (
     <>
-      <MyCameraHelper />
-      <ambientLight intensity={0.5} />
-      <spotLight position={[19, 15, 29]} angle={0.7} penumbra={1} castShadow />
-      {cubes.map((props, index) => (
-        <mesh
+      <LightingAndGround />
+      {Array.from({ length: 15 }, (_, index) => (
+        <Cube
           key={index}
-          {...props}
-          castShadow
-          scale={active === index ? 1.5 : 1}
-          onPointerOver={(event) => setHover(index)}
-          onPointerOut={(event) => setHover(null)}
-        >
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color={hovered === index ? "hotpink" : "orange"} />
-        </mesh>
+          index={index}
+          radius={radius}
+          isActive={index === active}
+          onClick={() => handleCubeClick(index)}
+        />
       ))}
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
-        <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color={"gray"} />
-      </mesh>
     </>
   );
 }
