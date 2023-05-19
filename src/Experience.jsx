@@ -37,12 +37,31 @@ export default function Experience() {
 
   const [active, setActive] = useState(null);
 
+  // Define el estado del ángulo de giro
+  const [rotation, setRotation] = useState(0);
+
+  // Actualiza el ángulo de giro cuando el usuario hace scroll
+  const handleScroll = (e) => {
+    setRotation(rotation + e.deltaY * 0.001); // ajusta el factor 0.001 según lo rápido que quieras que gire
+  };
+
+  useEffect(() => {
+    window.addEventListener("wheel", handleScroll);
+
+    // Recuerda eliminar el listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+    };
+  }, [rotation]); // Actualiza el listener cuando cambia rotation
+
   // Cuando haces click en el cubo
   const handleCubeClick = (index) => {
-    const angle = (index / 15) * 2 * Math.PI;
+    const angle = (index / numCubes) * 2 * Math.PI;
     const x = radius * Math.cos(angle);
     const z = radius * Math.sin(angle);
-    const cubePosition = new Vector3(x, 0, z);
+    // Crea un Vector3 para la posición del cubo y rota ese vector
+    let cubePosition = new Vector3(x, 0, z);
+    cubePosition.applyAxisAngle(new Vector3(0, 1, 0), rotation);
 
     if (active === index) {
       // Si el cubo activo se vuelve a clicar, lo desactivamos
@@ -91,6 +110,8 @@ export default function Experience() {
     "./img/t11.jpg",
     "./img/t12.jpg",
     "./img/t13.jpg",
+    "./img/t14.jpg",
+    "./img/t15.jpg",
   ];
 
   const textures = useMemo(
@@ -101,16 +122,18 @@ export default function Experience() {
   return (
     <>
       <LightingAndGround />
-      {textures.map((texture, index) => (
-        <Cube
-          key={index}
-          index={index}
-          radius={radius}
-          isActive={index === active}
-          onClick={() => handleCubeClick(index)}
-          texture={texture}
-        />
-      ))}
+      <group rotation={[0, rotation, 0]}>
+        {textures.map((texture, index) => (
+          <Cube
+            key={index}
+            index={index}
+            radius={radius}
+            isActive={index === active}
+            onClick={() => handleCubeClick(index)}
+            texture={texture}
+          />
+        ))}
+      </group>
     </>
   );
 }
