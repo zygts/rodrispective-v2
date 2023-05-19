@@ -1,29 +1,81 @@
-import { useRef, useEffect } from "react";
-import { Vector3 } from "three";
+import { useRef, useEffect, useMemo } from "react";
+import { Vector2, Vector3, BufferAttribute } from "three";
+import { useSpring, a } from "@react-spring/three";
+import { useFrame, useThree } from "@react-three/fiber";
 
-export default function Cube({ index, radius, onClick, isActive }) {
+import vertexShader from "./shaders/vertex.glsl";
+import fragmentShader from "./shaders/fragment.glsl";
+
+export default function Cube({ index, radius, onClick, isActive, texture }) {
   const angle = (index / 15) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
   const z = radius * Math.sin(angle);
   const position = new Vector3(x, 0, z);
 
+  const materialRef = useRef();
   const meshRef = useRef();
 
+  // Animación al activarse
+  const { scale } = useSpring({
+    scale: isActive ? [2, 2, 2] : [1, 1, 1],
+    config: { mass: 1, tension: 170, friction: 20 },
+  });
+
+  // Orienta los elementos hacia la cámara
   useEffect(() => {
     if (meshRef.current) {
       meshRef.current.lookAt(new Vector3(0, 0, 0));
     }
   }, []);
 
+  // Click en el elemento
+  const handleClick = () => {
+    onClick(!isActive);
+  };
+
+  // Shaders
+  const uniforms = useMemo(
+    () => ({
+      uTexture: { value: texture },
+      uTime: { value: 0 },
+      uFrequency: { value: new Vector2(8, 8) },
+    }),
+    [texture]
+  );
+
+  // Animación constante
+  useFrame((state, delta) => {
+    materialRef.current.uniforms.uTime.value += delta;
+  });
+
   return (
-    <mesh
+    <a.mesh
       ref={meshRef}
       position={position.toArray()}
-      onClick={onClick}
-      scale={isActive ? 1.5 : 1}
+      onClick={handleClick}
+      scale={scale}
     >
-      <boxGeometry args={[1, 1, 0.05]} />
-      <meshStandardMaterial color="orange" />
-    </mesh>
+      <planeGeometry
+        ref={(geoRef) => {
+          if (geoRef) {
+            const count = geoRef.attributes.position.count;
+            const randoms = new Float32Array(count);
+
+            for (let i = 0; i < count; i++) {
+              randoms[i] = Math.random();
+            }
+
+            geoRef.setAttribute("aRandom", new BufferAttribute(randoms, 1));
+          }
+        }}
+        args={[1, 1, 32, 32]}
+      />
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+      />
+    </a.mesh>
   );
 }

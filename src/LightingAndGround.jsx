@@ -1,12 +1,17 @@
+import { Environment, Lightformer } from "@react-three/drei";
+
 export default function LightingAndGround() {
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <spotLight position={[19, 15, 29]} angle={0.7} penumbra={1} castShadow />
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
-        <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color={"gray"} />
-      </mesh>
+      <Environment>
+        <Lightformer
+          form="rect" // circle | ring | rect (optional, default = rect)
+          intensity={1} // power level (optional = 1)
+          color="white" // (optional = white)
+          scale={[10, 5]} // Scale it any way you prefer (optional = [1, 1])
+          target={[0, 0, 0]} // Target position (optional = undefined)
+        />
+      </Environment>
     </>
   );
 }
