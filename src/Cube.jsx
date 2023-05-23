@@ -1,7 +1,7 @@
 import { useRef, useEffect, useMemo } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useSpring, a } from "@react-spring/three";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
@@ -18,7 +18,7 @@ export default function Cube({ index, radius, onClick, isActive, texture }) {
   // Animación al activarse
   const { scale } = useSpring({
     scale: isActive ? [2, 2, 2] : [1, 1, 1],
-    config: { mass: 1, tension: 170, friction: 20 },
+    config: { mass: 1.5, tension: 130, friction: 50 },
   });
 
   // Orienta los elementos hacia la cámara
