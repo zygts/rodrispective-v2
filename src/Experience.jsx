@@ -2,8 +2,8 @@ import { useEffect, useState, useMemo } from "react";
 import { useThree } from "@react-three/fiber";
 import { Vector3, TextureLoader } from "three";
 import CubeGroup from "./CubeGroup.jsx";
-import LightingAndGround from "./LightingAndGround.jsx";
-import { CameraManager } from "./CameraManager";
+import LightingAndGround from "./Helpers/LightingAndGround.jsx";
+import { CameraManager } from "./Helpers/CameraManager.jsx";
 
 export default function Experience() {
   const { camera } = useThree();

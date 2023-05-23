@@ -4,10 +4,12 @@ import { useSpring, a } from "@react-spring/three";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 
+import "./cube.css";
+
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 
-export default function Cube({ index, radius, onClick, isActive, texture }) {
+export default function Cube({ index, radius, onClick, isActive, texture, content }) {
   const angle = (index / 15) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
   const z = radius * Math.sin(angle);
@@ -77,6 +79,18 @@ export default function Cube({ index, radius, onClick, isActive, texture }) {
         fragmentShader={fragmentShader}
         uniforms={uniforms}
       />
+      <Html
+        position={[0, 0, 0]}
+        center
+        scaleFactor={10}
+        style={{ display: isActive ? "block" : "none" }}
+      >
+        <div className="cube-content">
+          <h1>{content.title}</h1>
+          <p>{content.paragraph}</p>
+          <button>{content.buttonText}</button>
+        </div>
+      </Html>
     </a.mesh>
   );
 }

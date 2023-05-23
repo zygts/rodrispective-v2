@@ -32,6 +32,19 @@ export default function CubeGroup({ active, radius, handleCubeClick }) {
     const contents = [
       { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
       { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
+      { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
+      { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
+      { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
+      { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
+      { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
+      { title: "Título 2", paragraph: "Párrafo 2", buttonText: "Botón 2" },
+      { title: "Título 1", paragraph: "Párrafo 1", buttonText: "Botón 1" },
       // ...
     ];
     setCubeContents(contents);
