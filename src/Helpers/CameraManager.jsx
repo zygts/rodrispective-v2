@@ -22,11 +22,13 @@ export function CameraManager({
   const isCameraAtInitialPosition = useRef(true);
   const cameraHeight = 2;
   const cameraZoom = 0.7;
+  const cameraSpeed = 0.05;
   const cube1Position = new Vector3(
     radius * Math.cos((1 / numCubes) * 2 * Math.PI),
     0,
     radius * Math.sin((1 / numCubes) * 2 * Math.PI)
   );
+  const [isAnimationFinished, setAnimationFinished] = useState(false);
 
   useEffect(() => {
     camera.position.set(0, cameraHeight, 0);
@@ -35,6 +37,7 @@ export function CameraManager({
     setTarget(cube1Position);
   }, []);
 
+  // Función de click en cada elemento
   const handleCubeClick = (index) => {
     const angle = (index / numCubes) * 2 * Math.PI;
     const x = radius * Math.cos(angle);
@@ -61,11 +64,19 @@ export function CameraManager({
     }
   };
 
+  // Se acerca al elemento activo
   useFrame(() => {
     if (target) {
-      targetRef.current.lerp(target, 0.05);
-      camera.position.lerp(positionRef.current, 0.05);
+      targetRef.current.lerp(target, cameraSpeed);
+      camera.position.lerp(positionRef.current, cameraSpeed);
       camera.lookAt(targetRef.current);
+
+      // Comprueba si la animación ha terminado
+      if (camera.position.distanceTo(positionRef.current) < cameraSpeed) {
+        setAnimationFinished(true);
+      } else {
+        setAnimationFinished(false);
+      }
     }
   });
 
@@ -89,5 +100,5 @@ export function CameraManager({
     };
   }, [rotation, active]); // Actualiza el listener cuando cambia rotation o active
 
-  return { handleCubeClick };
+  return { handleCubeClick, isAnimationFinished };
 }

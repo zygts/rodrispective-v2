@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { TextureLoader } from "three";
 import Cube from "./Cube";
 
-export default function CubeGroup({ active, radius, handleCubeClick }) {
+export default function CubeGroup({
+  active,
+  radius,
+  handleCubeClick,
+  isAnimationFinished,
+}) {
   const [textures, setTextures] = useState([]);
   const [cubeContents, setCubeContents] = useState([]);
 
@@ -59,6 +64,7 @@ export default function CubeGroup({ active, radius, handleCubeClick }) {
       texture={textures[index]}
       content={cubeContents[index]}
       onClick={() => handleCubeClick(index)}
+      isAnimationFinished={isAnimationFinished}
     />
   ));
 }

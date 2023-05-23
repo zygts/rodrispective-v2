@@ -3,13 +3,23 @@ import { Vector2, Vector3, BufferAttribute } from "three";
 import { useSpring, a } from "@react-spring/three";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { gsap } from "gsap";
 
 import "./cube.css";
 
+import CubeAnimations from "./CubeAnimations";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 
-export default function Cube({ index, radius, onClick, isActive, texture, content }) {
+export default function Cube({
+  index,
+  radius,
+  onClick,
+  isActive,
+  texture,
+  content,
+  isAnimationFinished,
+}) {
   const angle = (index / 15) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
   const z = radius * Math.sin(angle);
@@ -19,10 +29,10 @@ export default function Cube({ index, radius, onClick, isActive, texture, conten
   const meshRef = useRef();
 
   // Animación al activarse
-  const { scale } = useSpring({
-    scale: isActive ? [2, 2, 2] : [1, 1, 1],
-    config: { mass: 1.5, tension: 130, friction: 50 },
-  });
+  // const { scale } = useSpring({
+  //   scale: isActive ? [1.2, 1.2, 1.2] : [1, 1, 1],
+  //   config: { mass: 1.5, tension: 130, friction: 50 },
+  // });
 
   // Orienta los elementos hacia la cámara
   useEffect(() => {
@@ -52,12 +62,7 @@ export default function Cube({ index, radius, onClick, isActive, texture, conten
   });
 
   return (
-    <a.mesh
-      ref={meshRef}
-      position={position.toArray()}
-      onClick={handleClick}
-      scale={scale}
-    >
+    <a.mesh ref={meshRef} position={position.toArray()} onClick={handleClick}>
       <planeGeometry
         ref={(geoRef) => {
           if (geoRef) {
@@ -83,7 +88,7 @@ export default function Cube({ index, radius, onClick, isActive, texture, conten
         position={[0, 0, 0]}
         center
         scaleFactor={10}
-        style={{ display: isActive ? "block" : "none" }}
+        style={{ display: isActive && isAnimationFinished ? "block" : "none" }}
       >
         <div className="cube-content">
           <h1>{content.title}</h1>
@@ -91,6 +96,7 @@ export default function Cube({ index, radius, onClick, isActive, texture, conten
           <button>{content.buttonText}</button>
         </div>
       </Html>
+      <CubeAnimations isAnimationFinished={isAnimationFinished} />
     </a.mesh>
   );
 }

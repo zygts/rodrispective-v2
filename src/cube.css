@@ -1,6 +1,8 @@
 /* Cube.css */
 
 .cube-content {
+    width: 100vw;
+    height: 100vh;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 1em;
