@@ -28,30 +28,6 @@ export default function Experience() {
     setRotation,
   });
 
-  // Añade imágenes
-  const texturePaths = [
-    "./img/t1.jpg",
-    "./img/t2.jpg",
-    "./img/t3.jpg",
-    "./img/t4.jpg",
-    "./img/t5.jpg",
-    "./img/t6.jpg",
-    "./img/t7.jpg",
-    "./img/t8.jpg",
-    "./img/t9.jpg",
-    "./img/t10.jpg",
-    "./img/t11.jpg",
-    "./img/t12.jpg",
-    "./img/t13.jpg",
-    "./img/t14.jpg",
-    "./img/t15.jpg",
-  ];
-
-  const textures = useMemo(
-    () => texturePaths.map((path) => new TextureLoader().load(path)),
-    []
-  );
-
   return (
     <>
       <LightingAndGround />
@@ -60,7 +36,6 @@ export default function Experience() {
           setActive={setActive}
           active={active}
           radius={radius}
-          textures={textures}
           handleCubeClick={handleCubeClick}
         />
       </group>

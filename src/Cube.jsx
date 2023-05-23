@@ -2,6 +2,7 @@ import { useRef, useEffect, useMemo } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useSpring, a } from "@react-spring/three";
 import { useFrame } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
 
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
