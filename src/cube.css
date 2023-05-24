@@ -1,27 +1,91 @@
-/* Cube.css */
+@font-face {
+    font-family: 'GT Eesti Pro Display';
+    src: url('/fonts/GTEestiProDisplay-Regular.woff2') format('woff2'),
+        url('/fonts/GTEestiProDisplay-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
-.cube-content {
+@font-face {
+    font-family: 'GT Eesti Pro Display';
+    src: url('/fonts/GTEestiProDisplay-Thin.woff2') format('woff2'),
+        url('/fonts/GTEestiProDisplay-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Eesti Pro Display';
+    src: url('/fonts/GTEestiProDisplay-Bold.woff2') format('woff2'),
+        url('/fonts/GTEestiProDisplay-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+.song-wrapper {
     width: 100vw;
     height: 100vh;
     color: white;
-    padding: 1em;
-    border-radius: 4px;
+    font-family: 'GT Eesti Pro Display';
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding-top: 30vh;
+    gap: 3vh;
+  }
+
+  .song-preview,
+  .song-info {
+    padding: 0 8vw;
+    max-width: 50%;
+    opacity: 0;
+    pointer-events: none;
   }
   
-  .cube-content h1 {
-    font-size: 2em;
+  .song-wrapper h1 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-size: 5.5vw;
+    line-height: 0.9;
+    font-weight: bold;
+    max-width: 11ch;
+  }
+
+  .song-wrapper h2 {
+    font-size: 1.2vw;
+    font-weight: 100;
+    letter-spacing: 1px;
+  }
+
+  .song-wrapper h3 {
+    font-size: 1.2vw;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .artist {
+    font-weight: bold;
   }
   
-  .cube-content p {
-    font-size: 1em;
+  .song-wrapper p {
+    font-weight: 100;
+    font-size: 1.2vw;
+    letter-spacing: 1px;
+    max-width: 50ch
   }
   
-  .cube-content button {
+  .song-wrapper button {
     padding: 0.5em 1em;
     border: none;
     border-radius: 4px;
     background-color: white;
     color: black;
     cursor: pointer;
+    font-family: 'GT Eesti Pro Display';
+    font-weight: bold;
   }
   

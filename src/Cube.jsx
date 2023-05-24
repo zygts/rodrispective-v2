@@ -88,10 +88,23 @@ export default function Cube({
         scaleFactor={10}
         style={{ display: isActive && isAnimationFinished ? "block" : "none" }}
       >
-        <div className="cube-content">
-          <h1>{content.title}</h1>
-          <p>{content.paragraph}</p>
-          <button>{content.buttonText}</button>
+        <div className="song-wrapper">
+          <div className="song-preview">
+            <h1>{content.title}</h1>
+            <h2>
+              by <span className="artist">Incierto</span>
+            </h2>
+          </div>
+          <div className="song-info">
+            <p>{content.paragraph}</p>
+            <h3>Year:</h3>
+            <span className="song-date"></span>
+            <h3>Credits:</h3>
+            <p className="song-credits">Created and recorded by Rodrigo Núñez</p>
+            {/* <button>{content.buttonText}</button> */}
+            <button className="btn-goto">Go to song</button>
+          </div>
+          <button className="btn-back">Back to Catalogue</button>
         </div>
       </Html>
       <CubeAnimations isAnimationFinished={isAnimationFinished} />
