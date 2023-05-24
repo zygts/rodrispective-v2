@@ -4,9 +4,11 @@ import Cube from "./Cube";
 
 export default function CubeGroup({
   active,
+  setActive,
   radius,
   handleCubeClick,
   isAnimationFinished,
+  resetCamera,
 }) {
   const [textures, setTextures] = useState([]);
   const [cubeContents, setCubeContents] = useState([]);
@@ -130,6 +132,11 @@ export default function CubeGroup({
     setCubeContents(contents);
   }, []);
 
+  const handleBackClick = () => {
+    console.log("Back button clicked!"); // Añade esto
+    setActive(null);
+  };
+
   return textures.map((texture, index) => (
     <Cube
       key={index}
@@ -138,7 +145,13 @@ export default function CubeGroup({
       isActive={index === active}
       texture={textures[index]}
       content={cubeContents[index]}
-      onClick={() => handleCubeClick(index)}
+      onClick={() => {
+        if (active === null) {
+          handleCubeClick(index);
+        }
+      }}
+      onBackClick={handleBackClick}
+      resetCamera={resetCamera}
       isAnimationFinished={isAnimationFinished}
     />
   ));

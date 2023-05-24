@@ -37,6 +37,14 @@ export function CameraManager({
     setTarget(cube1Position);
   }, []);
 
+  // Función de click en el botón de volver
+  const resetCamera = () => {
+    positionRef.current.set(0, cameraHeight, 0);
+    rotationRef.current.copy(initialCameraRotation);
+    setTarget(cube1Position);
+    isCameraAtInitialPosition.current = true;
+  };
+
   // Función de click en cada elemento
   const handleCubeClick = (index) => {
     const angle = (index / numCubes) * 2 * Math.PI;
@@ -52,10 +60,7 @@ export function CameraManager({
     }
 
     if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
-      positionRef.current.set(0, cameraHeight, 0);
-      rotationRef.current.copy(initialCameraRotation);
-      setTarget(cube1Position);
-      isCameraAtInitialPosition.current = true;
+      resetCamera();
     } else {
       positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
       // Ajusta la posición de la cámara a la izquierda y abajo después de hacer lerp
@@ -103,5 +108,5 @@ export function CameraManager({
     };
   }, [rotation, active]); // Actualiza el listener cuando cambia rotation o active
 
-  return { handleCubeClick, isAnimationFinished };
+  return { handleCubeClick, isAnimationFinished, resetCamera };
 }

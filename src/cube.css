@@ -27,6 +27,7 @@
 
 
 .song-wrapper {
+    position: relative;
     width: 100vw;
     height: 100vh;
     color: white;
@@ -52,7 +53,7 @@
     font-size: 5.5vw;
     line-height: 0.9;
     font-weight: bold;
-    max-width: 11ch;
+    max-width: 10ch;
   }
 
   .song-wrapper h2 {
@@ -78,7 +79,7 @@
     max-width: 50ch
   }
   
-  .song-wrapper button {
+  .song-info button {
     padding: 0.5em 1em;
     border: none;
     border-radius: 4px;
@@ -89,3 +90,14 @@
     font-weight: bold;
   }
   
+  button.btn-back {
+    position: absolute;
+    top: 50%;
+    right: 5vw;
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #ff5353;
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -1,10 +1,9 @@
 import { useRef, useEffect, useMemo } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useFrame } from "@react-three/fiber";
-import { Html, Float } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 
 import "./cube.css";
-
 import CubeAnimations from "./CubeAnimations";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
@@ -17,6 +16,8 @@ export default function Cube({
   texture,
   content,
   isAnimationFinished,
+  onBackClick,
+  resetCamera,
 }) {
   const angle = (index / 15) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
@@ -104,7 +105,15 @@ export default function Cube({
             {/* <button>{content.buttonText}</button> */}
             <button className="btn-goto">Go to song</button>
           </div>
-          <button className="btn-back">Back to Catalogue</button>
+          <button
+            className="btn-back"
+            onClick={() => {
+              onBackClick();
+              resetCamera();
+            }}
+          >
+            Back to Catalogue
+          </button>
         </div>
       </Html>
       <CubeAnimations isAnimationFinished={isAnimationFinished} />

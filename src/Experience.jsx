@@ -9,7 +9,7 @@ export default function Experience() {
   const [active, setActive] = useState(null);
   const [rotation, setRotation] = useState(0);
 
-  const { isAnimationFinished, handleCubeClick } = CameraManager({
+  const { isAnimationFinished, handleCubeClick, resetCamera } = CameraManager({
     active,
     setActive,
     radius,
@@ -28,6 +28,7 @@ export default function Experience() {
           radius={radius}
           handleCubeClick={handleCubeClick}
           isAnimationFinished={isAnimationFinished}
+          resetCamera={resetCamera}
         />
       </group>
     </>
