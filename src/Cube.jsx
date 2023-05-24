@@ -1,9 +1,7 @@
 import { useRef, useEffect, useMemo } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
-import { useSpring, a } from "@react-spring/three";
 import { useFrame } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
-import { gsap } from "gsap";
+import { Html, Float } from "@react-three/drei";
 
 import "./cube.css";
 
@@ -62,7 +60,7 @@ export default function Cube({
   });
 
   return (
-    <a.mesh ref={meshRef} position={position.toArray()} onClick={handleClick}>
+    <mesh ref={meshRef} position={position.toArray()} onClick={handleClick}>
       <planeGeometry
         ref={(geoRef) => {
           if (geoRef) {
@@ -97,6 +95,6 @@ export default function Cube({
         </div>
       </Html>
       <CubeAnimations isAnimationFinished={isAnimationFinished} />
-    </a.mesh>
+    </mesh>
   );
 }

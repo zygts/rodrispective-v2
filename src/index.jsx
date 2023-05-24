@@ -2,8 +2,11 @@ import "./style.css";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
+import { Suspense } from "react";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
+
+const created = () => {};
 
 root.render(
   <Canvas
@@ -12,8 +15,10 @@ root.render(
       near: 0.1,
       far: 200,
     }}
-    shadows
+    onCreated={created}
   >
-    <Experience />
+    <Suspense fallback={null}>
+      <Experience />
+    </Suspense>
   </Canvas>
 );

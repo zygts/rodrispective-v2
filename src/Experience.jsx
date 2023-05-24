@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Vector3 } from "three";
 import CubeGroup from "./CubeGroup.jsx";
 import LightingAndGround from "./Helpers/LightingAndGround.jsx";
 import { CameraManager } from "./Helpers/CameraManager.jsx";

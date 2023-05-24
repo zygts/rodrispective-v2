@@ -3,14 +3,10 @@ import { Environment, Lightformer } from "@react-three/drei";
 export default function LightingAndGround() {
   return (
     <>
-      <Environment>
-        <Lightformer
-          form="rect" // circle | ring | rect (optional, default = rect)
-          intensity={1} // power level (optional = 1)
-          color="white" // (optional = white)
-          scale={[10, 5]} // Scale it any way you prefer (optional = [1, 1])
-          target={[0, 0, 0]} // Target position (optional = undefined)
-        />
+      <color attach="background" args={["#15151a"]} />
+      <hemisphereLight intensity={0.04} />
+      <Environment resolution={512}>
+        <Lightformer intensity={1} position={[-20, 15, -15]} scale={[10, 10, 10]} />
       </Environment>
     </>
   );

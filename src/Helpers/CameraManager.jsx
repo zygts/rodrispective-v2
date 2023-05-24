@@ -20,9 +20,9 @@ export function CameraManager({
   const [target, setTarget] = useState(new Vector3(0, 0, 10));
   const lastClickedCube = useRef(null);
   const isCameraAtInitialPosition = useRef(true);
-  const cameraHeight = 2;
-  const cameraZoom = 0.7;
-  const cameraSpeed = 0.05;
+  const cameraHeight = 2.3;
+  const cameraZoom = 0.55;
+  const cameraSpeed = 0.04;
   const cube1Position = new Vector3(
     radius * Math.cos((1 / numCubes) * 2 * Math.PI),
     0,
@@ -58,6 +58,9 @@ export function CameraManager({
       isCameraAtInitialPosition.current = true;
     } else {
       positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
+      // Ajusta la posición de la cámara a la izquierda y abajo después de hacer lerp
+      positionRef.current.x += 0.7;
+      positionRef.current.y -= 1;
       setTarget(cubePosition);
       lastClickedCube.current = index;
       isCameraAtInitialPosition.current = false;

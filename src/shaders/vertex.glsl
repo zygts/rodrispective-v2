@@ -32,7 +32,7 @@ void main()
     float elevation = sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
     elevation += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
 
-    modelPosition.z += elevation * 0.075;
+    modelPosition.z += elevation * 0.03;
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
