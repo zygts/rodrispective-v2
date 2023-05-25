@@ -2,6 +2,7 @@ import { useRef, useEffect, useMemo } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { gsap } from "gsap";
 
 import "./cube.css";
 import CubeAnimations from "./CubeAnimations";
@@ -51,12 +52,34 @@ export default function Cube({
       uTexture: { value: texture },
       uTime: { value: 0 },
       uFrequency: { value: new Vector2(8, 8) },
+      uDistortCircular: { value: 0 },
+      uRadius: { value: 0.3 },
     }),
     [texture]
   );
 
+  // Función modificar shader
+  let shouldDistort = false;
+  const spin = () => {
+    if (materialRef && materialRef.current) {
+      // materialRef.current.uniforms.uDistortCircular.value = 0.1;
+
+      shouldDistort = !shouldDistort;
+
+      // Decide el valor final en función de shouldDistort
+      let finalValue = shouldDistort ? 1 : 0;
+
+      // Crea una animación GSAP para cambiar uDistortCircular.value a finalValue
+      gsap.to(materialRef.current.uniforms.uDistortCircular, {
+        duration: 1.2, // Ajusta esto para cambiar la duración de la animación
+        value: finalValue,
+        ease: "power4.out", // Puedes experimentar con diferentes funciones de suavizado
+      });
+    }
+  };
+
   // Animación constante
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     materialRef.current.uniforms.uTime.value += delta;
   });
 
@@ -102,9 +125,11 @@ export default function Cube({
             <span className="song-date"></span>
             <h3>Credits:</h3>
             <p className="song-credits">Created and recorded by Rodrigo Núñez</p>
-            {/* <button>{content.buttonText}</button> */}
             <button className="btn-goto">Go to song</button>
           </div>
+          <button className="btn-play" onClick={spin}>
+            Play Song
+          </button>
           <button
             className="btn-back"
             onClick={() => {

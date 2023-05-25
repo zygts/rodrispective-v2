@@ -9,7 +9,7 @@ varying float vElevation;
 
 void main()
 {
-    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+    vec4 modelPosition = vec4(position, 1.0);
     vec4 distortedPosition = modelPosition;
 
     // Convierte las coordenadas cartesianas a polares
@@ -34,7 +34,7 @@ void main()
 
     modelPosition.z += elevation * 0.03;
 
-    vec4 viewPosition = viewMatrix * modelPosition;
+    vec4 viewPosition = viewMatrix * modelMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
 
     gl_Position = projectedPosition;
