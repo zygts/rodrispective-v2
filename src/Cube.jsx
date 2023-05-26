@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
@@ -28,6 +28,9 @@ export default function Cube({
   const materialRef = useRef();
   const meshRef = useRef();
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [initialRotation, setInitialRotation] = useState(null);
+
   // Animación al activarse
   // const { scale } = useSpring({
   //   scale: isActive ? [1.2, 1.2, 1.2] : [1, 1, 1],
@@ -38,6 +41,13 @@ export default function Cube({
   useEffect(() => {
     if (meshRef.current) {
       meshRef.current.lookAt(new Vector3(0, 0, 0));
+    }
+  }, []);
+
+  // Almacenamos la rotación inicial al montar el componente
+  useEffect(() => {
+    if (meshRef.current) {
+      setInitialRotation(meshRef.current.rotation.z);
     }
   }, []);
 
@@ -58,16 +68,16 @@ export default function Cube({
     [texture]
   );
 
-  // Función modificar shader
-  let shouldDistort = false;
+  // Función al hacer click en Play
   const spin = () => {
+    setIsPlaying(!isPlaying); // Esto cambiará el valor de isPlaying
+  };
+
+  // Este efecto se ejecuta cada vez que cambia "isPlaying"
+  useEffect(() => {
     if (materialRef && materialRef.current) {
-      // materialRef.current.uniforms.uDistortCircular.value = 0.1;
-
-      shouldDistort = !shouldDistort;
-
-      // Decide el valor final en función de shouldDistort
-      let finalValue = shouldDistort ? 1 : 0;
+      // Decide el valor final en función de isPlaying
+      let finalValue = isPlaying ? 1 : 0;
 
       // Crea una animación GSAP para cambiar uDistortCircular.value a finalValue
       gsap.to(materialRef.current.uniforms.uDistortCircular, {
@@ -76,7 +86,30 @@ export default function Cube({
         ease: "power4.out", // Puedes experimentar con diferentes funciones de suavizado
       });
     }
-  };
+
+    if (meshRef && meshRef.current) {
+      // Usamos gsap para animar la rotación del cubo
+      if (isPlaying) {
+        console.log("Antes de la animación, rotación z: ", meshRef.current.rotation.z);
+        gsap.to(meshRef.current.rotation, {
+          duration: 19,
+          z: "-=9*Math.PI",
+          repeat: -1,
+          ease: "linear",
+          overwrite: "none",
+        });
+      } else {
+        gsap.killTweensOf(meshRef.current.rotation); // Termina la animación en curso
+        if (initialRotation !== null) {
+          gsap.to(meshRef.current.rotation, {
+            duration: 1, // Ajusta este valor según tu preferencia
+            z: initialRotation,
+            ease: "power4.out",
+          });
+        }
+      }
+    }
+  }, [isPlaying, initialRotation]);
 
   // Animación constante
   useFrame((_, delta) => {
@@ -84,7 +117,12 @@ export default function Cube({
   });
 
   return (
-    <mesh ref={meshRef} position={position.toArray()} onClick={handleClick}>
+    <mesh
+      ref={meshRef}
+      position={position.toArray()}
+      onClick={handleClick}
+      rotation={[0, 0, 0]}
+    >
       <planeGeometry
         ref={(geoRef) => {
           if (geoRef) {
@@ -109,7 +147,7 @@ export default function Cube({
       <Html
         position={[0, 0, 0]}
         center
-        scaleFactor={10}
+        scaleFactor={1}
         style={{ display: isActive && isAnimationFinished ? "block" : "none" }}
       >
         <div className="song-wrapper">
@@ -135,13 +173,14 @@ export default function Cube({
             onClick={() => {
               onBackClick();
               resetCamera();
+              setIsPlaying(false);
             }}
           >
             Back to Catalogue
           </button>
         </div>
       </Html>
-      <CubeAnimations isAnimationFinished={isAnimationFinished} />
+      <CubeAnimations isAnimationFinished={isAnimationFinished} isPlaying={isPlaying} />
     </mesh>
   );
 }
