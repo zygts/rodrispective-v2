@@ -30,6 +30,7 @@ export default function Cube({
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [initialRotation, setInitialRotation] = useState(null);
+  const [audio, setAudio] = useState(null);
 
   // Animación al activarse
   // const { scale } = useSpring({
@@ -73,24 +74,28 @@ export default function Cube({
     setIsPlaying(!isPlaying); // Esto cambiará el valor de isPlaying
   };
 
+  // reproduce audio
+  useEffect(() => {
+    const audioObj = new Audio(content.audioFileUrl);
+    setAudio(audioObj);
+  }, [content]);
+
   // Este efecto se ejecuta cada vez que cambia "isPlaying"
   useEffect(() => {
     if (materialRef && materialRef.current) {
-      // Decide el valor final en función de isPlaying
       let finalValue = isPlaying ? 1 : 0;
-
-      // Crea una animación GSAP para cambiar uDistortCircular.value a finalValue
       gsap.to(materialRef.current.uniforms.uDistortCircular, {
-        duration: 1.2, // Ajusta esto para cambiar la duración de la animación
+        duration: 1.2,
         value: finalValue,
-        ease: "power4.out", // Puedes experimentar con diferentes funciones de suavizado
+        ease: "power4.out",
       });
     }
 
     if (meshRef && meshRef.current) {
-      // Usamos gsap para animar la rotación del cubo
       if (isPlaying) {
-        console.log("Antes de la animación, rotación z: ", meshRef.current.rotation.z);
+        if (audio) {
+          audio.play();
+        }
         gsap.to(meshRef.current.rotation, {
           duration: 19,
           z: "-=9*Math.PI",
@@ -99,10 +104,14 @@ export default function Cube({
           overwrite: "none",
         });
       } else {
-        gsap.killTweensOf(meshRef.current.rotation); // Termina la animación en curso
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+        gsap.killTweensOf(meshRef.current.rotation);
         if (initialRotation !== null) {
           gsap.to(meshRef.current.rotation, {
-            duration: 1, // Ajusta este valor según tu preferencia
+            duration: 1,
             z: initialRotation,
             ease: "power4.out",
           });
@@ -166,7 +175,7 @@ export default function Cube({
             <button className="btn-goto">Go to song</button>
           </div>
           <button className="btn-play" onClick={spin}>
-            Play Song
+            {isPlaying ? "Stop Playing" : "Play Song"}
           </button>
           <button
             className="btn-back"
