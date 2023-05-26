@@ -172,7 +172,9 @@ export default function Cube({
             <span className="song-date"></span>
             <h3>Credits:</h3>
             <p className="song-credits">Created and recorded by Rodrigo Núñez</p>
-            <button className="btn-goto">Go to song</button>
+            <a href={content.songUrl} target="blank" className="btn-goto">
+              Go to Album
+            </a>
           </div>
           <button className="btn-play" onClick={spin}>
             {isPlaying ? "Stop Playing" : "Play Song"}
