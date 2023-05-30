@@ -148,7 +148,6 @@ export default function CubeGroup({
   }, []);
 
   const handleBackClick = () => {
-    console.log("Back button clicked!"); // Añade esto
     setActive(null);
   };
 

@@ -37,13 +37,6 @@ export default function Cube({
 
   const { setHovered } = useContext(CursorContext);
 
-  // Animación al activarse
-  // const { scale } = useSpring({
-  //   scale: isActive ? [1.2, 1.2, 1.2] : [1, 1, 1],
-  //   config: { mass: 1.5, tension: 130, friction: 50 },
-  // });
-
-  // Orienta los elementos hacia la cámara
   useEffect(() => {
     if (meshRef.current) {
       meshRef.current.lookAt(new Vector3(0, 0, 0));
@@ -203,8 +196,14 @@ export default function Cube({
           </button>
           <button
             className="btn-back"
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
+            onMouseEnter={() => {
+              console.log("Mouse entered");
+              setHovered(true);
+            }}
+            onMouseLeave={() => {
+              console.log("Mouse left");
+              setHovered(false);
+            }}
             onClick={() => {
               onBackClick();
               resetCamera();

@@ -2,7 +2,6 @@ import { useState } from "react";
 import CubeGroup from "./CubeGroup.jsx";
 import LightingAndGround from "./Helpers/LightingAndGround.jsx";
 import { CameraManager } from "./Helpers/CameraManager.jsx";
-import { Sparkles } from "@react-three/drei";
 
 export default function Experience() {
   const radius = 5;
@@ -21,7 +20,6 @@ export default function Experience() {
 
   return (
     <>
-      <Sparkles />
       <LightingAndGround />
       <group rotation={[0, rotation, 0]}>
         <CubeGroup
