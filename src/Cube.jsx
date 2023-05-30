@@ -1,13 +1,14 @@
-import { useRef, useEffect, useMemo, useState } from "react";
+import { useRef, useEffect, useMemo, useState, useContext } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { gsap } from "gsap";
 
 import "./cube.css";
-import CubeAnimations from "./CubeAnimations";
+import CubeAnimations from "./Helpers/CubeAnimations";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
+import { CursorContext } from "./cursorContext";
 
 export default function Cube({
   index,
@@ -27,10 +28,14 @@ export default function Cube({
 
   const materialRef = useRef();
   const meshRef = useRef();
+  const buttonPlayRef = useRef();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [initialRotation, setInitialRotation] = useState(null);
   const [audio, setAudio] = useState(null);
+  const [showHtml, setShowHtml] = useState(false);
+
+  const { setHovered } = useContext(CursorContext);
 
   // Animación al activarse
   // const { scale } = useSpring({
@@ -56,6 +61,14 @@ export default function Cube({
   const handleClick = () => {
     onClick(!isActive);
   };
+
+  useEffect(() => {
+    if (isActive && isAnimationFinished) {
+      setTimeout(() => setShowHtml(true), 100); // Retrasar 100ms
+    } else {
+      setShowHtml(false);
+    }
+  }, [isActive, isAnimationFinished]);
 
   // Shaders
   const uniforms = useMemo(
@@ -90,7 +103,6 @@ export default function Cube({
         ease: "power4.out",
       });
     }
-
     if (meshRef && meshRef.current) {
       if (isPlaying) {
         if (audio) {
@@ -131,6 +143,8 @@ export default function Cube({
       position={position.toArray()}
       onClick={handleClick}
       rotation={[0, 0, 0]}
+      //onPointerOver={() => setHovered(true)}
+      //onPointerOut={() => setHovered(false)}
     >
       <planeGeometry
         ref={(geoRef) => {
@@ -157,9 +171,11 @@ export default function Cube({
         position={[0, 0, 0]}
         center
         scaleFactor={1}
-        style={{ display: isActive && isAnimationFinished ? "block" : "none" }}
+        style={{ display: showHtml ? "block" : "none" }}
       >
-        <div className="song-wrapper">
+        <div
+          className={`song-wrapper ${isActive && isAnimationFinished ? "active" : ""}`}
+        >
           <div className="song-preview">
             <h1>{content.title}</h1>
             <h2>
@@ -172,15 +188,23 @@ export default function Cube({
             <span className="song-date"></span>
             <h3>Credits:</h3>
             <p className="song-credits">Created and recorded by Rodrigo Núñez</p>
-            <a href={content.songUrl} target="blank" className="btn-goto">
+            <a
+              href={content.songUrl}
+              target="blank"
+              className="btn-goto"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
               Go to Album
             </a>
           </div>
-          <button className="btn-play" onClick={spin}>
+          <button ref={buttonPlayRef} className="btn-play" onClick={spin}>
             {isPlaying ? "Stop Playing" : "Play Song"}
           </button>
           <button
             className="btn-back"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
             onClick={() => {
               onBackClick();
               resetCamera();
