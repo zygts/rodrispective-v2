@@ -34,8 +34,7 @@ export default function Cube({
   const [initialRotation, setInitialRotation] = useState(null);
   const [audio, setAudio] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-
-  const { setHovered } = useContext(CursorContext);
+  const { setCursorState } = useContext(CursorContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -185,8 +184,8 @@ export default function Cube({
               href={content.songUrl}
               target="blank"
               className="btn-goto"
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
+              onMouseEnter={() => setCursorState("hovered")}
+              onMouseLeave={() => setCursorState("default")}
             >
               Go to Album
             </a>
@@ -196,14 +195,8 @@ export default function Cube({
           </button>
           <button
             className="btn-back"
-            onMouseEnter={() => {
-              console.log("Mouse entered");
-              setHovered(true);
-            }}
-            onMouseLeave={() => {
-              console.log("Mouse left");
-              setHovered(false);
-            }}
+            onMouseEnter={() => setCursorState("large")}
+            onMouseLeave={() => setCursorState("default")}
             onClick={() => {
               onBackClick();
               resetCamera();

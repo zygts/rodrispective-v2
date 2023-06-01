@@ -50,6 +50,11 @@ html {
     transform: translate(-50%, -50%) scale(2);
 }
 
+.custom-cursor.large {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
 .near-button {
     transition: all 0.25s ease-in-out;
   }
