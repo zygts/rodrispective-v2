@@ -5,13 +5,20 @@ import { Vector2 } from "three";
 import "./cube.css";
 
 const CustomCursor = () => {
-  const { buttonPlayRef, cursorState, activeCube } = useContext(CursorContext);
+  const { buttonPlayRef, cursorState, activeCube, setCubeHover } =
+    useContext(CursorContext);
   const [buttonPosition, setButtonPosition] = useState(new Vector2());
   const cursorRef = useRef(null);
 
   useEffect(() => {
+    // Función hover sobre cubo
+    const cubeHover = () => {
+      console.log("Cursor function executed");
+    };
+    setCubeHover(() => cubeHover);
+
+    // Recoje la posición del botón de play
     const updateButtonPosition = () => {
-      // Recoje la posición del botón de play
       if (!buttonPlayRef.current) return;
       const rect = buttonPlayRef.current.getBoundingClientRect();
       const x = ((rect.left + rect.width / 2) / window.innerWidth) * 2 - 1;

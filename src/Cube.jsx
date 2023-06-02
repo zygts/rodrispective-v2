@@ -33,7 +33,7 @@ export default function Cube({
   const [initialRotation, setInitialRotation] = useState(null);
   const [audio, setAudio] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const { setCursorState, activeCube, setActiveCube } = useContext(CursorContext);
+  const { setCursorState, activeCube, cubeHover } = useContext(CursorContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -78,6 +78,20 @@ export default function Cube({
   // Función al hacer click en Play
   const spin = () => {
     setIsPlaying(!isPlaying); // Alterna el valor de isPlaying
+
+    if (!isPlaying) {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        ".song-info",
+        {
+          opacity: 0,
+        },
+        {
+          opacity: 1,
+          duration: 2,
+        }
+      );
+    }
   };
 
   // reproduce audio
@@ -140,6 +154,13 @@ export default function Cube({
       position={position.toArray()}
       onClick={handleClick}
       rotation={[0, 0, 0]}
+      onPointerEnter={() => {
+        if (activeCube === null) {
+          setCursorState("large");
+          cubeHover();
+        }
+      }}
+      onPointerLeave={() => setCursorState("default")}
     >
       <planeGeometry
         ref={(geoRef) => {
@@ -191,8 +212,8 @@ export default function Cube({
               href={content.songUrl}
               target="blank"
               className="btn-goto"
-              onMouseEnter={() => setCursorState("large")}
-              onMouseLeave={() => setCursorState("default")}
+              onPointerEnter={() => setCursorState("large")}
+              onPointerLeave={() => setCursorState("default")}
             >
               Go to Album
             </a>
@@ -202,8 +223,8 @@ export default function Cube({
           </button>
           <button
             className="btn-back"
-            onMouseEnter={() => setCursorState("large")}
-            onMouseLeave={() => setCursorState("default")}
+            onPointerEnter={() => setCursorState("large")}
+            onPointerLeave={() => setCursorState("default")}
             onClick={() => {
               onBackClick();
               resetCamera();
