@@ -119,8 +119,8 @@ export default function Cube({
         }
         gsap.to(meshRef.current.rotation, {
           // Gira indefinidamente
-          duration: 19,
-          z: "-=9*Math.PI",
+          duration: 8,
+          z: "-=6.29*Math.PI",
           repeat: -1,
           ease: "linear",
           overwrite: "none",
