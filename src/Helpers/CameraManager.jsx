@@ -1,15 +1,10 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { Vector3, Quaternion, Euler } from "three";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext, useCallback } from "react";
+import { CursorContext } from "../cursorContext";
 
-export function CameraManager({
-  active,
-  setActive,
-  radius,
-  numCubes,
-  rotation,
-  setRotation,
-}) {
+export function CameraManager({ radius, numCubes, rotation, setRotation }) {
+  const { activeCube, setActiveCube } = useContext(CursorContext); // Usa los valores de contexto aquí
   const { camera } = useThree();
   const positionRef = useRef(new Vector3(0, 5, 0));
   const rotationRef = useRef(new Quaternion().setFromEuler(new Euler(-0.5, 0, 0, "XYZ")));
@@ -46,31 +41,39 @@ export function CameraManager({
   };
 
   // Función de click en cada elemento
-  const handleCubeClick = (index) => {
-    const angle = (index / numCubes) * 2 * Math.PI;
-    const x = radius * Math.cos(angle);
-    const z = radius * Math.sin(angle);
-    let cubePosition = new Vector3(x, 0, z);
-    cubePosition.applyAxisAngle(new Vector3(0, 1, 0), rotation);
+  const handleCubeClickRef = useRef();
+  handleCubeClickRef.current = useCallback(
+    (index) => {
+      if (activeCube !== null) {
+        return;
+      }
+      console.log(activeCube);
+      const angle = (index / numCubes) * 2 * Math.PI;
+      const x = radius * Math.cos(angle);
+      const z = radius * Math.sin(angle);
+      let cubePosition = new Vector3(x, 0, z);
+      cubePosition.applyAxisAngle(new Vector3(0, 1, 0), rotation);
 
-    if (active === index) {
-      setActive(null);
-    } else {
-      setActive(index);
-    }
+      if (activeCube === index) {
+        setActiveCube(null);
+      } else {
+        setActiveCube(index);
+      }
 
-    if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
-      resetCamera();
-    } else {
-      positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
-      // Ajusta la posición de la cámara a la izquierda y abajo después de hacer lerp
-      positionRef.current.x += 0.7;
-      positionRef.current.y -= 1;
-      setTarget(cubePosition);
-      lastClickedCube.current = index;
-      isCameraAtInitialPosition.current = false;
-    }
-  };
+      if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
+        resetCamera();
+      } else {
+        positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
+        // Ajusta la posición de la cámara a la izquierda y abajo después de hacer lerp
+        positionRef.current.x += 0.7;
+        positionRef.current.y -= 1;
+        setTarget(cubePosition);
+        lastClickedCube.current = index;
+        isCameraAtInitialPosition.current = false;
+      }
+    },
+    [activeCube, setActiveCube, rotation]
+  );
 
   // Se acerca al elemento activo
   useFrame(() => {
@@ -90,7 +93,7 @@ export function CameraManager({
 
   // Gira el círculo cuando el usuario hace scroll
   const handleScroll = (e) => {
-    if (active !== null) {
+    if (activeCube !== null) {
       return; // No hacer nada si un cubo está activo
     }
     setRotation(rotation + e.deltaY * 0.001);
@@ -98,7 +101,7 @@ export function CameraManager({
 
   useEffect(() => {
     // Añade el evento de scroll si ningún cubo está activo
-    if (active === null) {
+    if (activeCube === null) {
       window.addEventListener("wheel", handleScroll);
     } else {
       window.removeEventListener("wheel", handleScroll);
@@ -106,7 +109,11 @@ export function CameraManager({
     return () => {
       window.removeEventListener("wheel", handleScroll);
     };
-  }, [rotation, active]); // Actualiza el listener cuando cambia rotation o active
+  }, [rotation, activeCube]); // Actualiza el listener cuando cambia rotation o active
 
-  return { handleCubeClick, isAnimationFinished, resetCamera };
+  return {
+    handleCubeClick: handleCubeClickRef.current,
+    isAnimationFinished,
+    resetCamera,
+  };
 }

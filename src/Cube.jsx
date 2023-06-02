@@ -12,9 +12,8 @@ import { CursorContext } from "./cursorContext";
 
 export default function Cube({
   index,
-  radius,
   onClick,
-  isActive,
+  radius,
   texture,
   content,
   isAnimationFinished,
@@ -34,7 +33,7 @@ export default function Cube({
   const [initialRotation, setInitialRotation] = useState(null);
   const [audio, setAudio] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const { setCursorState } = useContext(CursorContext);
+  const { setCursorState, activeCube, setActiveCube } = useContext(CursorContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -50,18 +49,19 @@ export default function Cube({
   }, []);
 
   // Click en el elemento
-  const handleClick = () => {
-    onClick(!isActive);
+  const handleClick = (event) => {
+    event.stopPropagation(); // detén la propagación del evento para evitar el comportamiento inesperado
+    onClick(index); // pasa el index al controlador de clics
   };
 
   // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
-    if (isActive && isAnimationFinished) {
+    if (activeCube === index && isAnimationFinished) {
       setTimeout(() => setShowHtml(true), 100);
     } else {
       setShowHtml(false);
     }
-  }, [isActive, isAnimationFinished]);
+  }, [activeCube, index, isAnimationFinished]);
 
   // Shaders
   const uniforms = useMemo(
@@ -140,8 +140,6 @@ export default function Cube({
       position={position.toArray()}
       onClick={handleClick}
       rotation={[0, 0, 0]}
-      //onPointerOver={() => setHovered(true)}
-      //onPointerOut={() => setHovered(false)}
     >
       <planeGeometry
         ref={(geoRef) => {
@@ -173,7 +171,9 @@ export default function Cube({
         style={{ display: showHtml ? "block" : "none" }}
       >
         <div
-          className={`song-wrapper ${isActive && isAnimationFinished ? "active" : ""}`}
+          className={`song-wrapper ${
+            activeCube === index && isAnimationFinished ? "active" : ""
+          }`}
         >
           <div className="song-preview">
             <h1>{content.title}</h1>

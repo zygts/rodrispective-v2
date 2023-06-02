@@ -5,7 +5,7 @@ import { Vector2 } from "three";
 import "./cube.css";
 
 const CustomCursor = () => {
-  const { buttonPlayRef, cursorState } = useContext(CursorContext);
+  const { buttonPlayRef, cursorState, activeCube } = useContext(CursorContext);
   const [buttonPosition, setButtonPosition] = useState(new Vector2());
   const cursorRef = useRef(null);
 
@@ -27,7 +27,7 @@ const CustomCursor = () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", updateButtonPosition);
     };
-  }, [buttonPlayRef, cursorState]);
+  }, [buttonPlayRef, cursorState, activeCube]);
 
   // Función para detener el cursor sobre el botón de play
   const onMouseMove = (e) => {
@@ -35,7 +35,7 @@ const CustomCursor = () => {
     const y = -(e.clientY / window.innerHeight) * 2 + 1;
     const cursorPos = new Vector2(x, y);
     const distance = cursorPos.distanceTo(buttonPosition);
-    const isNearButton = distance < 0.07;
+    const isNearButton = distance < 0.07 && activeCube !== null; // check if a cube is active
     const cursorSize = isNearButton ? "110px" : "12px";
 
     cursorRef.current.style.width = cursorSize;

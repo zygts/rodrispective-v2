@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { TextureLoader } from "three";
+
+import { CursorContext } from "./cursorContext";
 import Cube from "./Cube";
 
 export default function CubeGroup({
-  active,
-  setActive,
   radius,
   handleCubeClick,
   isAnimationFinished,
@@ -147,8 +147,10 @@ export default function CubeGroup({
     setCubeContents(contents);
   }, []);
 
+  const { setActiveCube, activeCube } = useContext(CursorContext);
+
   const handleBackClick = () => {
-    setActive(null);
+    setActiveCube(null);
   };
 
   return textures.map((texture, index) => (
@@ -156,14 +158,10 @@ export default function CubeGroup({
       key={index}
       index={index}
       radius={radius}
-      isActive={index === active}
+      isActive={index === activeCube}
       texture={textures[index]}
       content={cubeContents[index]}
-      onClick={() => {
-        if (active === null) {
-          handleCubeClick(index);
-        }
-      }}
+      onClick={handleCubeClick}
       onBackClick={handleBackClick}
       resetCamera={resetCamera}
       isAnimationFinished={isAnimationFinished}
