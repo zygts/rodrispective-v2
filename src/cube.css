@@ -47,7 +47,11 @@ html {
   }
   
 .custom-cursor.hovered {
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%) scale(6);
+}
+
+.custom-cursor.opacity {
+    opacity: 0.3;
 }
 
 .custom-cursor.large {

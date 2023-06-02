@@ -11,14 +11,15 @@ const CustomCursor = () => {
 
   useEffect(() => {
     const updateButtonPosition = () => {
+      // Recoje la posición del botón de play
       if (!buttonPlayRef.current) return;
-
       const rect = buttonPlayRef.current.getBoundingClientRect();
       const x = ((rect.left + rect.width / 2) / window.innerWidth) * 2 - 1;
       const y = (-(rect.top + rect.height / 2) / window.innerHeight) * 2 + 1;
       setButtonPosition(new Vector2(x, y));
     };
 
+    // Mueve el ratón
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("resize", updateButtonPosition);
     updateButtonPosition();
@@ -28,12 +29,13 @@ const CustomCursor = () => {
     };
   }, [buttonPlayRef, cursorState]);
 
+  // Función para detener el cursor sobre el botón de play
   const onMouseMove = (e) => {
     const x = (e.clientX / window.innerWidth) * 2 - 1;
     const y = -(e.clientY / window.innerHeight) * 2 + 1;
     const cursorPos = new Vector2(x, y);
     const distance = cursorPos.distanceTo(buttonPosition);
-    const isNearButton = distance < 0.07; // Ajusta este valor como necesites
+    const isNearButton = distance < 0.07;
     const cursorSize = isNearButton ? "110px" : "12px";
 
     cursorRef.current.style.width = cursorSize;
@@ -57,6 +59,7 @@ const CustomCursor = () => {
     }
   };
 
+  // Devuelve el cursor con su clase aplicada
   return <div ref={cursorRef} className={`custom-cursor ${cursorState}`} />;
 };
 

@@ -54,9 +54,10 @@ export default function Cube({
     onClick(!isActive);
   };
 
+  // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
     if (isActive && isAnimationFinished) {
-      setTimeout(() => setShowHtml(true), 100); // Retrasar 100ms
+      setTimeout(() => setShowHtml(true), 100);
     } else {
       setShowHtml(false);
     }
@@ -76,7 +77,7 @@ export default function Cube({
 
   // Función al hacer click en Play
   const spin = () => {
-    setIsPlaying(!isPlaying); // Esto cambiará el valor de isPlaying
+    setIsPlaying(!isPlaying); // Alterna el valor de isPlaying
   };
 
   // reproduce audio
@@ -88,6 +89,7 @@ export default function Cube({
   // Este efecto se ejecuta cada vez que cambia "isPlaying"
   useEffect(() => {
     if (materialRef && materialRef.current) {
+      // Cambia entre cuadrado y círculo
       let finalValue = isPlaying ? 1 : 0;
       gsap.to(materialRef.current.uniforms.uDistortCircular, {
         duration: 1.2,
@@ -96,11 +98,13 @@ export default function Cube({
       });
     }
     if (meshRef && meshRef.current) {
+      // Reproduce música
       if (isPlaying) {
         if (audio) {
           audio.play();
         }
         gsap.to(meshRef.current.rotation, {
+          // Gira indefinidamente
           duration: 19,
           z: "-=9*Math.PI",
           repeat: -1,
@@ -108,11 +112,12 @@ export default function Cube({
           overwrite: "none",
         });
       } else {
+        // Detiene música
         if (audio) {
           audio.pause();
           audio.currentTime = 0;
         }
-        gsap.killTweensOf(meshRef.current.rotation);
+        gsap.killTweensOf(meshRef.current.rotation); // Vuelve a su rotación inicial
         if (initialRotation !== null) {
           gsap.to(meshRef.current.rotation, {
             duration: 1,
@@ -124,7 +129,7 @@ export default function Cube({
     }
   }, [isPlaying, initialRotation]);
 
-  // Animación constante
+  // Leve distorsión animada constante
   useFrame((_, delta) => {
     materialRef.current.uniforms.uTime.value += delta;
   });
@@ -153,12 +158,14 @@ export default function Cube({
         }}
         args={[1, 1, 32, 32]}
       />
+
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
       />
+
       <Html
         position={[0, 0, 0]}
         center
@@ -184,7 +191,7 @@ export default function Cube({
               href={content.songUrl}
               target="blank"
               className="btn-goto"
-              onMouseEnter={() => setCursorState("hovered")}
+              onMouseEnter={() => setCursorState("large")}
               onMouseLeave={() => setCursorState("default")}
             >
               Go to Album
@@ -207,6 +214,8 @@ export default function Cube({
           </button>
         </div>
       </Html>
+
+      {/* Animaciones de entrada en el contenido de la canción */}
       <CubeAnimations isAnimationFinished={isAnimationFinished} isPlaying={isPlaying} />
     </mesh>
   );
