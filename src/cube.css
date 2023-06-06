@@ -59,6 +59,14 @@ html {
     height: 30px !important;
   }
 
+  .canvas2 {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
 .near-button {
     transition: all 0.25s ease-in-out;
   }

@@ -21,6 +21,7 @@ const Stars = () => {
   //     }
   //   }, []);
 
+  // Crea las partículas
   const { position, material } = useMemo(() => {
     const numStars = 1000; // Cantidad de estrellas que quieres crear
     const positions = new Float32Array(numStars * 3);
