@@ -71,6 +71,8 @@ export default function Cube({
       uFrequency: { value: new Vector2(9, 9) },
       uDistortCircular: { value: 0 },
       uRadius: { value: 0.3 },
+      noiseScale: { value: 5.0 },
+      noiseStrength: { value: 0.0 },
     }),
     [texture]
   );
@@ -110,6 +112,19 @@ export default function Cube({
         value: finalValue,
         ease: "power4.out",
       });
+
+      gsap
+        .timeline()
+        .to(materialRef.current.uniforms.noiseStrength, {
+          duration: 0.4,
+          value: 0.06,
+          ease: "power1.in",
+        })
+        .to(materialRef.current.uniforms.noiseStrength, {
+          duration: 0.1,
+          value: 0.0,
+          ease: "power1.out",
+        });
     }
     if (meshRef && meshRef.current) {
       // Reproduce música

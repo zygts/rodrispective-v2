@@ -16,6 +16,9 @@ root.render(
   <CursorContextProvider>
     <div className="app-wrapper">
       <Canvas
+        style={{
+          zIndex: 1,
+        }}
         camera={{
           fov: 45,
           near: 0.1,
