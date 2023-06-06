@@ -17,7 +17,7 @@ void main()
 
     // Controla la distorsión
     float r = length(distortedPosition.xy);
-    float distortPower = 0.7;
+    float distortPower = 0.9;
     r = pow(r, distortPower);
 
     // Distorsiona el radio para que todos los puntos estén a la distancia uRadius desde el origen
@@ -32,7 +32,7 @@ void main()
     float elevation = sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
     elevation += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
 
-    modelPosition.z += elevation * 0.03;
+    modelPosition.z += elevation * 0.075;
 
     vec4 viewPosition = viewMatrix * modelMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;

@@ -68,7 +68,7 @@ export default function Cube({
     () => ({
       uTexture: { value: texture },
       uTime: { value: 0 },
-      uFrequency: { value: new Vector2(8, 8) },
+      uFrequency: { value: new Vector2(9, 9) },
       uDistortCircular: { value: 0 },
       uRadius: { value: 0.3 },
     }),
