@@ -11,7 +11,7 @@ varying vec2 vTexCoords;
 void main() {
     #include <begin_vertex>
 
-    float speed = uTime * 0.3;
+    float speed = uTime * uAmount;
     float strenght = uAmount;
 
     transformed = initPosition + ((position - initPosition) * uProgress);
