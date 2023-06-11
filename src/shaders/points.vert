@@ -1,6 +1,7 @@
 uniform float uPointSize;
 uniform float uProgress;
 uniform float uFrequency;
+uniform float uTime;
 
 attribute vec3 initPosition;
 
@@ -10,8 +11,7 @@ void main() {
     #include <begin_vertex>
 
     transformed = initPosition + ((position - initPosition) * uProgress);
-    transformed.y += sin(transformed.x * uFrequency);
-    transformed.z += sin(transformed.y * uFrequency);
+    transformed.y += sin((transformed.x + uTime) * uFrequency) ;
 
     #include <project_vertex>
 

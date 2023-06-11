@@ -1,5 +1,5 @@
-import React, { useEffect, useState, Suspense } from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
+import React, { useEffect, useState, Suspense, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { gsap } from "gsap";
 import {
   BufferAttribute,
@@ -15,6 +15,7 @@ import { randFloat } from "three/src/math/MathUtils";
 
 function ParticlesGrid() {
   const geometry = new BufferGeometry();
+  const materialRef = useRef(); // Nuevo useRef para el material
 
   const multiplier = 18;
   const nbColumns = 16 * multiplier;
@@ -58,12 +59,16 @@ function ParticlesGrid() {
       uNbLines: { value: nbLines },
       uNbColumns: { value: nbColumns },
       uProgress: { value: 0 },
-      uFrequency: { value: 0.05 },
+      uFrequency: { value: 0.5 },
+      uTime: { value: 0 },
     },
     transparent: true,
     depthTest: false,
     depthWrite: false,
   });
+
+  materialRef.current = material; // Asignar el material al ref
+
   const mesh = new Points(geometry, material);
 
   // Animación de entrada
@@ -79,22 +84,15 @@ function ParticlesGrid() {
     }
   );
 
-  // Animación de ondas
-  useEffect(() => {
-    // Iniciar una animación GSAP que cambiará uFrequency con el tiempo
-    gsap.to(material.uniforms.uFrequency, {
-      // El valor final de uFrequency
-      value: 1,
-      // Duración de la animación en segundos
-      duration: 1,
-      // Easing function para la animación (opcional)
-      ease: "power1.inOut",
-      // La animación se repite infinitamente
-      repeat: -1,
-      // La animación se invierte en cada repetición, creando un efecto de "vaivén"
-      yoyo: true,
-    });
-  }, []);
+  // Añadir useFrame para forzar la actualización del material
+  useFrame(({ clock }) => {
+    if (materialRef.current) {
+      // Utiliza Math.sin y clock.elapsedTime para animar uFrequency
+      //   materialRef.current.uniforms.uFrequency.value = Math.sin(clock.elapsedTime);
+      materialRef.current.uniforms.uTime.value = clock.elapsedTime * 5;
+      materialRef.current.needsUpdate = true;
+    }
+  });
 
   return (
     <primitive
