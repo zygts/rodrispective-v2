@@ -7,6 +7,7 @@ export const CursorContextProvider = ({ children }) => {
   const [activeCube, setActiveCube] = useState(null);
   const buttonPlayRef = useRef();
   const [cubeHover, setCubeHover] = useState(() => () => {}); // Definimos un estado para myFunction
+  const [audio, setAudio] = useState(null); // Nuevo estado para el audio
 
   return (
     <CursorContext.Provider
@@ -18,6 +19,8 @@ export const CursorContextProvider = ({ children }) => {
         setActiveCube,
         cubeHover,
         setCubeHover,
+        audio, // Agregamos audio al valor del proveedor
+        setAudio, // Permitir cambiar el audio desde otros componentes
       }}
     >
       {children}

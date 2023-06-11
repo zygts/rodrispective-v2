@@ -31,9 +31,9 @@ export default function Cube({
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [initialRotation, setInitialRotation] = useState(null);
-  const [audio, setAudio] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const { setCursorState, activeCube, cubeHover } = useContext(CursorContext);
+  const { setCursorState, activeCube, cubeHover, setAudio, audio } =
+    useContext(CursorContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -96,10 +96,36 @@ export default function Cube({
     }
   };
 
-  // reproduce audio
+  // Utiliza setAudio para almacenar tu objeto de audio
   useEffect(() => {
-    const audioObj = new Audio(content.audioFileUrl);
-    setAudio(audioObj);
+    const audioCtx = new (window.AudioContext || window.AudioContext)();
+    const audioElement = document.createElement("audio");
+    audioElement.src = content.audioFileUrl;
+    const track = audioCtx.createMediaElementSource(audioElement);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    track.connect(analyser);
+    track.connect(audioCtx.destination);
+
+    const data = new Uint8Array(analyser.frequencyBinCount);
+
+    function getAverageVolume() {
+      analyser.getByteFrequencyData(data);
+
+      let values = 0;
+      let length = data.length;
+
+      for (let i = 0; i < length; i++) {
+        values += data[i];
+      }
+
+      return values / length;
+    }
+
+    setAudio({
+      element: audioElement,
+      getAverageVolume,
+    });
   }, [content]);
 
   // Este efecto se ejecuta cada vez que cambia "isPlaying"
@@ -130,7 +156,7 @@ export default function Cube({
       // Reproduce música
       if (isPlaying) {
         if (audio) {
-          audio.play();
+          audio.element.play();
         }
         gsap.to(meshRef.current.rotation, {
           // Gira indefinidamente
@@ -143,7 +169,7 @@ export default function Cube({
       } else {
         // Detiene música
         if (audio) {
-          audio.pause();
+          audio.element.pause();
           audio.currentTime = 0;
         }
         gsap.killTweensOf(meshRef.current.rotation); // Vuelve a su rotación inicial

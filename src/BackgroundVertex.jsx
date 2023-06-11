@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense, useRef } from "react";
+import React, { useEffect, useState, Suspense, useRef, useContext } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { gsap } from "gsap";
 import {
@@ -12,10 +12,12 @@ import {
 import vertexShader from "./shaders/points.vert";
 import fragmentShader from "./shaders/points.frag";
 import { randFloat } from "three/src/math/MathUtils";
+import { CursorContext } from "./cursorContext";
 
 function ParticlesGrid() {
+  const { audio } = useContext(CursorContext);
   const geometry = new BufferGeometry();
-  const materialRef = useRef(); // Nuevo useRef para el material
+  const materialRef = useRef();
 
   const multiplier = 18;
   const nbColumns = 16 * multiplier;
@@ -58,9 +60,10 @@ function ParticlesGrid() {
       uTexture: { type: "t", value: texture },
       uNbLines: { value: nbLines },
       uNbColumns: { value: nbColumns },
-      uProgress: { value: 0 },
+      uProgress: { value: 1 },
       uFrequency: { value: 0.5 },
       uTime: { value: 0 },
+      uAmount: { value: 0 },
     },
     transparent: true,
     depthTest: false,
@@ -72,24 +75,29 @@ function ParticlesGrid() {
   const mesh = new Points(geometry, material);
 
   // Animación de entrada
-  gsap.fromTo(
-    material.uniforms.uProgress,
-    {
-      value: 0,
-    },
-    {
-      value: 1,
-      duration: 2.5,
-      ease: "Power4.easeOut",
-    }
-  );
+  //   gsap.fromTo(
+  //     material.uniforms.uProgress,
+  //     {
+  //       value: 0,
+  //     },
+  //     {
+  //       value: 1,
+  //       duration: 2.5,
+  //       ease: "Power4.easeOut",
+  //     }
+  //   );
 
   // Añadir useFrame para forzar la actualización del material
   useFrame(({ clock }) => {
     if (materialRef.current) {
-      // Utiliza Math.sin y clock.elapsedTime para animar uFrequency
-      //   materialRef.current.uniforms.uFrequency.value = Math.sin(clock.elapsedTime);
       materialRef.current.uniforms.uTime.value = clock.elapsedTime * 5;
+
+      // Actualiza el valor de uAmount basado en el volumen de la música
+      if (audio && audio.getAverageVolume) {
+        const volume = audio.getAverageVolume();
+        materialRef.current.uniforms.uAmount.value = volume / 255; // Normaliza el volumen para que esté entre 0 y 1
+      }
+
       materialRef.current.needsUpdate = true;
     }
   });
