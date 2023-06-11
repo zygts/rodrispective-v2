@@ -16,9 +16,11 @@
     "@react-three/fiber": "^8.9.2",
     "dat.gui": "^0.7.9",
     "gsap": "^3.11.5",
+    "leva": "^0.9.34",
     "r3f-perf": "^6.6.3",
     "react": "18.2",
     "react-dom": "18.2",
+    "simplex-noise": "^4.0.1",
     "three": "^0.148.0",
     "vite-plugin-glsl": "^1.1.0"
   }

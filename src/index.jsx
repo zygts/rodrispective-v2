@@ -7,6 +7,7 @@ import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
 import { CursorContextProvider } from "./cursorContext";
 import { BackgroundCanvas } from "./BackgroundCanvas.jsx";
+import { BackgroundVertex } from "./BackgroundVertex.jsx";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
@@ -32,6 +33,6 @@ root.render(
       </Canvas>
       <CustomCursor />
     </div>
-    <BackgroundCanvas />
+    <BackgroundVertex />
   </CursorContextProvider>
 );
