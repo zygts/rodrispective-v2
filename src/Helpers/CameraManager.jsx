@@ -1,10 +1,10 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { Vector3, Quaternion, Euler } from "three";
 import { useEffect, useRef, useState, useContext, useCallback } from "react";
-import { CursorContext } from "../cursorContext";
+import { AppContext } from "../appContext";
 
 export function CameraManager({ radius, numCubes, rotation, setRotation }) {
-  const { activeCube, setActiveCube } = useContext(CursorContext); // Usa los valores de contexto aquí
+  const { activeCube, setActiveCube } = useContext(AppContext); // Usa los valores de contexto aquí
   const { camera } = useThree();
   const positionRef = useRef(new Vector3(0, 5, 0));
   const rotationRef = useRef(new Quaternion().setFromEuler(new Euler(-0.5, 0, 0, "XYZ")));
@@ -47,7 +47,6 @@ export function CameraManager({ radius, numCubes, rotation, setRotation }) {
       if (activeCube !== null) {
         return;
       }
-      console.log(activeCube);
       const angle = (index / numCubes) * 2 * Math.PI;
       const x = radius * Math.cos(angle);
       const z = radius * Math.sin(angle);

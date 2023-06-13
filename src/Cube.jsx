@@ -8,7 +8,7 @@ import "./cube.css";
 import CubeAnimations from "./Helpers/CubeAnimations";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
-import { CursorContext } from "./cursorContext";
+import { AppContext } from "./appContext";
 
 export default function Cube({
   index,
@@ -33,7 +33,7 @@ export default function Cube({
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
   const { setCursorState, activeCube, cubeHover, setAudio, audio } =
-    useContext(CursorContext);
+    useContext(AppContext);
 
   useEffect(() => {
     if (meshRef.current) {

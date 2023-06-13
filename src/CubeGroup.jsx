@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { TextureLoader } from "three";
 
-import { CursorContext } from "./cursorContext";
+import { AppContext } from "./appContext";
 import Cube from "./Cube";
 
 export default function CubeGroup({
@@ -147,7 +147,7 @@ export default function CubeGroup({
     setCubeContents(contents);
   }, []);
 
-  const { setActiveCube, activeCube } = useContext(CursorContext);
+  const { setActiveCube, activeCube } = useContext(AppContext);
 
   const handleBackClick = () => {
     setActiveCube(null);

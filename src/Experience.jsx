@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import CubeGroup from "./CubeGroup.jsx";
 import { CameraManager } from "./Helpers/CameraManager.jsx";
-import { CursorContext } from "./cursorContext";
+import { AppContext } from "./appContext.jsx";
 
 export default function Experience() {
   const radius = 5;
   const numCubes = 15;
-  const { activeCube, setActiveCube } = useContext(CursorContext);
+  const { activeCube, setActiveCube } = useContext(AppContext);
   const [rotation, setRotation] = useState(0);
 
   const { isAnimationFinished, handleCubeClick, resetCamera } = CameraManager({

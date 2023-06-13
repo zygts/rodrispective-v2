@@ -29,6 +29,10 @@ html {
     cursor: none !important; 
 }
 
+.hide {
+    display: none;
+  }
+
 .app-wrapper {
     width: 100%;
     height: 100%;

@@ -1,20 +1,17 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { gsap } from "gsap";
-import { CursorContext } from "./cursorContext";
+import { AppContext } from "./appContext";
 import { Vector2 } from "three";
 import "./cube.css";
 
 const CustomCursor = () => {
-  const { buttonPlayRef, cursorState, activeCube, setCubeHover } =
-    useContext(CursorContext);
+  const { buttonPlayRef, cursorState, activeCube, setCubeHover } = useContext(AppContext);
   const [buttonPosition, setButtonPosition] = useState(new Vector2());
   const cursorRef = useRef(null);
 
   useEffect(() => {
     // Función hover sobre cubo
-    const cubeHover = () => {
-      console.log("Cursor function executed");
-    };
+    const cubeHover = () => {};
     setCubeHover(() => cubeHover);
 
     // Recoje la posición del botón de play
