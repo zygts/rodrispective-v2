@@ -98,7 +98,7 @@ export default function Cube({
 
   // Utiliza setAudio para almacenar tu objeto de audio
   useEffect(() => {
-    const audioCtx = new (window.AudioContext || window.AudioContext)();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const audioElement = document.createElement("audio");
     audioElement.src = content.audioFileUrl;
     const track = audioCtx.createMediaElementSource(audioElement);

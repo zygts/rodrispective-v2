@@ -9,6 +9,9 @@ import {
   ShaderMaterial,
   PointsMaterial,
 } from "three";
+// import { EffectComposer, ChromaticAberration } from "@react-three/postprocessing";
+// import { BlendFunction } from "postprocessing";
+
 import vertexShader from "./shaders/points.vert";
 import fragmentShader from "./shaders/points.frag";
 import { randFloat } from "three/src/math/MathUtils";
@@ -39,7 +42,7 @@ function ParticlesGrid() {
   const [texture, setTexture] = useState(null);
   useEffect(() => {
     const loader = new TextureLoader();
-    loader.load("./img/kitten.jpeg", (loadedTexture) => {
+    loader.load("./img/rodri.jpg", (loadedTexture) => {
       setTexture(loadedTexture);
     });
   }, []);
@@ -60,7 +63,7 @@ function ParticlesGrid() {
       uTexture: { type: "t", value: texture },
       uNbLines: { value: nbLines },
       uNbColumns: { value: nbColumns },
-      uProgress: { value: 1 },
+      uProgress: { value: 0 },
       uFrequency: { value: 0.5 },
       uTime: { value: 0 },
       uAmount: { value: 0 },
@@ -75,17 +78,17 @@ function ParticlesGrid() {
   const mesh = new Points(geometry, material);
 
   // Animación de entrada
-  //   gsap.fromTo(
-  //     material.uniforms.uProgress,
-  //     {
-  //       value: 0,
-  //     },
-  //     {
-  //       value: 1,
-  //       duration: 2.5,
-  //       ease: "Power4.easeOut",
-  //     }
-  //   );
+  gsap.fromTo(
+    material.uniforms.uProgress,
+    {
+      value: 0,
+    },
+    {
+      value: 1,
+      duration: 2.5,
+      ease: "Power4.easeOut",
+    }
+  );
 
   // Añadir useFrame para forzar la actualización del material
   useFrame(({ clock }) => {
@@ -97,7 +100,6 @@ function ParticlesGrid() {
         const volume = audio.getAverageVolume();
         materialRef.current.uniforms.uAmount.value = volume / 255; // Normaliza el volumen para que esté entre 0 y 1
       }
-
       materialRef.current.needsUpdate = true;
     }
   });
@@ -119,7 +121,7 @@ export function BackgroundVertex() {
         fov: 45,
         near: 1,
         far: 400,
-        zoom: 0.03,
+        zoom: 0.028,
       }}
       style={{
         position: "fixed",
@@ -136,6 +138,12 @@ export function BackgroundVertex() {
         <ambientLight intensity={0.15} />
         <directionalLight position={[-10, 0, 5]} intensity={0.15} />
         <ParticlesGrid />
+        {/* <EffectComposer>
+          <ChromaticAberration
+            blendFunction={BlendFunction.NORMAL} // blend mode
+            offset={[0.01, 0.001]} // color offset
+          />
+        </EffectComposer> */}
       </Suspense>
     </Canvas>
   );

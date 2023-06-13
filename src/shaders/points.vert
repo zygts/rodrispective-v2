@@ -13,6 +13,7 @@ void main() {
 
     float speed = uTime * uAmount;
     float strenght = uAmount;
+    float zPosition = 0.99 + (uAmount * 0.01);
 
     transformed = initPosition + ((position - initPosition) * uProgress);
     transformed.x += (sin((transformed.y + speed) * uFrequency)) * (strenght) ;
