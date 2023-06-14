@@ -30,5 +30,5 @@ void main() {
         discard;
     }
     gl_FragColor.a *= circle(gl_PointCoord, 0.2);
-    gl_FragColor.a *= uProgress * ((uAmount * 2.0) + 0.3);
+    // gl_FragColor.a *= uProgress * ((uAmount * 2.0) + 0.3);
 }

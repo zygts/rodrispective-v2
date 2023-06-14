@@ -24,7 +24,6 @@ function ParticlesGrid() {
   const multiplier = 18;
   const nbColumns = 16 * multiplier;
   const nbLines = 9 * multiplier;
-
   const vertices = [];
   const initPositions = [];
 
@@ -38,6 +37,9 @@ function ParticlesGrid() {
     }
   }
 
+  const totalVertices = new Float32Array(vertices, 3);
+  const totalInitPositions = new Float32Array(initPositions, 3);
+
   const [texture, setTexture] = useState(null);
   useEffect(() => {
     const loader = new TextureLoader();
@@ -45,9 +47,6 @@ function ParticlesGrid() {
       setTexture(loadedTexture);
     });
   }, []);
-
-  const totalVertices = new Float32Array(vertices, 3);
-  const totalInitPositions = new Float32Array(initPositions, 3);
 
   geometry.setAttribute("position", new BufferAttribute(totalVertices, 3));
   geometry.setAttribute("initPosition", new BufferAttribute(totalInitPositions, 3));
@@ -72,10 +71,9 @@ function ParticlesGrid() {
     depthWrite: false,
   });
 
-  materialRef.current = material;
-
   const mesh = new Points(geometry, material);
 
+  // Animación de entrada
   useEffect(() => {
     if (!isLoading) {
       const animationObj = { progress: 0 };
@@ -88,15 +86,17 @@ function ParticlesGrid() {
     }
   }, [isLoading]);
 
+  // Detectar el volumen de la música
+  materialRef.current = material;
   useFrame(({ clock }) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = clock.elapsedTime * 5;
+    if (material) {
+      material.uniforms.uTime.value = clock.elapsedTime * 5;
 
       if (audio && audio.getAverageVolume) {
         const volume = audio.getAverageVolume();
-        materialRef.current.uniforms.uAmount.value = volume / 255;
+        material.uniforms.uAmount.value = volume / 255;
       }
-      materialRef.current.needsUpdate = true;
+      material.needsUpdate = true;
     }
   });
 
@@ -131,8 +131,6 @@ export function BackgroundVertex() {
     >
       <Suspense fallback={null}>
         <color attach="background" args={["#15151a"]} />
-        <ambientLight intensity={0.15} />
-        <directionalLight position={[-10, 0, 5]} intensity={0.15} />
         <ParticlesGrid />
       </Suspense>
     </Canvas>
