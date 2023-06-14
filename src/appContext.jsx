@@ -2,7 +2,7 @@ import { createContext, useState, useRef, useEffect } from "react";
 
 export const AppContext = createContext();
 
-export const AppContextProvider = ({ children }) => {
+export const AppContextProvider = ({ children, value }) => {
   const [cursorState, setCursorState] = useState("default");
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [activeCube, setActiveCube] = useState(null);
@@ -34,6 +34,7 @@ export const AppContextProvider = ({ children }) => {
         introOn,
         setIntroOn,
         isLoading,
+        ...value,
       }}
     >
       {children}

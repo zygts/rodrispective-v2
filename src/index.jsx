@@ -19,7 +19,7 @@ const App = () => {
   };
 
   return (
-    <AppContextProvider>
+    <AppContextProvider value={{ showIntro, setShowIntro }}>
       <div className="app-wrapper">
         <div className={`intro-screen ${showIntro ? "" : "hide"}`}>
           <h1>Rodrispective</h1>
@@ -50,7 +50,7 @@ const App = () => {
         </Canvas>
       </div>
       <CustomCursor />
-      <BackgroundVertex uProgress={progress} />
+      <BackgroundVertex uProgress={progress} showIntro={showIntro} />
     </AppContextProvider>
   );
 };

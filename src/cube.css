@@ -50,6 +50,7 @@ html {
 h1 {
     color: white;
     font-family: helvetica, arial, sans-serif;
+    font-size: 5vw;
     margin-block-start: 0;
     margin-block-end: 0;
 }

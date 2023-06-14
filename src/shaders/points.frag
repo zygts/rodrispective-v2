@@ -2,10 +2,13 @@ uniform sampler2D uTexture;
 uniform float uNbLines;
 uniform float uNbColumns;
 uniform float uProgress;
-uniform float uAmount;
+uniform float uFrequency;
+uniform float uSoundVolume;
+uniform float uIntensity;
 uniform vec2 uMousePos;
 uniform vec2 uResolution;
 uniform float uAspectRatio;
+uniform float uShowIntro;
 
 varying vec2 vTexCoords;
 
@@ -32,7 +35,9 @@ void main() {
     if(gl_FragColor.r < 0.1){
         discard;
     }
+
     gl_FragColor.a *= circle(gl_PointCoord, 0.2);
+    
     // gl_FragColor.a *= uProgress * ((uAmount * 2.0) + 0.3);
     vec2 mousePos = uMousePos.xy;
     vec2 fragCoord = gl_FragCoord.xy / uResolution;
@@ -41,7 +46,8 @@ void main() {
     float dist = distance(fragCoord, mousePos);
 
     float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
+    float result = alpha * uShowIntro;
 
-    gl_FragColor.a *= alpha + 0.25;
+    gl_FragColor.a *= result + uIntensity + (uSoundVolume * 0.3);
     // gl_FragColor.a *= 0.5;
 }
