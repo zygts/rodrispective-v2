@@ -16,22 +16,29 @@ import fragmentShader from "./shaders/points.frag";
 import { AppContext } from "./appContext";
 
 function ParticlesGrid() {
-  const { audio, introOn, isLoading, cursorPosition, showIntro } = useContext(AppContext);
+  const { audio, isLoading, cursorPosition, showIntro, isPlaying } =
+    useContext(AppContext);
   const geometry = new BufferGeometry();
   const materialRef = useRef();
 
   const [uProgress, setUProgress] = useState(0);
 
   const multiplier = 18;
-  const nbColumns = 16 * multiplier;
-  const nbLines = 9 * multiplier;
   const vertices = [];
   const initPositions = [];
+  const [gridSize, setGridSize] = useState({
+    nbColumns: 16 * multiplier,
+    nbLines: 9 * multiplier,
+  });
 
-  for (let i = 0; i < nbColumns; i++) {
-    for (let j = 0; j < nbLines; j++) {
+  for (let i = 0; i < gridSize.nbColumns; i++) {
+    for (let j = 0; j < gridSize.nbLines; j++) {
       const point = [i, j, 0];
-      const initPoint = [i - nbColumns / 2, j - nbLines / 2, randFloat(0, 300)];
+      const initPoint = [
+        i - gridSize.nbColumns / 2,
+        j - gridSize.nbLines / 2,
+        randFloat(0, 300),
+      ];
 
       vertices.push(...point);
       initPositions.push(...initPoint);
@@ -60,13 +67,13 @@ function ParticlesGrid() {
         value: 10,
       },
       uTexture: { type: "t", value: texture },
-      uNbLines: { value: nbLines },
-      uNbColumns: { value: nbColumns },
+      uNbLines: { value: gridSize.nbLines },
+      uNbColumns: { value: gridSize.nbColumns },
       uProgress: { value: uProgress },
       uFrequency: { value: 0.5 },
       uTime: { value: 0 },
       uSoundVolume: { value: 0.0 },
-      uIntensity: { value: 0.25 },
+      uIntensity: { value: 0.2 },
       uMousePos: { value: cursorPosition },
       uResolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
       uAspectRatio: { value: window.innerWidth / window.innerHeight },
@@ -117,11 +124,33 @@ function ParticlesGrid() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // Efecto cursor solo en la intro
   useEffect(() => {
     if (materialRef.current && materialRef.current.uniforms.uShowIntro) {
       materialRef.current.uniforms.uShowIntro.value = showIntro ? 1.0 : 0.0;
     }
   }, [showIntro]);
+
+  // Transformación de Grid al reproducir música
+  useEffect(() => {
+    if (isPlaying) {
+      gsap.to(gridSize, {
+        duration: 0.35,
+        ease: "power1.out",
+        nbColumns: gridSize.nbColumns * 2.5,
+        nbLines: gridSize.nbLines / 2.5,
+        onUpdate: () => setGridSize({ ...gridSize }),
+      });
+    } else {
+      gsap.to(gridSize, {
+        duration: 0.25,
+        ease: "power1.out",
+        nbColumns: 16 * multiplier,
+        nbLines: 9 * multiplier,
+        onUpdate: () => setGridSize({ ...gridSize }),
+      });
+    }
+  }, [isPlaying]);
 
   return (
     <primitive

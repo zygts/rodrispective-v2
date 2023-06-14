@@ -29,11 +29,17 @@ export default function Cube({
   const meshRef = useRef();
   const buttonPlayRef = useRef();
 
-  const [isPlaying, setIsPlaying] = useState(false);
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const { setCursorState, activeCube, cubeHover, setAudio, audio } =
-    useContext(AppContext);
+  const {
+    setCursorState,
+    activeCube,
+    cubeHover,
+    setAudio,
+    audio,
+    isPlaying,
+    setIsPlaying,
+  } = useContext(AppContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -238,10 +244,10 @@ export default function Cube({
           }`}
         >
           <div className="song-preview">
-            <h1>{content.title}</h1>
-            <h2>
+            <h2>{content.title}</h2>
+            <h3>
               by <span className="artist">Incierto</span>
-            </h2>
+            </h3>
           </div>
           <div className="song-info">
             <p>{content.paragraph}</p>

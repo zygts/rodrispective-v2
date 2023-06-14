@@ -11,6 +11,7 @@ export const AppContextProvider = ({ children, value }) => {
   const [audio, setAudio] = useState(null);
   const [introOn, setIntroOn] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -34,6 +35,8 @@ export const AppContextProvider = ({ children, value }) => {
         introOn,
         setIntroOn,
         isLoading,
+        isPlaying,
+        setIsPlaying,
         ...value,
       }}
     >
