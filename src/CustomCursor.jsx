@@ -5,7 +5,8 @@ import { Vector2 } from "three";
 import "./cube.css";
 
 const CustomCursor = () => {
-  const { buttonPlayRef, cursorState, activeCube, setCubeHover } = useContext(AppContext);
+  const { buttonPlayRef, cursorState, activeCube, setCubeHover, setCursorPosition } =
+    useContext(AppContext);
   const [buttonPosition, setButtonPosition] = useState(new Vector2());
   const cursorRef = useRef(null);
 
@@ -41,6 +42,8 @@ const CustomCursor = () => {
     const distance = cursorPos.distanceTo(buttonPosition);
     const isNearButton = distance < 0.07 && activeCube !== null; // check if a cube is active
     const cursorSize = isNearButton ? "110px" : "12px";
+
+    setCursorPosition({ x, y });
 
     cursorRef.current.style.width = cursorSize;
     cursorRef.current.style.height = cursorSize;

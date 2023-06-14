@@ -3,6 +3,9 @@ uniform float uNbLines;
 uniform float uNbColumns;
 uniform float uProgress;
 uniform float uAmount;
+uniform vec2 uMousePos;
+uniform vec2 uResolution;
+uniform float uAspectRatio;
 
 varying vec2 vTexCoords;
 
@@ -31,4 +34,14 @@ void main() {
     }
     gl_FragColor.a *= circle(gl_PointCoord, 0.2);
     // gl_FragColor.a *= uProgress * ((uAmount * 2.0) + 0.3);
+    vec2 mousePos = uMousePos.xy;
+    vec2 fragCoord = gl_FragCoord.xy / uResolution;
+    fragCoord = fragCoord * 1.0 - 1.0;
+    fragCoord.y /= uAspectRatio;
+    float dist = distance(fragCoord, mousePos);
+
+    float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
+
+    gl_FragColor.a *= alpha + 0.25;
+    // gl_FragColor.a *= 0.5;
 }

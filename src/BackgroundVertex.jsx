@@ -7,6 +7,7 @@ import {
   Points,
   TextureLoader,
   ShaderMaterial,
+  Vector2,
 } from "three";
 import { randFloat } from "three/src/math/MathUtils";
 
@@ -15,7 +16,7 @@ import fragmentShader from "./shaders/points.frag";
 import { AppContext } from "./appContext";
 
 function ParticlesGrid() {
-  const { audio, introOn, isLoading } = useContext(AppContext);
+  const { audio, introOn, isLoading, cursorPosition } = useContext(AppContext);
   const geometry = new BufferGeometry();
   const materialRef = useRef();
 
@@ -56,7 +57,7 @@ function ParticlesGrid() {
     vertexShader,
     uniforms: {
       uPointSize: {
-        value: 5,
+        value: 10,
       },
       uTexture: { type: "t", value: texture },
       uNbLines: { value: nbLines },
@@ -65,6 +66,9 @@ function ParticlesGrid() {
       uFrequency: { value: 0.5 },
       uTime: { value: 0 },
       uAmount: { value: 0 },
+      uMousePos: { value: cursorPosition },
+      uResolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
+      uAspectRatio: { value: window.innerWidth / window.innerHeight },
     },
     transparent: true,
     depthTest: false,
@@ -99,6 +103,17 @@ function ParticlesGrid() {
       material.needsUpdate = true;
     }
   });
+
+  // Actualiza resolución
+  useEffect(() => {
+    const onResize = () => {
+      material.uniforms.uResolution.value.x = window.innerWidth;
+      material.uniforms.uResolution.value.y = window.innerHeight;
+      material.uniforms.uAspectRatio.value = window.innerWidth / window.innerHeight;
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   return (
     <primitive

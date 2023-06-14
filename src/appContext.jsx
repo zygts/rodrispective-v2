@@ -4,6 +4,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const [cursorState, setCursorState] = useState("default");
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [activeCube, setActiveCube] = useState(null);
   const buttonPlayRef = useRef();
   const [cubeHover, setCubeHover] = useState(() => () => {});
@@ -21,6 +22,8 @@ export const AppContextProvider = ({ children }) => {
       value={{
         cursorState,
         setCursorState,
+        cursorPosition,
+        setCursorPosition,
         buttonPlayRef,
         activeCube,
         setActiveCube,
