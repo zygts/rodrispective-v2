@@ -71,7 +71,7 @@ function ParticlesGrid() {
       uNbLines: { value: gridSize.nbLines },
       uNbColumns: { value: gridSize.nbColumns },
       uProgress: { value: uProgress },
-      uFrequency: { value: 0.5 },
+      uFrequency: { value: 0.1 },
       uTime: { value: 0 },
       uSoundVolume: { value: 0.0 },
       uIntensity: { value: 0.2 },

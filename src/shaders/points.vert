@@ -12,11 +12,12 @@ void main() {
     #include <begin_vertex>
 
     float speed = uTime * uSoundVolume;
-    float strenght = uSoundVolume;
+    float strenght = uSoundVolume * 0.09;
     float zPosition = 0.99 + (uSoundVolume * 0.01);
 
     transformed = initPosition + ((position - initPosition) * uProgress);
-    transformed.x += (sin((transformed.y + speed) * uFrequency)) * (strenght) ;
+
+    transformed.z += (sin((transformed.y + speed) * uFrequency)) * (strenght) ;
     transformed.y += (sin((transformed.x + speed) * uFrequency)) * (strenght * 5.0);
 
     #include <project_vertex>

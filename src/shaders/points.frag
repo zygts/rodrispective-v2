@@ -48,6 +48,6 @@ void main() {
     float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
     float result = alpha * uShowIntro;
 
-    gl_FragColor.a *= result + uIntensity + (uSoundVolume * 0.3);
+    gl_FragColor.a *= result + uIntensity + (uSoundVolume * 0.75);
     // gl_FragColor.a *= 0.5;
 }
