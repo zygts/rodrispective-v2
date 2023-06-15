@@ -10,6 +10,7 @@ import {
   Vector2,
 } from "three";
 import { randFloat } from "three/src/math/MathUtils";
+import { useSpring, a } from "@react-spring/three";
 
 import vertexShader from "./shaders/points.vert";
 import fragmentShader from "./shaders/points.frag";
@@ -132,31 +133,37 @@ function ParticlesGrid() {
   }, [showIntro]);
 
   // Transformación de Grid al reproducir música
-  useEffect(() => {
-    if (isPlaying) {
-      gsap.to(gridSize, {
-        duration: 0.35,
-        ease: "power1.out",
-        nbColumns: gridSize.nbColumns * 2.5,
-        nbLines: gridSize.nbLines / 2.5,
-        onUpdate: () => setGridSize({ ...gridSize }),
-      });
-    } else {
-      gsap.to(gridSize, {
-        duration: 0.25,
-        ease: "power1.out",
-        nbColumns: 16 * multiplier,
-        nbLines: 9 * multiplier,
-        onUpdate: () => setGridSize({ ...gridSize }),
-      });
-    }
-  }, [isPlaying]);
+  // useEffect(() => {
+  //   if (isPlaying) {
+  //     gsap.to(gridSize, {
+  //       duration: 0.75,
+  //       ease: "power1.out",
+  //       nbColumns: gridSize.nbColumns * 1,
+  //       nbLines: gridSize.nbLines * 1,
+  //       onUpdate: () => setGridSize({ ...gridSize }),
+  //     });
+  //   } else {
+  //     gsap.to(gridSize, {
+  //       duration: 0.7,
+  //       ease: "power1.out",
+  //       nbColumns: 16 * multiplier,
+  //       nbLines: 9 * multiplier,
+  //       onUpdate: () => setGridSize({ ...gridSize }),
+  //     });
+  //   }
+  // }, [isPlaying]);
+
+  const { position, rotation } = useSpring({
+    position: isPlaying ? [50, 0, -1] : [0, 0, 0],
+    rotation: isPlaying ? [0, Math.PI / 256, 0] : [0, 0, 0],
+    config: { tension: 200, friction: 50 },
+  });
 
   return (
-    <primitive
+    <a.primitive
       object={mesh}
-      position={[0, 0, 0]}
-      rotation={[0, 0, 0]}
+      position={position}
+      rotation={rotation}
       scale={[1, 1, 1]}
     />
   );

@@ -12,6 +12,7 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.2",
     "@react-three/drei": "^9.50.3",
     "@react-three/fiber": "^8.9.2",
     "@react-three/postprocessing": "^2.14.9",
