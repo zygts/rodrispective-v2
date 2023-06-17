@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { gsap } from "gsap";
 
-import "./cube.css";
+import "./app.css";
 import CubeAnimations from "./Helpers/CubeAnimations";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";

@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
-import CubeGroup from "./CubeGroup.jsx";
+import CubeGroup from "./SongCollection.jsx";
 import { CameraManager } from "./Helpers/CameraManager.jsx";
 import { AppContext } from "./appContext.jsx";
 
 export default function Experience() {
   const radius = 5;
-  const numCubes = 15;
+  const numCubes = 25;
   const { activeCube, setActiveCube } = useContext(AppContext);
   const [rotation, setRotation] = useState(0);
 

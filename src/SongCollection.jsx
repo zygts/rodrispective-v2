@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { TextureLoader } from "three";
 
 import { AppContext } from "./appContext";
-import Cube from "./Cube";
+import Cube from "./Song";
 
 export default function CubeGroup({
   radius,
@@ -66,7 +66,7 @@ export default function CubeGroup({
         audioFileUrl: "./audio/audio.mp3",
       },
       {
-        title: "Boca / Voz / Grito",
+        title: "Boca, Voz, Grito",
         paragraph:
           "Growing up in a city renowned for its extensive underground network, I found a unique rhythmic pulse beneath the surface. 'Subterranean Pulse' is a sonic exploration into the heart of the earth, inspired by the subways' rhythm, the subterranean ecosystems, and the city's heartbeat. The deep, resonant bass represents this thrum, while higher synth patterns mimic life stirring beneath the urban surface.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
@@ -87,7 +87,7 @@ export default function CubeGroup({
         audioFileUrl: "./audio/audio.mp3",
       },
       {
-        title: "Black Ghosts of the Archway",
+        title: "Black Ghosts of The Archway",
         paragraph:
           "My early music education in classical piano melded with my passion for technology in 'Cybernetic Sonata'. This track blends classical melodies with electronic rhythms, creating a fusion of old and new that captures my personal and artistic journey. The sophisticated air maintained throughout the track is a nod to my classical roots, while the heart-pounding beats reflect my immersion into the world of electronic music.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
@@ -115,7 +115,7 @@ export default function CubeGroup({
         audioFileUrl: "./audio/audio.mp3",
       },
       {
-        title: "Dame Misterio",
+        title: "Requiem",
         paragraph:
           "As an artist navigating the digital world, I've often marveled at our virtual interconnectedness. 'Binary Bliss' is a melodic meditation on this digital existence. The repetitive, soothing rhythms paired with floating arpeggios echo the binary code underpinning our virtual world, symbolizing my fascination with the convergence of music and technology.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
@@ -137,6 +137,77 @@ export default function CubeGroup({
       },
       {
         title: "Equatorial Coordinates",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Edad Sin Piedad",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "#FakeNews",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Tigre en El Ártico",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Requiem For Iraq",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+
+      {
+        title: "Short Giraffes",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Urbania",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Love Will Tear Us Apart",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Equatorial Coordinates",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Atmosphera (Part 4)",
+        paragraph:
+          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Tenagumakao",
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
