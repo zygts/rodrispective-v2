@@ -20,7 +20,7 @@ export default function Cube({
   onBackClick,
   resetCamera,
 }) {
-  const angle = (index / 15) * 2 * Math.PI;
+  const angle = (index / 25) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
   const z = radius * Math.sin(angle);
   const position = new Vector3(x, 0, z);

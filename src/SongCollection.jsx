@@ -15,21 +15,31 @@ export default function CubeGroup({
 
   useEffect(() => {
     const texturePaths = [
-      "./img/t1.jpg",
-      "./img/t2.jpg",
-      "./img/t3.jpg",
-      "./img/t4.jpg",
-      "./img/t5.jpg",
-      "./img/t6.jpg",
-      "./img/t7.jpg",
-      "./img/t8.jpg",
-      "./img/t9.jpg",
-      "./img/t10.jpg",
-      "./img/t11.jpg",
-      "./img/t12.jpg",
-      "./img/t13.jpg",
-      "./img/t14.jpg",
-      "./img/t15.jpg",
+      "./img/amanecer.jpg",
+      "./img/wednesday.jpg",
+      "./img/mentiras.jpg",
+      "./img/homenaje.jpg",
+      "./img/boca.jpg",
+      "./img/farewell.jpg",
+      "./img/piggy.jpg",
+      "./img/airports.jpg",
+      "./img/ghosts.jpg",
+      "./img/solo.jpg",
+      "./img/nino.jpg",
+      "./img/birthday.jpg",
+      "./img/requiem.jpg",
+      "./img/burakumin.jpg",
+      "./img/blueice.jpg",
+      "./img/equatorial.jpg",
+      "./img/edad.jpg",
+      "./img/fake.jpg",
+      "./img/tigre.jpg",
+      "./img/iraq.jpg",
+      "./img/short.jpg",
+      "./img/urbania.jpg",
+      "./img/tear.jpg",
+      "./img/atmosphera.jpg",
+      "./img/tenagumakao.jpg",
     ];
 
     const loader = new TextureLoader();
@@ -81,6 +91,13 @@ export default function CubeGroup({
       },
       {
         title: "Piggy Bites",
+        paragraph:
+          " Growing up in a bustling metropolis, I found solace in quiet parks nestled amidst the urban chaos. 'Synthetic Serenity' captures this sense of peace amid turmoil. Soft, undulating synth chords and gentle, rhythmic percussion lull the listener into a state of calm, while ambient sounds provide an organic touch to the synthesized composition, mirroring my experiences of finding tranquility in nature amidst the city's cacophony.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/audio.mp3",
+      },
+      {
+        title: "Airports",
         paragraph:
           " Growing up in a bustling metropolis, I found solace in quiet parks nestled amidst the urban chaos. 'Synthetic Serenity' captures this sense of peace amid turmoil. Soft, undulating synth chords and gentle, rhythmic percussion lull the listener into a state of calm, while ambient sounds provide an organic touch to the synthesized composition, mirroring my experiences of finding tranquility in nature amidst the city's cacophony.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
@@ -187,13 +204,6 @@ export default function CubeGroup({
       },
       {
         title: "Love Will Tear Us Apart",
-        paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
-        audioFileUrl: "./audio/audio.mp3",
-      },
-      {
-        title: "Equatorial Coordinates",
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
