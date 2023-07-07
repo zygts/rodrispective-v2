@@ -39,7 +39,7 @@ const App = () => {
             visibility: showIntro ? "hidden" : "visible",
           }}
           camera={{
-            fov: 45,
+            fov: 30,
             near: 0.1,
             far: 200,
           }}
