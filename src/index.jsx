@@ -24,12 +24,12 @@ const App = () => {
         <div className={`intro-screen ${showIntro ? "" : "hide"}`}>
           <h1>Rodrispective</h1>
           <p>
-            Welcome to our tribute website, celebrating the profound impact and timeless
-            work of a musician who truly left their mark on music history. Here, we delve
-            into their career, explore their influential songs, and share personal stories
-            that shaped their legacy. This site is a curated journey into their life and
-            work, meant to inspire new and seasoned fans alike. Let's embark on this
-            musical adventure together!.
+            Welcome to our tribute super website, celebrating the profound impact and
+            timeless work of a musician who truly left their mark on music history. Here,
+            we delve into their career, explore their influential songs, and share
+            personal stories that shaped their legacy. This site is a curated journey into
+            their life and work, meant to inspire new and seasoned fans alike. Let's
+            embark on this musical adventure together!.
           </p>
           <button onClick={handleStart}>Explore</button>
         </div>
