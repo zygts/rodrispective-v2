@@ -25,7 +25,7 @@ function Model() {
     const z = positionAttribute.getZ(i);
 
     // Aplicar el ruido al vértice
-    const noise = noise3D(x, y, z) * 0.8;
+    const noise = noise3D(x, y, z) * 0.95;
 
     // Almacenar el vértice modificado en el nuevo array
     newPositionArray[i * 3] = x + noise;

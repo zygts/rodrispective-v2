@@ -1,6 +1,5 @@
 import "./style.css";
-import React, { useState, useRef, useEffect } from "react";
-import { gsap } from "gsap";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
@@ -8,7 +7,7 @@ import { Suspense } from "react";
 import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
-import { BackgroundVertex } from "./BackgroundVertex.jsx";
+import { Background } from "./Background";
 
 const App = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -39,7 +38,7 @@ const App = () => {
             visibility: showIntro ? "hidden" : "visible",
           }}
           camera={{
-            fov: 30,
+            fov: 24,
             near: 0.1,
             far: 200,
           }}
@@ -50,7 +49,8 @@ const App = () => {
         </Canvas>
       </div>
       <CustomCursor />
-      <BackgroundVertex uProgress={progress} showIntro={showIntro} />
+      {/* <BackgroundVertex uProgress={progress} showIntro={showIntro} /> */}
+      <Background />
     </AppContextProvider>
   );
 };
