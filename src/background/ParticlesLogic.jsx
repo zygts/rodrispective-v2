@@ -9,8 +9,8 @@ import {
 } from "three";
 import { useSpring } from "@react-spring/three";
 import { randFloat } from "three/src/math/MathUtils";
-import vertexShader from "./shaders/points.vert";
-import fragmentShader from "./shaders/points.frag";
+import vertexShader from "./particles.vert";
+import fragmentShader from "./particles.frag";
 
 export default function ParticlesLogic(isPlaying, audio, cursorPosition, showIntro) {
   const geometry = new BufferGeometry();

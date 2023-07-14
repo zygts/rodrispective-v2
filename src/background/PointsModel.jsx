@@ -50,7 +50,7 @@ function Model() {
   );
 }
 
-export function BackgroundCanvas() {
+export function PointsModel() {
   return (
     <Canvas
       style={{
@@ -64,7 +64,6 @@ export function BackgroundCanvas() {
       }}
     >
       <Suspense fallback={null}>
-        <color attach="background" args={["#15151a"]} />
         <ambientLight intensity={0.15} />
         <directionalLight position={[-10, 0, 5]} intensity={0.15} />
         <Model />

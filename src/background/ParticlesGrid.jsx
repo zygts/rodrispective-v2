@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { AppContext } from "./appContext";
+import { AppContext } from "../appContext";
 import { a } from "@react-spring/three";
 import gsap from "gsap";
 import ParticlesLogic from "./ParticlesLogic.jsx";

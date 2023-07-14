@@ -8,10 +8,10 @@ import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
 import { Background } from "./Background";
+import { PointsModel } from "./background/PointsModel";
 
 const App = () => {
   const [showIntro, setShowIntro] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   const handleStart = () => {
     setShowIntro(false);
@@ -21,7 +21,7 @@ const App = () => {
     <AppContextProvider value={{ showIntro, setShowIntro }}>
       <div className="app-wrapper">
         <div className={`intro-screen ${showIntro ? "" : "hide"}`}>
-          <h1>Rodrispective</h1>
+          {/* <h1>Rodrispective</h1>
           <p>
             Welcome to our tribute super website, celebrating the profound impact and
             timeless work of a musician who truly left their mark on music history. Here,
@@ -29,7 +29,7 @@ const App = () => {
             personal stories that shaped their legacy. This site is a curated journey into
             their life and work, meant to inspire new and seasoned fans alike. Let's
             embark on this musical adventure together!.
-          </p>
+          </p> */}
           <button onClick={handleStart}>Explore</button>
         </div>
         <Canvas
@@ -49,8 +49,8 @@ const App = () => {
         </Canvas>
       </div>
       <CustomCursor />
-      {/* <BackgroundVertex uProgress={progress} showIntro={showIntro} /> */}
       <Background />
+      {/* <PointsModel /> */}
     </AppContextProvider>
   );
 };
