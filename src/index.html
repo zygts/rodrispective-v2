@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rodrispective</title>
 </head>
+
 <body>
+    <div id="scrollable" ref={scrollableRef}>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <p>Rodrispective</p>
+        <button id="start-button">Explore</button>
+    </div>
     <div id="root"></div>
-    <script type="module" src="./index.jsx"></script></body>
+
+    <script>
+        document.querySelector("#start-button").addEventListener("click", function() {
+          const event = new CustomEvent("startButtonClick");
+          window.dispatchEvent(event);
+        });
+      </script>
+    <script type="module" src="./index.jsx"></script>
+</body>
+
 </html>

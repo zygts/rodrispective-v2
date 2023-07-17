@@ -176,7 +176,7 @@ export default function Cube({
         // Detiene música
         if (audio) {
           audio.element.pause();
-          audio.currentTime = 0;
+          audio.element.currentTime = 0;
         }
         gsap.killTweensOf(meshRef.current.rotation); // Vuelve a su rotación inicial
         if (initialRotation !== null) {

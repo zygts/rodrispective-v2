@@ -1,10 +1,10 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import ParticlesGrid from "./background/ParticlesGrid.jsx";
+// import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
 
-export function Background() {
+export function BackgroundCanvas({ scrollableRef }) {
   return (
     <Canvas
       camera={{
@@ -26,7 +26,7 @@ export function Background() {
       <Suspense fallback={null}>
         <color attach="background" args={["#15151a"]} />
         {/* <ParticlesGrid /> */}
-        <Images />
+        <Images scrollableRef={scrollableRef} />
       </Suspense>
     </Canvas>
   );

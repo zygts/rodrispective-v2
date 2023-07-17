@@ -1,5 +1,5 @@
 import "./style.css";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
@@ -7,31 +7,55 @@ import { Suspense } from "react";
 import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
-import { Background } from "./Background";
-import { PointsModel } from "./background/PointsModel";
+import { BackgroundCanvas } from "./Background";
 
 const App = () => {
   const [showIntro, setShowIntro] = useState(true);
+  const scrollableRef = useRef(null);
 
-  const handleStart = () => {
-    setShowIntro(false);
-  };
+  useEffect(() => {
+    const setRef = () => {
+      // Establece scrollableRef aquí cuando el DOM está completamente cargado.
+      scrollableRef.current = document.getElementById("scrollable");
+    };
+
+    // Espera a que el DOM esté completamente cargado.
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setRef);
+    } else {
+      // En caso de que el DOM ya esté cargado (porque useEffect se ejecutó después de que se completó la carga), llama a setRef directamente.
+      setRef();
+    }
+
+    // Remueve el listener cuando se desmonte el componente.
+    return () => {
+      document.removeEventListener("DOMContentLoaded", setRef);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Revisar si la referencia está siendo capturada.
+    console.log(scrollableRef.current);
+  }, [scrollableRef.current]);
+
+  useEffect(() => {
+    const handleStartButtonClick = () => {
+      setShowIntro(false);
+    };
+
+    window.addEventListener("startButtonClick", handleStartButtonClick);
+
+    return () => {
+      window.removeEventListener("startButtonClick", handleStartButtonClick);
+    };
+  }, []);
 
   return (
     <AppContextProvider value={{ showIntro, setShowIntro }}>
-      <div className="app-wrapper">
-        <div className={`intro-screen ${showIntro ? "" : "hide"}`}>
-          {/* <h1>Rodrispective</h1>
-          <p>
-            Welcome to our tribute super website, celebrating the profound impact and
-            timeless work of a musician who truly left their mark on music history. Here,
-            we delve into their career, explore their influential songs, and share
-            personal stories that shaped their legacy. This site is a curated journey into
-            their life and work, meant to inspire new and seasoned fans alike. Let's
-            embark on this musical adventure together!.
-          </p> */}
-          <button onClick={handleStart}>Explore</button>
-        </div>
+      <div
+        className="app-wrapper"
+        style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
+      >
         <Canvas
           style={{
             zIndex: 1,
@@ -49,11 +73,11 @@ const App = () => {
         </Canvas>
       </div>
       <CustomCursor />
-      <Background />
-      {/* <PointsModel /> */}
+      <BackgroundCanvas scrollableRef={scrollableRef} />
     </AppContextProvider>
   );
 };
+
 console.log("App renderizado");
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(<App />);
