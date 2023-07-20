@@ -52,6 +52,7 @@ const Images = ({ scrollableRef }) => {
         uResolution: { value: { x: window.innerWidth, y: window.innerHeight } },
         uAspectRatio: { value: window.innerWidth / window.innerHeight },
         uDisplacement: { type: "t", value: displacementTexture },
+        uScroll: { value: 0 },
       });
     });
 
@@ -84,6 +85,7 @@ const Images = ({ scrollableRef }) => {
     const numImages = textures.length;
     const imageShowTime = 0.8; // 80% del tiempo
     const transitionTime = 0.2; // 20% del tiempo
+    const scrollStartOffset = 0.15;
 
     const timeline = gsap.timeline({
       scrollTrigger: {
@@ -93,20 +95,29 @@ const Images = ({ scrollableRef }) => {
         scrub: true,
         onUpdate: (self) => {
           const progress = self.progress;
-          const index = Math.floor(
-            (progress / (imageShowTime + transitionTime)) * numImages
+
+          let adjustedScroll =
+            (self.progress - scrollStartOffset) / (1.0 - scrollStartOffset);
+          adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
+          uniforms.uScroll.value = adjustedScroll;
+
+          const numImages = textures.length;
+          const index = Math.min(
+            Math.floor((progress / (imageShowTime + transitionTime)) * numImages),
+            numImages - 1
           );
           const imageProgress = progress * numImages - index;
 
           if (imageProgress <= imageShowTime) {
-            uniforms.currentTexture.value = textures[index % numImages];
-            uniforms.nextTexture.value = textures[index % numImages];
+            uniforms.currentTexture.value = textures[index];
+            uniforms.nextTexture.value = textures[index];
             uniforms.mixValue.value = 0;
             uniforms.uGlitch.value = 0;
-          } else {
+          } else if (index < numImages - 1) {
+            // Evita la transición si es la última textura
             const transitionProgress = (imageProgress - imageShowTime) / transitionTime;
-            uniforms.currentTexture.value = textures[index % numImages];
-            uniforms.nextTexture.value = textures[(index + 1) % numImages];
+            uniforms.currentTexture.value = textures[index];
+            uniforms.nextTexture.value = textures[index + 1];
             uniforms.mixValue.value = transitionProgress;
             const glitchTransitionProgress = Math.min(transitionProgress * 2, 1);
             uniforms.uGlitch.value = Math.sin(glitchTransitionProgress * Math.PI) * 0.1;
@@ -146,7 +157,7 @@ const Images = ({ scrollableRef }) => {
   }
 
   return (
-    <mesh position={[0, 4, 3]}>
+    <mesh position={[0, 5, 3.5]}>
       <planeGeometry args={[60, 38]} />
       <shaderMaterial
         uniforms={uniforms}

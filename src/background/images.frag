@@ -23,9 +23,18 @@ void main() {
 
   vec2 uv = vUv;
   float scroll = uScroll;
-   // Define los bordes de tu rectángulo
-  vec2 rectMin = vec2(0.41, 0.12);
-  vec2 rectMax = vec2(0.59, 0.54);
+
+  // Define los bordes de tu rectángulo al inicio
+  vec2 rectMinStart = vec2(0.41, 0.12);
+  vec2 rectMaxStart = vec2(0.59, 0.54);
+
+  // Define los bordes de tu rectángulo al final
+  vec2 rectMinEnd = vec2(0.2, 0.1);
+  vec2 rectMaxEnd = vec2(0.8, 0.7);
+
+  // Interpola los bordes del rectángulo en función de uScroll
+  vec2 rectMin = mix(rectMinStart, rectMinEnd, scroll);
+  vec2 rectMax = mix(rectMaxStart, rectMaxEnd, scroll);
 
   // Calcula si este píxel se encuentra dentro del rectángulo
   float mask = step(rectMin.x, uv.x) * step(rectMin.y, uv.y) * (1.0 - step(rectMax.x, uv.x)) * (1.0 - step(rectMax.y, uv.y));
