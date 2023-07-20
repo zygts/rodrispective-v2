@@ -29,8 +29,8 @@ void main() {
   vec2 rectMaxStart = vec2(0.59, 0.54);
 
   // Define los bordes de tu rectángulo al final
-  vec2 rectMinEnd = vec2(0.2, 0.1);
-  vec2 rectMaxEnd = vec2(0.8, 0.7);
+  vec2 rectMinEnd = vec2(0.22, 0.08);
+  vec2 rectMaxEnd = vec2(0.78, 0.65);
 
   // Interpola los bordes del rectángulo en función de uScroll
   vec2 rectMin = mix(rectMinStart, rectMinEnd, scroll);

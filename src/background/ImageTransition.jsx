@@ -157,7 +157,7 @@ const Images = ({ scrollableRef }) => {
   }
 
   return (
-    <mesh position={[0, 5, 3.5]}>
+    <mesh position={[0, 5, 3.7]}>
       <planeGeometry args={[60, 38]} />
       <shaderMaterial
         uniforms={uniforms}

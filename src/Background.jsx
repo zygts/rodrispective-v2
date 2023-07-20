@@ -6,15 +6,13 @@ import { Suspense, useRef } from "react";
 import Images from "./background/ImageTransition.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
-  const bloomRef = useRef(null);
-
   return (
     <Canvas
       camera={{
         fov: 45,
         near: 1,
         far: 400,
-        zoom: 0.06,
+        zoom: 0.03,
       }}
       style={{
         position: "fixed",
