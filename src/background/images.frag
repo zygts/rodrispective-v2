@@ -3,15 +3,36 @@ uniform sampler2D nextTexture;
 uniform sampler2D uDisplacement;
 uniform float mixValue;
 uniform float uGlitch;
+uniform float uScroll;
 
 varying vec2 vUv;
 
 void main() {
   vec4 displacementImage = texture2D(uDisplacement, (vUv * 2.0)- 0.5);
-  vec2 displacedUV = vec2(vUv.x, vUv.y * (1.0 + (displacementImage.r - 0.5) * uGlitch));
+  // vec2 displacedUV = vec2(vUv.x, vUv.y * (1.0 + (displacementImage.r - 0.5) * uGlitch));
+
+  vec2 displacedUV = vec2(vUv.x, vUv.y);
+  displacedUV.y = mix(vUv.y, displacementImage.r, uGlitch);  
 
   vec4 color1 = texture2D(currentTexture, displacedUV);
+  color1.r = texture2D(currentTexture, displacedUV + vec2(0.0, -0.05) * uGlitch).r;
+  color1.g = texture2D(currentTexture, displacedUV + vec2(0.0, -0.01) * uGlitch).g;
+  color1.b = texture2D(currentTexture, displacedUV + vec2(0.0, 0.05) * uGlitch).b;
+
   vec4 color2 = texture2D(nextTexture, displacedUV);
 
-  gl_FragColor = mix(color1, color2, mixValue);
+  vec2 uv = vUv;
+  float scroll = uScroll;
+   // Define los bordes de tu rectángulo
+  vec2 rectMin = vec2(0.41, 0.12);
+  vec2 rectMax = vec2(0.59, 0.54);
+
+  // Calcula si este píxel se encuentra dentro del rectángulo
+  float mask = step(rectMin.x, uv.x) * step(rectMin.y, uv.y) * (1.0 - step(rectMax.x, uv.x)) * (1.0 - step(rectMax.y, uv.y));
+
+  vec4 finalMix = mix(color1, color2, mixValue);
+  finalMix.a *= mask;
+
+  // gl_FragColor = color;
+  gl_FragColor = finalMix;
 }

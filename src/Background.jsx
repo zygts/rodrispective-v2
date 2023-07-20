@@ -1,10 +1,13 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
+// import { EffectComposer, Bloom } from "@react-three/postprocessing";
 // import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
+  const bloomRef = useRef(null);
+
   return (
     <Canvas
       camera={{

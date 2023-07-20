@@ -20,11 +20,12 @@ const Images = ({ scrollableRef }) => {
   useEffect(() => {
     const loader = new TextureLoader();
     const textureFiles = [
-      "frame3.jpg",
-      "frame1.jpg",
-      "frame2.jpg",
+      "frame0.jpg",
       "frame4.jpg",
       "frame5.jpg",
+      "frame2.jpg",
+      "frame3.jpg",
+      "frame1.jpg",
     ];
 
     const promises = textureFiles.map(
@@ -80,7 +81,6 @@ const Images = ({ scrollableRef }) => {
     if (!uniforms || !textures[0] || !scrollableRef.current) {
       return;
     }
-
     const numImages = textures.length;
     const imageShowTime = 0.8; // 80% del tiempo
     const transitionTime = 0.2; // 20% del tiempo
@@ -108,11 +108,9 @@ const Images = ({ scrollableRef }) => {
             uniforms.currentTexture.value = textures[index % numImages];
             uniforms.nextTexture.value = textures[(index + 1) % numImages];
             uniforms.mixValue.value = transitionProgress;
-            uniforms.uGlitch.value = Math.sin(transitionProgress * Math.PI);
+            const glitchTransitionProgress = Math.min(transitionProgress * 2, 1);
+            uniforms.uGlitch.value = Math.sin(glitchTransitionProgress * Math.PI) * 0.1;
           }
-
-          console.log("mixValue: " + uniforms.mixValue.value);
-          console.log("uGlitch: " + uniforms.uGlitch.value);
         },
         onStart: () => {
           uniforms.currentTexture.value = textures[0];
@@ -126,7 +124,7 @@ const Images = ({ scrollableRef }) => {
     if (camera) {
       timeline.add(
         gsap.to(camera, {
-          zoom: 0.036,
+          zoom: 0.04,
           ease: "power1.inOut",
           onUpdate: () => camera.updateProjectionMatrix(),
         }),
@@ -148,12 +146,13 @@ const Images = ({ scrollableRef }) => {
   }
 
   return (
-    <mesh position={[0, 0, 4]}>
+    <mesh position={[0, 4, 3]}>
       <planeGeometry args={[60, 38]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
+        transparent={true}
       />
     </mesh>
   );
