@@ -4,6 +4,8 @@ import { Suspense, useRef } from "react";
 // import { EffectComposer, Bloom } from "@react-three/postprocessing";
 // import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
+import BackgroundPlane from "./background/BackgroundPlane.jsx";
+import { BackgroundStars } from './BackgroundStars';
 
 export function BackgroundCanvas({ scrollableRef }) {
   return (
@@ -25,9 +27,9 @@ export function BackgroundCanvas({ scrollableRef }) {
       }}
     >
       <Suspense fallback={null}>
-        <color attach="background" args={["#15151a"]} />
-        {/* <ParticlesGrid /> */}
+        <BackgroundStars />
         <Images scrollableRef={scrollableRef} />
+        <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>
     </Canvas>
   );

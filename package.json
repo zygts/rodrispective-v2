@@ -12,10 +12,11 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
-    "@react-spring/web": "^9.7.2",
+    "@react-spring/web": "^9.7.3",
     "@react-three/drei": "^9.50.3",
     "@react-three/fiber": "^8.9.2",
     "@react-three/postprocessing": "^2.14.9",
+    "@use-gesture/react": "^10.2.27",
     "dat.gui": "^0.7.9",
     "gsap": "^3.11.5",
     "leva": "^0.9.34",
