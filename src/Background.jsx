@@ -5,15 +5,15 @@ import { Suspense, useRef } from "react";
 // import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
 import BackgroundPlane from "./background/BackgroundPlane.jsx";
-import { BackgroundStars } from './BackgroundStars';
+import BackgroundStars from "./background/BackgroundStars.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
   return (
     <Canvas
       camera={{
-        fov: 45,
+        fov: 15,
         near: 1,
-        far: 400,
+        far: 600,
         zoom: 0.03,
       }}
       style={{

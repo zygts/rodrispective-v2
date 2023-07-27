@@ -1,4 +1,3 @@
-// useScrollAnimation.js
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,9 +11,9 @@ export const useScrollAnimation = (uniforms, textures, scrollableRef, camera) =>
     if (!uniforms || !textures[0] || !scrollableRef.current) {
       return;
     }
-    const numImages = textures.length;
-    const imageShowTime = 0.8; // 80% del tiempo
-    const transitionTime = 0.2; // 20% del tiempo
+
+    const imageShowTime = 0.7; // 80% del tiempo
+    const transitionTime = 0.3; // 20% del tiempo
     const scrollStartOffset = 0.15;
 
     const timeline = gsap.timeline({
@@ -42,7 +41,7 @@ export const useScrollAnimation = (uniforms, textures, scrollableRef, camera) =>
             uniforms.currentTexture.value = textures[index];
             uniforms.nextTexture.value = textures[index];
             uniforms.mixValue.value = 0;
-            uniforms.uGlitch.value = 0;
+            // uniforms.uGlitch.value = 0;
           } else if (index < numImages - 1) {
             // Evita la transición si es la última textura
             const transitionProgress = (imageProgress - imageShowTime) / transitionTime;
@@ -50,14 +49,14 @@ export const useScrollAnimation = (uniforms, textures, scrollableRef, camera) =>
             uniforms.nextTexture.value = textures[index + 1];
             uniforms.mixValue.value = transitionProgress;
             const glitchTransitionProgress = Math.min(transitionProgress * 2, 1);
-            uniforms.uGlitch.value = Math.sin(glitchTransitionProgress * Math.PI) * 0.1;
+            // uniforms.uGlitch.value = Math.sin(glitchTransitionProgress * Math.PI) * 0.1;
           }
         },
         onStart: () => {
           uniforms.currentTexture.value = textures[0];
           uniforms.nextTexture.value = textures[1];
           uniforms.mixValue.value = 0;
-          uniforms.uGlitch.value = 0;
+          // uniforms.uGlitch.value = 0;
         },
       },
     });

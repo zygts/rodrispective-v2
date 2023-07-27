@@ -84,8 +84,8 @@ const Images = ({ scrollableRef }) => {
   }
 
   return (
-    <mesh position={[0, 5, 3.7]}>
-      <planeGeometry args={[60, 38]} />
+    <mesh position={[0, 1.5, 4]}>
+      <planeGeometry args={[16, 10]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}
