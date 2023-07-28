@@ -1,4 +1,4 @@
-import "./style.css";
+import "./styles/global.css";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
@@ -8,7 +8,7 @@ import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
-import LoadingScreen from "./LoadingScreen";
+// import LoadingScreen from "./LoadingScreen";
 import IntroContent from "./IntroContent";
 
 const App = () => {

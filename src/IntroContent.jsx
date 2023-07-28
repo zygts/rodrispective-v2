@@ -1,4 +1,4 @@
-// IntroContent.jsx
+import "./styles/intro.css";
 import React from "react";
 
 function IntroContent() {
