@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { gsap } from "gsap";
 import { AppContext } from "./appContext";
 import { Vector2 } from "three";
-import "./app.css";
 
 const CustomCursor = () => {
   const { buttonPlayRef, cursorState, activeCube, setCubeHover, setCursorPosition } =

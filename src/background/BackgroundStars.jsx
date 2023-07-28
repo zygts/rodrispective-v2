@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { useThree, extend } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
+import { useThree, extend, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import StarrySkyShader from "./StarrySkyShader";
 
@@ -9,13 +9,15 @@ const BackgroundStars = () => {
   const { scene } = useThree();
   const skyDomeRadius = 500.01;
 
+  const skyDomeRef = useRef();
+
   const sphereMaterial = useMemo(
     () =>
       new THREE.ShaderMaterial({
         uniforms: {
           skyRadius: { value: skyDomeRadius },
-          env_c1: { value: new THREE.Color("#0d1a2f") },
-          env_c2: { value: new THREE.Color("#0f8682") },
+          env_c1: { value: new THREE.Color("#281C35") },
+          env_c2: { value: new THREE.Color("#6D3A23") },
           noiseOffset: { value: new THREE.Vector3(10.01, 10.01, 10.01) },
           starSize: { value: 0.003 },
           starDensity: { value: 0.09 },
@@ -36,16 +38,23 @@ const BackgroundStars = () => {
 
   // Add skyDome to scene
   useMemo(() => {
-    const skyDome = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    scene.add(skyDome);
+    skyDomeRef.current = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    scene.add(skyDomeRef.current);
 
-    // Clean up function to remove skyDome from scene when component unmounts
+    // Limpia para eliminar skyDome de la escena cuando el componente se desmonte
     return () => {
-      scene.remove(skyDome);
-      skyDome.geometry.dispose();
-      skyDome.material.dispose();
+      scene.remove(skyDomeRef.current);
+      skyDomeRef.current.geometry.dispose();
+      skyDomeRef.current.material.dispose();
     };
   }, [scene, sphereGeometry, sphereMaterial]);
+
+  // Agrega una rotación a skyDome en cada fotograma
+  useFrame(() => {
+    if (skyDomeRef.current) {
+      skyDomeRef.current.rotation.y += 0.0001; // Ajusta la velocidad de rotación aquí
+    }
+  });
 
   return null;
 };

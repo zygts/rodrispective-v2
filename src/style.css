@@ -1,3 +1,34 @@
+@font-face {
+    font-family: 'GT Eesti Pro Display';
+    src: url('/fonts/GTEestiProDisplay-Regular.woff2') format('woff2'),
+        url('/fonts/GTEestiProDisplay-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Eesti Pro Display';
+    src: url('/fonts/GTEestiProDisplay-Thin.woff2') format('woff2'),
+        url('/fonts/GTEestiProDisplay-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Eesti Pro Display';
+    src: url('/fonts/GTEestiProDisplay-Bold.woff2') format('woff2'),
+        url('/fonts/GTEestiProDisplay-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+    cursor: none; 
+}
+
 html,
 body,
 #root
@@ -15,13 +46,28 @@ body,
     position: fixed;
 }
 
+.hide {
+    display: none !important;
+  }
+
 #scrollable {
     height: auto;
     position: relative;
     z-index: 99;
 }
 
+#scrollable h1 {
+    font-family: 'GT Eesti Pro Display';
+    text-align: center;
+    margin-top: 40vh;
+    margin-bottom: 30vh;
+    font-size: 7vw;
+    color: #fff;
+}
+
 #scrollable p {
+    font-family: 'GT Eesti Pro Display';
+    font-size: 3vw;
     padding: 15rem;
     margin-bottom: 15rem;
     color: white;

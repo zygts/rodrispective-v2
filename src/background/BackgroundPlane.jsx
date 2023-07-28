@@ -26,7 +26,7 @@ const BackgroundPlane = () => {
         attach="material"
         transparent
         opacity={opacity}
-        color="#FFFFFF"
+        color="#eae6df"
       />
     </a.mesh>
   );
