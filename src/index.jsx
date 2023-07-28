@@ -9,6 +9,7 @@ import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
 import LoadingScreen from "./LoadingScreen";
+import IntroContent from "./IntroContent";
 
 const App = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -53,7 +54,10 @@ const App = () => {
 
   return (
     <AppContextProvider value={{ showIntro, setShowIntro }}>
-      <LoadingScreen />
+      {/* <LoadingScreen /> */}
+      <div id="scrollable" ref={scrollableRef}>
+        <IntroContent />
+      </div>
       <div
         className="app-wrapper"
         style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
