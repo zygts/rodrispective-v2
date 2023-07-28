@@ -9,7 +9,7 @@ function IntroContent() {
 
   return (
     <>
-      <h1>Rodrispective</h1>
+      <h1>RODRISPECTIVE</h1>
       <p>
         Few people know about this, but I’ve been making music for as long as I can
         remember. Under different names, in collaboration but mostly solo, in the darkness

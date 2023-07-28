@@ -5,12 +5,13 @@
 }
 
 #scrollable h1 {
-    font-family: 'GT Eesti Pro Display';
+    font-family: "Bandeins Strange";
     text-align: center;
-    margin-top: 40vh;
+    margin-top: 47vh;
     margin-bottom: 30vh;
-    font-size: 7vw;
-    color: #fff;
+    font-size: 4.5vw;
+    color: #222020;
+    font-variation-settings: 'wght' 200, 'wdth' 100;
 }
 
 #scrollable p {

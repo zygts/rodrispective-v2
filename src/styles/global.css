@@ -25,6 +25,22 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Bandeins Strange Variable';
+    src: url('/fonts/BandeinsStrangeVariable.woff2') format('woff2-variations');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Bandeins Strange";
+    src: url("https://uploads-ssl.webflow.com/5ed173383574384e9ac191eb/63485aaaf7cfb48f756854f0_BandeinsStrangeVariable.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 html {
     cursor: none; 
 }
