@@ -26,6 +26,12 @@ const Images = ({ scrollableRef }) => {
   const { camera } = useThree();
   const glitchAnimationRef = useRef(null);
 
+  const randomValues = {
+    r: Math.random() * 0.1 - 0.05, // Valor aleatorio entre -0.05 y 0.05
+    g: Math.random() * 0.1 - 0.05,
+    b: Math.random() * 0.1 - 0.05,
+  };
+
   // Carga las imágenes como texturas
   useEffect(() => {
     const loader = new TextureLoader();
@@ -47,7 +53,7 @@ const Images = ({ scrollableRef }) => {
 
     // Carga la textura extra
     const displacementPromise = new Promise((resolve) => {
-      loader.load(`./img/homepage/displacement.jpg`, resolve);
+      loader.load(`./img/homepage/disp2.jpg`, resolve);
     });
 
     Promise.all([...promises, displacementPromise]).then((loadedTextures) => {
@@ -63,6 +69,7 @@ const Images = ({ scrollableRef }) => {
         uAspectRatio: { value: window.innerWidth / window.innerHeight },
         uDisplacement: { type: "t", value: displacementTexture },
         uScroll: { value: 0 },
+        uRandomValues: { value: randomValues },
       });
     });
   }, []);
@@ -85,19 +92,50 @@ const Images = ({ scrollableRef }) => {
 
   // Animación de glitch
   useEffect(() => {
+    if (!uniforms || !uniforms.uRandomValues) {
+      return; // Retorna temprano si uniforms o uniforms.uRandomValues no están definidos
+    }
     const tl = gsap.timeline({ repeat: -1 });
 
     const addRandomAnimation = () => {
-      const duration = Math.random() * 0.2;
-      const targetGlitchValue = Math.random() * 0.2;
+      const glitchDuration = Math.random() * 0.18 + 0.1; // Glitch más rápido
+      const targetGlitchValue = Math.random() * 0.1 + 0.1;
+
+      // Define los valores objetivo de uRandomValues
+      const targetRandomValues = {
+        r: Math.random() * 0.1 - 0.05,
+        g: Math.random() * 0.1 - 0.05,
+        b: Math.random() * 0.1 - 0.05,
+      };
+
+      // Anima uGlitch y uRandomValues simultáneamente
       tl.to(uniforms.uGlitch, {
-        duration,
+        duration: glitchDuration,
         value: targetGlitchValue,
+        onUpdate: () => {
+          // Durante la animación, actualiza uRandomValues
+          uniforms.uRandomValues.value = {
+            r:
+              uniforms.uRandomValues.value.r +
+              (targetRandomValues.r - uniforms.uRandomValues.value.r) * 0.5,
+            g:
+              uniforms.uRandomValues.value.g +
+              (targetRandomValues.g - uniforms.uRandomValues.value.g) * 0.5,
+            b:
+              uniforms.uRandomValues.value.b +
+              (targetRandomValues.b - uniforms.uRandomValues.value.b) * 0.5,
+          };
+        },
+      });
+
+      tl.to(uniforms.uGlitch, {
+        duration: glitchDuration,
+        value: 0, // Regresa a 0 después de cada glitch
       });
     };
 
     const addRandomPause = () => {
-      const duration = Math.random();
+      const duration = Math.random() * 3 + 1; // Pausa más larga
       tl.to({}, { duration });
     };
 

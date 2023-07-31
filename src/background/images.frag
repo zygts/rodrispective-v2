@@ -4,20 +4,24 @@ uniform sampler2D uDisplacement;
 uniform float mixValue;
 uniform float uGlitch;
 uniform float uScroll;
+uniform vec3 uRandomValues;
 
 varying vec2 vUv;
 
 void main() {
-  vec4 displacementImage = texture2D(uDisplacement, (vUv * 2.0)- 0.5);
+  // vec4 displacementImage = texture2D(uDisplacement, (vUv * 5.0)- 2.0);
+  vec4 displacementImage = texture2D(uDisplacement, vUv * 3.0 - 1.2);
+
   // vec2 displacedUV = vec2(vUv.x, vUv.y * (1.0 + (displacementImage.r - 0.5) * uGlitch));
 
   vec2 displacedUV = vec2(vUv.x, vUv.y);
   displacedUV.y = mix(vUv.y, displacementImage.r, uGlitch);  
 
   vec4 color1 = texture2D(currentTexture, displacedUV);
-  color1.r = texture2D(currentTexture, displacedUV + vec2(0.0, -0.05) * uGlitch).r;
-  color1.g = texture2D(currentTexture, displacedUV + vec2(0.0, -0.01) * uGlitch).g;
-  color1.b = texture2D(currentTexture, displacedUV + vec2(0.0, 0.05) * uGlitch).b;
+  color1.r = texture2D(currentTexture, displacedUV + vec2(-0.05 + uRandomValues.r) * uGlitch).r;
+  color1.g = texture2D(currentTexture, displacedUV + vec2(-0.005 + uRandomValues.g) * uGlitch).g;
+  color1.b = texture2D(currentTexture, displacedUV + vec2(0.05 + uRandomValues.b) * uGlitch).b;
+
 
   vec4 color2 = texture2D(nextTexture, displacedUV);
 
