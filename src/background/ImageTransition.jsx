@@ -13,9 +13,18 @@ gsap.registerPlugin(ScrollTrigger);
 const Images = ({ scrollableRef }) => {
   const [textures, setTextures] = useState([null, null, null, null, null]);
   const [displacementTexture, setDisplacementTexture] = useState(null);
-  const [uniforms, setUniforms] = useState(null);
-  const scrollableHeight = useRef(null);
+  const [uniforms, setUniforms] = useState({
+    currentTexture: { type: "t", value: null },
+    nextTexture: { type: "t", value: null },
+    mixValue: { value: 0.0 },
+    uGlitch: { value: 0.0 },
+    uResolution: { value: { x: window.innerWidth, y: window.innerHeight } },
+    uAspectRatio: { value: window.innerWidth / window.innerHeight },
+    uDisplacement: { type: "t", value: null },
+    uScroll: { value: 0 },
+  });
   const { camera } = useThree();
+  const glitchAnimationRef = useRef(null);
 
   // Carga las imágenes como texturas
   useEffect(() => {
@@ -56,11 +65,6 @@ const Images = ({ scrollableRef }) => {
         uScroll: { value: 0 },
       });
     });
-
-    // Getting the height of the scrollable div.
-    if (scrollableRef.current) {
-      scrollableHeight.current = scrollableRef.current.scrollHeight;
-    }
   }, []);
 
   // Actualiza su resolución
@@ -77,9 +81,37 @@ const Images = ({ scrollableRef }) => {
   }, [uniforms]);
 
   // Animación en scroll
-  useScrollAnimation(uniforms, textures, scrollableRef, camera);
+  useScrollAnimation(uniforms, textures, scrollableRef, camera, glitchAnimationRef);
 
-  if (!uniforms) {
+  // Animación de glitch
+  useEffect(() => {
+    const tl = gsap.timeline({ repeat: -1 });
+
+    const addRandomAnimation = () => {
+      const duration = Math.random() * 0.2;
+      const targetGlitchValue = Math.random() * 0.2;
+      tl.to(uniforms.uGlitch, {
+        duration,
+        value: targetGlitchValue,
+      });
+    };
+
+    const addRandomPause = () => {
+      const duration = Math.random();
+      tl.to({}, { duration });
+    };
+
+    for (let i = 0; i < 100; i++) {
+      addRandomAnimation();
+      addRandomPause();
+    }
+
+    glitchAnimationRef.current = tl;
+
+    return () => tl.kill();
+  }, [uniforms]);
+
+  if (!uniforms.currentTexture.value) {
     return null;
   }
 

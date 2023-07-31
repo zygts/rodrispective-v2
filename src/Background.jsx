@@ -13,58 +13,58 @@ import BackgroundStars from "./background/BackgroundStars.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
   // Animación glitch de la foto
-  const [showEffectComposer, setShowEffectComposer] = useState(true);
-  const scrollOffset = 0; // Ajusta esto para cambiar cuándo comienza la animación
+  // const [showEffectComposer, setShowEffectComposer] = useState(true);
+  // const scrollOffset = 0; // Ajusta esto para cambiar cuándo comienza la animación
 
-  const [offset, setOffset] = useState([0.004, 0.004]);
+  // const [offset, setOffset] = useState([0.004, 0.004]);
 
-  useEffect(() => {
-    const tl = gsap.timeline({ repeat: -1 });
+  // useEffect(() => {
+  //   const tl = gsap.timeline({ repeat: -1 });
 
-    // Función para añadir una animación aleatoria a la línea de tiempo
-    const addRandomAnimation = () => {
-      const duration = Math.random() * 0.5;
-      // Desplazamiento aleatorio (entre -0.002 y 0.002)
-      const x = Math.random() * 0.004 - 0.002;
-      const y = Math.random() * 0.004 - 0.002;
-      tl.to(offset, {
-        duration,
-        x,
-        y,
-        onUpdate: () => setOffset([offset.x, offset.y]),
-      });
-    };
+  //   // Función para añadir una animación aleatoria a la línea de tiempo
+  //   const addRandomAnimation = () => {
+  //     const duration = Math.random() * 0.5;
+  //     // Desplazamiento aleatorio (entre -0.002 y 0.002)
+  //     const x = Math.random() * 0.004 - 0.002;
+  //     const y = Math.random() * 0.004 - 0.002;
+  //     tl.to(offset, {
+  //       duration,
+  //       x,
+  //       y,
+  //       onUpdate: () => setOffset([offset.x, offset.y]),
+  //     });
+  //   };
 
-    // Función para añadir una pausa aleatoria a la línea de tiempo
-    const addRandomPause = () => {
-      const duration = Math.random();
-      tl.to({}, { duration }); // Anima un objeto vacío para crear una pausa
-    };
+  //   // Función para añadir una pausa aleatoria a la línea de tiempo
+  //   const addRandomPause = () => {
+  //     const duration = Math.random();
+  //     tl.to({}, { duration }); // Anima un objeto vacío para crear una pausa
+  //   };
 
-    for (let i = 0; i < 100; i++) {
-      // Añade 100 animaciones y pausas a la línea de tiempo
-      addRandomAnimation();
-      addRandomPause();
-    }
+  //   for (let i = 0; i < 100; i++) {
+  //     // Añade 100 animaciones y pausas a la línea de tiempo
+  //     addRandomAnimation();
+  //     addRandomPause();
+  //   }
 
-    return () => tl.kill();
-  }, []);
+  //   return () => tl.kill();
+  // }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      let scrollPosition = window.scrollY;
-      if (scrollPosition > scrollOffset) {
-        setShowEffectComposer(false);
-      } else {
-        setShowEffectComposer(true);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     let scrollPosition = window.scrollY;
+  //     if (scrollPosition > scrollOffset) {
+  //       setShowEffectComposer(false);
+  //     } else {
+  //       setShowEffectComposer(true);
+  //     }
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrollOffset]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [scrollOffset]);
 
   return (
     <Canvas
@@ -88,11 +88,11 @@ export function BackgroundCanvas({ scrollableRef }) {
         <BackgroundStars />
         <Images scrollableRef={scrollableRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
-        {showEffectComposer && (
+        {/* {showEffectComposer && (
           <EffectComposer>
             <ChromaticAberration blendFunction={BlendFunction.MULTIPLY} offset={offset} />
           </EffectComposer>
-        )}
+        )} */}
       </Suspense>
     </Canvas>
   );

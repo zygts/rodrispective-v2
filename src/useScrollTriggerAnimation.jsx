@@ -4,7 +4,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const useScrollAnimation = (uniforms, textures, scrollableRef, camera) => {
+export const useScrollAnimation = (
+  uniforms,
+  textures,
+  scrollableRef,
+  camera,
+  glitchAnimationRef
+) => {
   useEffect(() => {
     let scrollAnimation = null;
 
@@ -24,7 +30,11 @@ export const useScrollAnimation = (uniforms, textures, scrollableRef, camera) =>
         scrub: true,
         onUpdate: (self) => {
           const progress = self.progress;
-
+          if (progress > 0 && glitchAnimationRef.current) {
+            uniforms.uGlitch.value = 0;
+            glitchAnimationRef.current.kill();
+            glitchAnimationRef.current = null;
+          }
           let adjustedScroll =
             (self.progress - scrollStartOffset) / (1.0 - scrollStartOffset);
           adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
@@ -79,5 +89,5 @@ export const useScrollAnimation = (uniforms, textures, scrollableRef, camera) =>
         scrollAnimation.kill();
       }
     };
-  }, [textures, uniforms, scrollableRef.current, camera]);
+  }, [textures, uniforms, scrollableRef.current, camera, glitchAnimationRef]);
 };
