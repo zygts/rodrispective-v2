@@ -55,6 +55,7 @@ const App = () => {
   return (
     <AppContextProvider value={{ showIntro, setShowIntro }}>
       {/* <LoadingScreen /> */}
+      <CustomCursor />
       <div id="scrollable" ref={scrollableRef}>
         <IntroContent />
       </div>
@@ -78,7 +79,6 @@ const App = () => {
           </Suspense>
         </Canvas>
       </div>
-      <CustomCursor />
       <BackgroundCanvas scrollableRef={scrollableRef} />
     </AppContextProvider>
   );
