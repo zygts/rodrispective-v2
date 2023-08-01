@@ -36,11 +36,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // Revisar si la referencia está siendo capturada.
-    console.log(scrollableRef.current);
-  }, [scrollableRef.current]);
-
-  useEffect(() => {
     const handleStartButtonClick = () => {
       setShowIntro(false);
     };

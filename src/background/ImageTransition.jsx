@@ -98,7 +98,7 @@ const Images = ({ scrollableRef }) => {
     const tl = gsap.timeline({ repeat: -1 });
 
     const addRandomAnimation = () => {
-      const glitchDuration = Math.random() * 0.18 + 0.1; // Glitch más rápido
+      const glitchDuration = Math.random() * 0.18 + 0.1;
       const targetGlitchValue = Math.random() * 0.1 + 0.1;
 
       // Define los valores objetivo de uRandomValues
@@ -112,6 +112,7 @@ const Images = ({ scrollableRef }) => {
       tl.to(uniforms.uGlitch, {
         duration: glitchDuration,
         value: targetGlitchValue,
+        ease:"steps(3)",
         onUpdate: () => {
           // Durante la animación, actualiza uRandomValues
           uniforms.uRandomValues.value = {
@@ -130,6 +131,7 @@ const Images = ({ scrollableRef }) => {
 
       tl.to(uniforms.uGlitch, {
         duration: glitchDuration,
+        ease:"steps(3)",
         value: 0, // Regresa a 0 después de cada glitch
       });
     };
