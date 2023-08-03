@@ -23,32 +23,47 @@ function IntroContent() {
     Splitting();
   }, [appTitle]);
 
-  console.log(appTitle.current);
   // Efecto de entrada
   useEffect(() => {
-    const chars = gsap.utils.toArray(appTitle.current.querySelectorAll("span.char"));
+    const chars = gsap.utils.toArray(
+      appTitle.current.querySelectorAll("span.line span.char")
+    );
     chars.forEach((char) => gsap.set(char.parentNode, { perspective: 1000 }));
 
-    gsap.fromTo(
+    const tl = gsap.timeline(); // crea un nuevo timeline
+
+    // Agrega la primera animación al timeline
+    tl.fromTo(
       chars,
       {
         "will-change": "opacity, transform",
-        transformOrigin: "50% 100%",
-        opacity: 0,
-        rotationX: 90,
+        opacity: 0.5,
+        rotateX: () => gsap.utils.random(-180, 180),
+        z: () => gsap.utils.random(-1000, 1000),
       },
       {
-        ease: "power4",
-        duration: 2,
-        delay: 1,
+        ease: "power5",
+        duration: 1.7,
         opacity: 1,
-        stagger: {
-          each: 0.2,
-          from: "random",
-        },
-        rotationX: 0,
+        rotateX: 0,
+        z: 0,
+        stagger: 0.02,
       }
     );
+
+    // Define los settings iniciales
+    const settings = { wdth: 100, wght: 200 };
+
+    // Agrega la segunda animación al timeline
+    tl.to(settings, {
+      duration: 1,
+      wdth: 800,
+      wght: 100,
+      onUpdate: () => {
+        // se llama en cada actualización de la animación
+        appTitle.current.style.fontVariationSettings = `'wdth' ${settings.wdth}, 'wght' ${settings.wght}`;
+      },
+    });
   }, []);
 
   // Botón start
@@ -60,7 +75,30 @@ function IntroContent() {
   return (
     <>
       <h1 data-splitting ref={appTitle}>
-        RODRISPECTIVE
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
+        <span className="line">RODRISPECTIVE</span>
       </h1>
       <p>
         Few people know about this, but I’ve been making music for as long as I can
