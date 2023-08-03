@@ -9,7 +9,7 @@ import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
 // import LoadingScreen from "./LoadingScreen";
-import IntroContent from "./IntroContent";
+import IntroContent from "./IntroContent2";
 
 const App = () => {
   const [showIntro, setShowIntro] = useState(true);

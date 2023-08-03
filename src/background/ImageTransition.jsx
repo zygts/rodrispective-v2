@@ -37,15 +37,17 @@ const Images = ({ scrollableRef }) => {
   // Animación entrada imagenes
   const props = useSpring({
     scale: [1, 1, 1],
-    position: [0, 1.05, 4], // posicion objetivo
+    position: [0, 1.25, 4], // posicion objetivo
     rotation: [0, 0, 0], // rotacion objetivo
-    from: { 
-      scale: [0.3, 0.3, 0.3], 
-      position: [1, 1, 1], // posicion inicial
-      rotation: [0.5, 0.9, 0.5] // rotacion inicial
+    from: {
+      scale: [0.3, 0.3, 0.3],
+      position: [-1, 3, 1], // posicion inicial
+      rotation: [0.5, 0.9, 0.5], // rotacion inicial
     },
-    config: { 
-      tension: 35, friction: 60 },
+    config: {
+      tension: 35,
+      friction: 60,
+    },
   });
 
   // Carga las imágenes como texturas
@@ -181,7 +183,12 @@ const Images = ({ scrollableRef }) => {
   }
 
   return (
-    <a.mesh ref={meshRef} scale={props.scale} position={props.position} rotation={props.rotation}>
+    <a.mesh
+      ref={meshRef}
+      scale={props.scale}
+      position={props.position}
+      rotation={props.rotation}
+    >
       <planeGeometry args={[14, 8.5]} />
       <shaderMaterial
         uniforms={uniforms}
