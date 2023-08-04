@@ -37,16 +37,16 @@ const Images = ({ scrollableRef }) => {
   // Animación entrada imagenes
   const props = useSpring({
     scale: [1, 1, 1],
-    position: [0, 1.25, 4], // posicion objetivo
+    position: [0, 1.5, 4], // posicion objetivo
     rotation: [0, 0, 0], // rotacion objetivo
     from: {
       scale: [0.3, 0.3, 0.3],
-      position: [-1, 3, 1], // posicion inicial
+      position: [-2, 5, 1], // posicion inicial
       rotation: [0.5, 0.9, 0.5], // rotacion inicial
     },
     config: {
       tension: 35,
-      friction: 60,
+      friction: 55,
     },
   });
 
@@ -54,12 +54,12 @@ const Images = ({ scrollableRef }) => {
   useEffect(() => {
     const loader = new TextureLoader();
     const textureFiles = [
-      "frame0.jpg",
-      "frame4.jpg",
-      "frame5.jpg",
-      "frame2.jpg",
-      "frame3.jpg",
-      "frame1.jpg",
+      "frame0-2.jpg",
+      "frame4-2.jpg",
+      "frame5-2.jpg",
+      "frame2-2.jpg",
+      "frame3-2.jpg",
+      "frame1-2.jpg",
     ];
 
     const promises = textureFiles.map(
