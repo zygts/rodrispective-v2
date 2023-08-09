@@ -74,7 +74,7 @@ export const useScrollAnimation = (
     if (camera) {
       timeline.add(
         gsap.to(camera, {
-          zoom: 0.04,
+          zoom: 0.066,
           ease: "power1.inOut",
           onUpdate: () => camera.updateProjectionMatrix(),
         }),

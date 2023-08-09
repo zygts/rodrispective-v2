@@ -19,21 +19,21 @@ export function BackgroundCanvas({ scrollableRef }) {
         fov: 15,
         near: 0.1,
         far: 600,
-        zoom: 0.03,
+        zoom: 0.055,
       }}
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         zIndex: -1,
-        pointerEvents: "none",
+        // pointerEvents: "none",
         height: "100vh",
         width: "100vw",
       }}
     >
       <Suspense fallback={null}>
         <BackgroundStars />
-        {/* <Blob/> */}
+        <Blob/>
         <Images scrollableRef={scrollableRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>

@@ -37,7 +37,7 @@ const Images = ({ scrollableRef }) => {
   // Animación entrada imagenes
   const props = useSpring({
     scale: [1, 1, 1],
-    position: [0, 1.5, 4], // posicion objetivo
+    position: [0, 1.5, 3], // posicion objetivo
     rotation: [0, 0, 0], // rotacion objetivo
     from: {
       scale: [0.3, 0.3, 0.3],
