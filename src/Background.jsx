@@ -1,19 +1,23 @@
 import React from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import { Suspense, useState, useEffect } from "react";
 import { gsap } from "gsap";
+import { TextureLoader } from 'three';
 
 // import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
 import BackgroundPlane from "./background/BackgroundPlane.jsx";
 import BackgroundStars from "./background/BackgroundStars.jsx";
+import Blob from "./Blob.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
+  const noiseTexture = useLoader(TextureLoader, 'background/noise.jpg');
+
   return (
     <Canvas
       camera={{
         fov: 15,
-        near: 1,
+        near: 0.1,
         far: 600,
         zoom: 0.03,
       }}
@@ -29,6 +33,7 @@ export function BackgroundCanvas({ scrollableRef }) {
     >
       <Suspense fallback={null}>
         <BackgroundStars />
+        {/* <Blob/> */}
         <Images scrollableRef={scrollableRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>
