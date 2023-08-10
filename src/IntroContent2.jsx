@@ -205,7 +205,7 @@ function IntroContent() {
         of my bedroom. Always unreleased.
       </p>
       <button id="start-button" onClick={handleClick}>
-        Explore
+        START EXPLORING
       </button>
     </>
   );

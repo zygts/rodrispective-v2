@@ -3,9 +3,10 @@ import vertexShader from "./blob.vert";
 import fragmentShader from "./blob.frag";
 import { useFrame } from "@react-three/fiber";
 import { MathUtils } from "three";
+import { useBlobScrollAnimation } from './useBlobScrollAnimation';
 
-const Blob = () => {
-  const mesh = useRef();
+const Blob = ({ scrollableRef }) => {
+  const meshRef = useRef();
   const hover = useRef(false);
   const uniforms = useMemo(() => {
     return {
@@ -14,28 +15,30 @@ const Blob = () => {
     };
   });
 
+  useBlobScrollAnimation(meshRef, scrollableRef);
+
   useFrame((state) => {
     const { clock } = state;
-    if (mesh.current) {
-      mesh.current.material.uniforms.u_time.value =
-        0.4 * clock.getElapsedTime();
+    if (meshRef.current) {
+        meshRef.current.material.uniforms.u_time.value =
+        0.3 * clock.getElapsedTime();
 
-      mesh.current.material.uniforms.u_intensity.value = MathUtils.lerp(
-        mesh.current.material.uniforms.u_intensity.value,
-        hover.current ? 1 : 0.15,
+        meshRef.current.material.uniforms.u_intensity.value = MathUtils.lerp(
+            meshRef.current.material.uniforms.u_intensity.value,
+        hover.current ? 0.6 : 0.3,
         0.02
       );
     }
   });
   return (
     <mesh
-      ref={mesh}
+      ref={meshRef}
       scale={1}
-      position={[0, 0, 2]}
+      position={[0, 0, 3]}
       onPointerOver={() => (hover.current = true)}
       onPointerOut={() => (hover.current = false)}
     >
-      <icosahedronBufferGeometry args={[2, 20]} />
+      <icosahedronBufferGeometry args={[1, 20]} />
       <shaderMaterial
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}

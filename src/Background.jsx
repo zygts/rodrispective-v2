@@ -33,7 +33,7 @@ export function BackgroundCanvas({ scrollableRef }) {
     >
       <Suspense fallback={null}>
         <BackgroundStars />
-        <Blob/>
+        <Blob scrollableRef={scrollableRef}/>
         <Images scrollableRef={scrollableRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>
