@@ -9,7 +9,7 @@ export default function ParticlesGrid() {
   const { audio, isLoading, cursorPosition, showIntro, isPlaying } =
     useContext(AppContext);
 
-  const { position, rotation, mesh, material, uProgress, setUProgress, setTextures } =
+  const { position, rotation, mesh, material, setUProgress } =
     ParticlesLogic(isPlaying, audio, cursorPosition, showIntro, isLoading);
 
   // Animación de entrada
@@ -50,11 +50,11 @@ export default function ParticlesGrid() {
   }, []);
 
   // Efecto cursor solo en la intro
-  useEffect(() => {
-    if (material && material.uniforms.uShowIntro) {
-      material.uniforms.uShowIntro.value = showIntro ? 1.0 : 0.0;
-    }
-  }, [showIntro]);
+  // useEffect(() => {
+  //   if (material && material.uniforms.uShowIntro) {
+  //     material.uniforms.uShowIntro.value = showIntro ? 1.0 : 0.0;
+  //   }
+  // }, [showIntro]);
 
   return (
     <a.primitive

@@ -84,7 +84,7 @@ export default function ParticlesLogic(isPlaying, audio, cursorPosition, showInt
   materialRef.current = material;
 
   const { position, rotation } = useSpring({
-    position: isPlaying ? [50, 0, -1] : [0, 0, 0],
+    position: isPlaying ? [50, 0, -31] : [0, 0, -30],
     rotation: isPlaying ? [0, Math.PI / 256, 0] : [0, 0, 0],
     config: { tension: 200, friction: 50 },
   });

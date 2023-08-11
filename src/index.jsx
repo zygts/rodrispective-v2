@@ -1,39 +1,18 @@
 import "./styles/global.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 
 import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
-import { AppContextProvider } from "./appContext";
+import { AppContext, AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
-// import LoadingScreen from "./LoadingScreen";
 import IntroContent from "./IntroContent2";
 
-const App = () => {
-  const [showIntro, setShowIntro] = useState(true);
+const MainContent = () => {
+  const { showIntro, setShowIntro } = useContext(AppContext);
   const scrollableRef = useRef(null);
-
-  useEffect(() => {
-    const setRef = () => {
-      // Establece scrollableRef aquí cuando el DOM está completamente cargado.
-      scrollableRef.current = document.getElementById("scrollable");
-    };
-
-    // Espera a que el DOM esté completamente cargado.
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", setRef);
-    } else {
-      // En caso de que el DOM ya esté cargado (porque useEffect se ejecutó después de que se completó la carga), llama a setRef directamente.
-      setRef();
-    }
-
-    // Remueve el listener cuando se desmonte el componente.
-    return () => {
-      document.removeEventListener("DOMContentLoaded", setRef);
-    };
-  }, []);
 
   useEffect(() => {
     const handleStartButtonClick = () => {
@@ -45,20 +24,23 @@ const App = () => {
     return () => {
       window.removeEventListener("startButtonClick", handleStartButtonClick);
     };
-  }, []);
+  }, [setShowIntro]);
 
   return (
-    <AppContextProvider value={{ showIntro, setShowIntro }}>
-      {/* <LoadingScreen /> */}
+    <>
       <CustomCursor />
-      <div id="scrollable" ref={scrollableRef}>
-        <IntroContent />
+      <div id="scrollable" ref={scrollableRef} style={{
+            zIndex: 1,
+            visibility: showIntro ? "visible" : "hidden",
+          }}>
+      <IntroContent />
       </div>
       <div
         className="app-wrapper"
         style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
       >
         <Canvas
+          id="experience-canvas"
           style={{
             zIndex: 1,
             visibility: showIntro ? "hidden" : "visible",
@@ -75,6 +57,14 @@ const App = () => {
         </Canvas>
       </div>
       <BackgroundCanvas scrollableRef={scrollableRef} />
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <AppContextProvider>
+      <MainContent />
     </AppContextProvider>
   );
 };

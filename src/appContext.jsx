@@ -12,6 +12,7 @@ export const AppContextProvider = ({ children, value }) => {
   const [introOn, setIntroOn] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -37,6 +38,8 @@ export const AppContextProvider = ({ children, value }) => {
         isLoading,
         isPlaying,
         setIsPlaying,
+        showIntro,
+        setShowIntro,
         ...value,
       }}
     >
