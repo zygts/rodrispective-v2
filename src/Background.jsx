@@ -13,47 +13,6 @@ import Blob from "./Blob.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
 
-  const lastImageRef = useRef(null);
-
-  useEffect(() => {
-    if (!lastImageRef) {
-      console.log("lastImageRef is not defined");
-      return;
-    }
-
-    if (!lastImageRef.current) {
-      console.log("lastImageRef.current is null");
-      return;
-    }
-
-    if (!scrollableRef) {
-      console.log("scrollableRef is not defined");
-      return;
-    }
-
-    if (!scrollableRef.current) {
-      console.log("scrollableRef.current is null");
-      return;
-    }
-    
-    console.log("hi");
-        gsap.fromTo(
-            lastImageRef.current.material, 
-            { opacity: 0 },
-            {
-                opacity: 1,
-                scrollTrigger: {
-                  trigger: scrollableRef.current,
-                  start: '80% top',
-                  end: 'bottom bottom',
-                  scrub: true,
-                  markers: true,
-                }
-            }
-        );
-    
-}, [lastImageRef, scrollableRef]);
-
   return (
     <Canvas
       id="background-canvas"
@@ -78,7 +37,7 @@ export function BackgroundCanvas({ scrollableRef }) {
         <BackgroundStars />
         <Blob scrollableRef={scrollableRef}/>
         <Images scrollableRef={scrollableRef} />
-        <LastImage ref={lastImageRef} />
+        <LastImage scrollableRef={scrollableRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>
     </Canvas>

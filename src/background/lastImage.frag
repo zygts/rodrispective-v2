@@ -1,4 +1,5 @@
 uniform sampler2D uTexture;
+uniform float u_opacity;
 
 varying vec2 vUv;
 
@@ -24,5 +25,5 @@ void main() {
 
   vec4 texColor = texture2D(uTexture, vUv);
   texColor.a *= mask;
-    gl_FragColor = texColor;
+    gl_FragColor = texColor * u_opacity;
 }
