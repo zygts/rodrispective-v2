@@ -1,6 +1,8 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
+import { Suspense, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
@@ -10,6 +12,47 @@ import BackgroundStars from "./background/BackgroundStars.jsx";
 import Blob from "./Blob.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
+
+  const lastImageRef = useRef(null);
+
+  useEffect(() => {
+    if (!lastImageRef) {
+      console.log("lastImageRef is not defined");
+      return;
+    }
+
+    if (!lastImageRef.current) {
+      console.log("lastImageRef.current is null");
+      return;
+    }
+
+    if (!scrollableRef) {
+      console.log("scrollableRef is not defined");
+      return;
+    }
+
+    if (!scrollableRef.current) {
+      console.log("scrollableRef.current is null");
+      return;
+    }
+    
+    console.log("hi");
+        gsap.fromTo(
+            lastImageRef.current.material, 
+            { opacity: 0 },
+            {
+                opacity: 1,
+                scrollTrigger: {
+                  trigger: scrollableRef.current,
+                  start: '80% top',
+                  end: 'bottom bottom',
+                  scrub: true,
+                  markers: true,
+                }
+            }
+        );
+    
+}, [lastImageRef, scrollableRef]);
 
   return (
     <Canvas
@@ -33,9 +76,9 @@ export function BackgroundCanvas({ scrollableRef }) {
       <Suspense fallback={null}>
         {/* <ParticlesGrid /> */}
         <BackgroundStars />
-        {/* <Blob scrollableRef={scrollableRef}/> */}
-        {/* <Images scrollableRef={scrollableRef} /> */}
-        <LastImage />
+        <Blob scrollableRef={scrollableRef}/>
+        <Images scrollableRef={scrollableRef} />
+        <LastImage ref={lastImageRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>
     </Canvas>

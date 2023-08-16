@@ -1,5 +1,5 @@
 import "./styles/global.css";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
@@ -11,7 +11,7 @@ import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent2";
 
 const MainContent = () => {
-  const { showIntro, setShowIntro } = useContext(AppContext);
+  const [showIntro, setShowIntro] = useState(true);
   const scrollableRef = useRef(null);
 
   useEffect(() => {

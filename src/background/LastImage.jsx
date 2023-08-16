@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import { TextureLoader } from "three";
 
 import vertexShader from "./lastImage.vert";
 import fragmentShader from "./lastImage.frag";
 
-const LastImage = () => {
+const LastImage = React.forwardRef((props, ref) => {
+
     const [texture, setTexture] = useState(null);
     const lastImageRef = useRef();
   
@@ -22,7 +23,7 @@ const LastImage = () => {
   
     return (
       <mesh ref={lastImageRef} scale={[1, 1, 1]} position={[0, 1.5, 3]} rotation={[0, 0, 0]}>
-        <planeGeometry args={[14, 8.5]} />
+        <boxGeometry args={[14, 8.5]} />
         <shaderMaterial
             uniforms={{
                 uTexture: { type: "t", value: texture },
@@ -32,10 +33,11 @@ const LastImage = () => {
             vertexShader={vertexShader}
             fragmentShader={fragmentShader}
             transparent={true}
+            // wireframe={true}
             />
       </mesh>
     );
-  };
+  });
   
   export default LastImage;
   
