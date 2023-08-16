@@ -71,6 +71,21 @@ export const useScrollAnimation = (
       },
     });
 
+    const opacityTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: scrollableRef.current,
+        start: '80% top',
+        end: 'bottom bottom',
+        scrub: true,
+      },
+    });
+
+    opacityTimeline
+      .to(uniforms.u_opacity, {
+        value: 0.0,
+        duration: 0.2,
+      });
+
     if (camera) {
       timeline.add(
         gsap.to(camera, {
