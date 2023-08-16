@@ -5,6 +5,7 @@ uniform float mixValue;
 uniform float uGlitch;
 uniform float uScroll;
 uniform vec3 uRandomValues;
+uniform float u_opacity;
 
 varying vec2 vUv;
 
@@ -47,5 +48,5 @@ void main() {
   finalMix.a *= mask;
 
   // gl_FragColor = color;
-  gl_FragColor = finalMix;
+  gl_FragColor = finalMix * u_opacity;
 }

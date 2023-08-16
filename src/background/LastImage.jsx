@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { TextureLoader } from "three";
+import { PlaneGeometry, TextureLoader } from "three";
 import { useLastImageScrollAnimation } from './useLastImageScrollAnimation';
 import vertexShader from "./lastImage.vert";
 import fragmentShader from "./lastImage.frag";
@@ -27,8 +27,8 @@ const LastImage = ({ scrollableRef }) => {
     }
   
     return (
-      <mesh ref={lastImageRef} scale={[1, 1, 1]} position={[0, 1.5, 2]} rotation={[0, 0, 0]}>
-        <boxGeometry args={[14, 8.5]} />
+      <mesh ref={lastImageRef} scale={[1, 1, 1]} position={[0, 1.5, 3]} rotation={[0, 0, 0]}>
+        <planeGeometry args={[14, 8.5]} />
         <shaderMaterial
             uniforms={{
                 uTexture: { type: "t", value: texture },

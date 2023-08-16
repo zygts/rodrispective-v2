@@ -88,6 +88,7 @@ const Images = ({ scrollableRef }) => {
         uDisplacement: { type: "t", value: displacementTexture },
         uScroll: { value: 0 },
         uRandomValues: { value: randomValues },
+        u_opacity: {value: 1.0},
       });
     });
   }, []);
