@@ -28,7 +28,7 @@ const LastImage = ({ scrollableRef }) => {
   
     return (
       <mesh ref={lastImageRef} scale={[1, 1, 1]} position={[0, 1.5, 3]} rotation={[0, 0, 0]}>
-        <planeGeometry args={[14, 8.5]} />
+        <planeGeometry args={[14, 8.5, 50, 50]} />
         <shaderMaterial
             uniforms={{
                 uTexture: { type: "t", value: texture },

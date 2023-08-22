@@ -11,7 +11,7 @@ const Blob = ({ scrollableRef }) => {
   const uniforms = useMemo(() => {
     return {
       u_time: { value: 0 },
-      u_intensity: { value: 0.3 },
+      u_intensity: { value: 0.2 },
     };
   });
 
@@ -25,7 +25,7 @@ const Blob = ({ scrollableRef }) => {
 
         meshRef.current.material.uniforms.u_intensity.value = MathUtils.lerp(
             meshRef.current.material.uniforms.u_intensity.value,
-        hover.current ? 0.6 : 0.3,
+        hover.current ? 0.6 : 0.2,
         0.02
       );
     }
