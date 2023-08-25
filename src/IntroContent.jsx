@@ -11,6 +11,7 @@ function IntroContent() {
   const appTitle = useRef(null);
   const scrollDownDiv = useRef(null);
   const paragraphs = useRef([]);
+  const displacementScaleRef = useRef(null);
 
   // Efecto de entrada
   useEffect(() => {
@@ -94,11 +95,20 @@ function IntroContent() {
         // rota cada línea según el progreso del scroll
         lines.forEach((line, i) => {
           gsap.to(line, {
-            rotationZ: progress * 180,
+            rotationZ: progress * 270,
             transformOrigin: "50% 50%", // establece el origen de la transformación
             immediateRender: true,
           });
         });
+
+        // Ajustar la escala del efecto de desplazamiento
+        if (displacementScaleRef.current) {
+          gsap.to(displacementScaleRef.current, {
+            attr: { scale: progress * 50 }, // Ajusta el 20 según tu preferencia
+            immediateRender: true,
+            overwrite: true,
+          });
+        }
       },
     });
   }, []);
@@ -175,9 +185,10 @@ function IntroContent() {
             result="turbulence"
           />
           <feDisplacementMap
+            ref={displacementScaleRef}
             in="SourceGraphic"
             in2="turbulence"
-            scale="20"
+            scale="0"
             xChannelSelector="G"
             yChannelSelector="A"
             result="displacementMap"
