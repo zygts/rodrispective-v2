@@ -88,7 +88,7 @@ const Images = ({ scrollableRef }) => {
         uDisplacement: { type: "t", value: displacementTexture },
         uScroll: { value: 0 },
         uRandomValues: { value: randomValues },
-        u_opacity: {value: 1.0},
+        u_opacity: { value: 1.0 },
       });
     });
   }, []);
@@ -190,7 +190,7 @@ const Images = ({ scrollableRef }) => {
       position={props.position}
       rotation={props.rotation}
     >
-      <planeGeometry args={[14, 8.5]} />
+      <planeGeometry args={[14, 9.5]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}

@@ -15,7 +15,7 @@ const LastImageShader = ({ scrollableRef }) => {
   const [isTextureLoaded, setIsTextureLoaded] = useState(false);
 
   // Asumiendo que estás usando una geometría de tipo PlaneGeometry
-  const geometry = new PlaneGeometry(14, 8.5, 28, 17).toNonIndexed();
+  const geometry = new PlaneGeometry(14, 9.5, 28, 17).toNonIndexed();
 
   // Carga solo la última imagen como textura
   useEffect(() => {
