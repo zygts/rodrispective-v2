@@ -7,33 +7,33 @@ gsap.registerPlugin(ScrollTrigger);
 export const useLastImageScrollAnimation = (imageRef, scrollableRef, isTextureLoaded) => {
   useEffect(() => {
     if (!isTextureLoaded) {
-        return;
-      }
+      return;
+    }
 
     if (!imageRef || !imageRef.current || !scrollableRef || !scrollableRef.current) {
-        return;
-    }   
+      return;
+    }
 
     const imageTl = gsap.timeline({
       scrollTrigger: {
         trigger: scrollableRef.current,
-        start: '78% top',
-        end: 'bottom bottom',
+        start: "78% top",
+        end: "bottom bottom",
         scrub: true,
       },
     });
 
     imageTl
-    .set(imageRef.current.material.uniforms.u_opacity,{
+      .set(imageRef.current.material.uniforms.u_opacity, {
         value: 0,
-    })
-    .to(imageRef.current.material.uniforms.u_opacity, {
-      value: 1,
-      duration: 0.2,
-    })
+      })
+      .to(imageRef.current.material.uniforms.u_opacity, {
+        value: 1,
+        duration: 0.2,
+      });
 
     return () => {
-        imageTl.kill(); // Limpia la animación al desmontar
+      imageTl.kill(); // Limpia la animación al desmontar
     };
   }, [imageRef, scrollableRef, isTextureLoaded]);
 };

@@ -6,13 +6,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
-import LastImage from "./background/LastImage.jsx";
+import LastImageShader from "./background/LastImageShader.jsx";
 import BackgroundPlane from "./background/BackgroundPlane.jsx";
 import BackgroundStars from "./background/BackgroundStars.jsx";
 import Blob from "./Blob.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
-
   return (
     <Canvas
       id="background-canvas"
@@ -35,9 +34,9 @@ export function BackgroundCanvas({ scrollableRef }) {
       <Suspense fallback={null}>
         {/* <ParticlesGrid /> */}
         <BackgroundStars />
-        <Blob scrollableRef={scrollableRef}/>
+        <Blob scrollableRef={scrollableRef} />
         <Images scrollableRef={scrollableRef} />
-        <LastImage scrollableRef={scrollableRef} />
+        <LastImageShader scrollableRef={scrollableRef} />
         <BackgroundPlane scrollableRef={scrollableRef} />
       </Suspense>
     </Canvas>

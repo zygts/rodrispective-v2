@@ -2,6 +2,7 @@ uniform sampler2D uTexture;
 uniform float u_opacity;
 
 varying vec2 vUv;
+varying float vTriangleID;
 
 void main() {
 

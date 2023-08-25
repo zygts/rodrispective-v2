@@ -1,21 +1,24 @@
 uniform vec2 uResolution;
+uniform float uDisplacementFactor;  // Controla la animación
 varying vec2 vUv;
+attribute float triangleID;
+varying float vTriangleID;
 
 void main() {
-  vUv = uv;
-  vec3 pos = position;
+    vUv = uv;
+    vec3 pos = position;
 
-  float aspect = uResolution.x / uResolution.y;
-  float imageAspect = 14.0 / 8.5;
-  
-  // Mantén la relación de aspecto 16:9
-  if(aspect > imageAspect) {
-    // Si la pantalla es más ancha que 16:9, ajusta el eje Y
-    pos.y *= imageAspect / aspect;
-  } else {
-    // Si la pantalla es más alta que 16:9, ajusta el eje X
-    pos.x *= aspect / imageAspect;
-  }
-  
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    // Desplazamiento basado en el triangleID
+    pos.y += sin(triangleID * 5.0) * uDisplacementFactor;
+
+    float aspect = uResolution.x / uResolution.y;
+    float imageAspect = 14.0 / 8.5;
+    
+    if(aspect > imageAspect) {
+        pos.y *= imageAspect / aspect;
+    } else {
+        pos.x *= aspect / imageAspect;
+    }
+    
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

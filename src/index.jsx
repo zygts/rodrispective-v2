@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
-import { AppContext, AppContextProvider } from "./appContext";
+import { AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent2";
 
@@ -29,11 +29,15 @@ const MainContent = () => {
   return (
     <>
       <CustomCursor />
-      <div id="scrollable" ref={scrollableRef} style={{
-            zIndex: 1,
-            visibility: showIntro ? "visible" : "hidden",
-          }}>
-      <IntroContent />
+      <div
+        id="scrollable"
+        ref={scrollableRef}
+        style={{
+          zIndex: 1,
+          visibility: showIntro ? "visible" : "hidden",
+        }}
+      >
+        <IntroContent />
       </div>
       <div
         className="app-wrapper"
