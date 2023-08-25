@@ -12,19 +12,32 @@ import IntroContent from "./IntroContent2";
 
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
+  const [startButtonClicked, setStartButtonClicked] = useState(false);
   const scrollableRef = useRef(null);
 
+  // Manejadores de eventos
+  const handleStartButtonClick = () => {
+    setStartButtonClicked(true); // Configura el inicio de la animación
+  };
+
+  const handleShaderAnimationComplete = () => {
+    setShowIntro(false); // Oculta el contenido introductorio después de que la animación haya terminado
+  };
+
   useEffect(() => {
-    const handleStartButtonClick = () => {
-      setShowIntro(false);
-    };
-
+    // Escucha los eventos
     window.addEventListener("startButtonClick", handleStartButtonClick);
+    window.addEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
 
+    // Limpia los oyentes de eventos al desmontar
     return () => {
       window.removeEventListener("startButtonClick", handleStartButtonClick);
+      window.removeEventListener(
+        "shaderAnimationComplete",
+        handleShaderAnimationComplete
+      );
     };
-  }, [setShowIntro]);
+  }, []);
 
   return (
     <>

@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Suspense } from "react";
 
 import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
@@ -12,6 +10,23 @@ import BackgroundStars from "./background/BackgroundStars.jsx";
 import Blob from "./Blob.jsx";
 
 export function BackgroundCanvas({ scrollableRef }) {
+  const [isAnimationComplete, setAnimationComplete] = useState(false);
+
+  useEffect(() => {
+    const handleShaderAnimationComplete = () => {
+      setAnimationComplete(true);
+    };
+
+    window.addEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
+
+    return () => {
+      window.removeEventListener(
+        "shaderAnimationComplete",
+        handleShaderAnimationComplete
+      );
+    };
+  }, []);
+
   return (
     <Canvas
       id="background-canvas"
@@ -32,12 +47,17 @@ export function BackgroundCanvas({ scrollableRef }) {
       }}
     >
       <Suspense fallback={null}>
-        {/* <ParticlesGrid /> */}
-        <BackgroundStars />
-        <Blob scrollableRef={scrollableRef} />
-        <Images scrollableRef={scrollableRef} />
-        <LastImageShader scrollableRef={scrollableRef} />
-        <BackgroundPlane scrollableRef={scrollableRef} />
+        {isAnimationComplete ? (
+          <ParticlesGrid />
+        ) : (
+          <>
+            <BackgroundStars />
+            <Blob scrollableRef={scrollableRef} />
+            <Images scrollableRef={scrollableRef} />
+            <LastImageShader scrollableRef={scrollableRef} />
+            <BackgroundPlane scrollableRef={scrollableRef} />
+          </>
+        )}
       </Suspense>
     </Canvas>
   );

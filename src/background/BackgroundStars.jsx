@@ -1,15 +1,11 @@
 import { useMemo, useRef } from "react";
-import { useThree, extend, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import StarrySkyShader from "./StarrySkyShader";
 
-extend({ StarrySkyShader });
-
 const BackgroundStars = () => {
-  const { scene } = useThree();
   const skyDomeRadius = 500.01;
-
-  const skyDomeRef = useRef();
+  const meshRef = useRef();
 
   const sphereMaterial = useMemo(
     () =>
@@ -31,32 +27,21 @@ const BackgroundStars = () => {
     []
   );
 
-  const sphereGeometry = useMemo(
-    () => new THREE.SphereGeometry(skyDomeRadius, 10, 10),
-    [skyDomeRadius]
-  );
-
-  // Add skyDome to scene
-  useMemo(() => {
-    skyDomeRef.current = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    scene.add(skyDomeRef.current);
-
-    // Limpia para eliminar skyDome de la escena cuando el componente se desmonte
-    return () => {
-      scene.remove(skyDomeRef.current);
-      skyDomeRef.current.geometry.dispose();
-      skyDomeRef.current.material.dispose();
-    };
-  }, [scene, sphereGeometry, sphereMaterial]);
-
-  // Agrega una rotación a skyDome en cada fotograma
+  // Agregar la rotación en cada fotograma
   useFrame(() => {
-    if (skyDomeRef.current) {
-      skyDomeRef.current.rotation.y += 0.0001; // Ajusta la velocidad de rotación aquí
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.0001;
     }
   });
 
-  return null;
+  return (
+    <mesh
+      ref={meshRef}
+      rotation={[0, 0, 0]}
+      geometry={new THREE.SphereGeometry(skyDomeRadius, 10, 10)}
+      material={sphereMaterial}
+    />
+  );
 };
 
 export default BackgroundStars;

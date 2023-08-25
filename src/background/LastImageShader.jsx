@@ -79,11 +79,10 @@ const LastImageShader = ({ scrollableRef }) => {
         value: 10,
         duration: 2,
         ease: "power2.out",
-        onUpdate: () => {
-          console.log(
-            "uDisplacementFactor:",
-            material.uniforms.uDisplacementFactor.value
-          );
+        onComplete: () => {
+          // Emitir evento personalizado al finalizar la animación
+          const event = new CustomEvent("shaderAnimationComplete");
+          window.dispatchEvent(event);
         },
       });
     }

@@ -9,8 +9,13 @@ export default function ParticlesGrid() {
   const { audio, isLoading, cursorPosition, showIntro, isPlaying } =
     useContext(AppContext);
 
-  const { position, rotation, mesh, material, setUProgress } =
-    ParticlesLogic(isPlaying, audio, cursorPosition, showIntro, isLoading);
+  const { position, rotation, mesh, material, setUProgress } = ParticlesLogic(
+    isPlaying,
+    audio,
+    cursorPosition,
+    showIntro,
+    isLoading
+  );
 
   // Animación de entrada
   useEffect(() => {
@@ -57,11 +62,18 @@ export default function ParticlesGrid() {
   // }, [showIntro]);
 
   return (
-    <a.primitive
-      object={mesh}
-      position={position}
-      rotation={rotation}
-      scale={[1, 1, 1]}
-    />
+    <>
+      <mesh position={[0, 0, 4]} scale={[1, 1, 1]}>
+        <planeBufferGeometry attach="geometry" args={[16, 9]} />
+        <meshBasicMaterial attach="material" color="black" />
+      </mesh>
+
+      <a.primitive
+        object={mesh}
+        position={position}
+        rotation={rotation}
+        scale={[1, 1, 1]}
+      />
+    </>
   );
 }
