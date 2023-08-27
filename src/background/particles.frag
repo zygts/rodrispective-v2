@@ -45,10 +45,10 @@ void main() {
     fragCoord.y /= uAspectRatio;
     float dist = distance(fragCoord, mousePos);
 
-    float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
-    float result = alpha * uShowIntro;
+    float alpha = 0.5 - (smoothstep(0.0, 0.5, dist)) * 0.3;
+    // float result = alpha * uShowIntro;
 
     // gl_FragColor.a *= result + uIntensity + (uSoundVolume * 0.75);
-    gl_FragColor.a *= alpha + uIntensity + (uSoundVolume * 0.75);
+    gl_FragColor.a *= (alpha + uIntensity + (uSoundVolume * 0.75)) * (1.5 - uProgress);
     // gl_FragColor.a *= 0.5;
 }

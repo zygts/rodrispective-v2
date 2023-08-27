@@ -116,7 +116,7 @@
 }
 
 .app-wrapper + div {
-    animation: blurEffect 7s ease-out forwards;
+    /* animation: blurEffect 7s ease-out forwards; */
 }
 
 @keyframes blurEffect {

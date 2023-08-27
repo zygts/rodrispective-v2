@@ -23,8 +23,8 @@ export default function ParticlesGrid() {
       const animationObj = { progress: 0 };
       gsap.to(animationObj, {
         progress: 1,
-        duration: 2.5,
-        ease: "Power4.easeOut",
+        duration: 3,
+        ease: "Power4.in",
         onUpdate: () => setUProgress(animationObj.progress),
       });
     }

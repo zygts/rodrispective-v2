@@ -1,6 +1,5 @@
 import { TextureLoader, BufferAttribute, ShaderMaterial, PlaneGeometry } from "three";
 import { useRef, useState, useEffect, useMemo } from "react";
-import { useFrame } from "@react-three/fiber"; // Asegúrate de importar useFrame
 import gsap from "gsap";
 import dat from "dat.gui";
 
@@ -14,10 +13,8 @@ const LastImageShader = ({ scrollableRef }) => {
   const planeRef = useRef();
   const [isTextureLoaded, setIsTextureLoaded] = useState(false);
 
-  // Asumiendo que estás usando una geometría de tipo PlaneGeometry
   const geometry = new PlaneGeometry(14, 9.5, 28, 17).toNonIndexed();
 
-  // Carga solo la última imagen como textura
   useEffect(() => {
     const loader = new TextureLoader();
     const textureFile = "frame1-2.jpg";
@@ -56,7 +53,6 @@ const LastImageShader = ({ scrollableRef }) => {
     [texture]
   );
 
-  // Estado para saber si el botón "start" ha sido pulsado
   const [startButtonClicked, setStartButtonClicked] = useState(false);
 
   useEffect(() => {
@@ -73,20 +69,17 @@ const LastImageShader = ({ scrollableRef }) => {
 
   useEffect(() => {
     if (startButtonClicked) {
-      // Ejecuta la animación aquí
-      console.log("start");
       gsap.to(material.uniforms.uDisplacementFactor, {
-        value: 10,
-        duration: 2,
-        ease: "power2.out",
+        value: 3,
+        duration: 3,
+        ease: "power2.in",
         onComplete: () => {
-          // Emitir evento personalizado al finalizar la animación
           const event = new CustomEvent("shaderAnimationComplete");
           window.dispatchEvent(event);
         },
       });
     }
-  }, [startButtonClicked]);
+  }, [startButtonClicked, material]);
 
   return (
     <mesh ref={planeRef} geometry={geometry} material={material} position={[0, 1.5, 3]} />

@@ -1,24 +1,48 @@
 uniform vec2 uResolution;
-uniform float uDisplacementFactor;  // Controla la animación
+uniform float uDisplacementFactor;
+
 varying vec2 vUv;
-attribute float triangleID;
 varying float vTriangleID;
+
+attribute float triangleID;
 
 void main() {
     vUv = uv;
     vec3 pos = position;
 
     // Desplazamiento basado en el triangleID
-    pos.y += sin(triangleID * 5.0) * uDisplacementFactor;
+    pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
 
     float aspect = uResolution.x / uResolution.y;
-    float imageAspect = 14.0 / 9.5;
+    float imageAspect = 14.0 / 8.5;
     
     if(aspect > imageAspect) {
         pos.y *= imageAspect / aspect;
     } else {
         pos.x *= aspect / imageAspect;
     }
+
+    // Coordenadas del centro del mesh
+    vec3 center = vec3(0.5, 0.5, 0.0);
+
+    // Vector desde el vértice actual hasta el centro
+    vec3 toCenter = center - pos.xyz;
+
+    // Ángulo de rotación basado en el ID del triángulo y el factor de desplazamiento
+    float angle = triangleID * 0.1 + uDisplacementFactor * 2.0;
+
+    // Matriz de rotación
+    mat3 rotation = mat3(
+        cos(angle), sin(angle), 0,
+        -sin(angle), cos(angle), 0,
+        0, 0, 1
+    );
+
+    // Aplica la rotación y el desplazamiento
+    pos.xyz = pos.xyz + rotation * toCenter * uDisplacementFactor;
+
+    // Desplazamiento basado en el triangleID
+    pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
     
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }
