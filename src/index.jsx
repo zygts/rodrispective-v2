@@ -15,6 +15,15 @@ const MainContent = () => {
   const [startButtonClicked, setStartButtonClicked] = useState(false);
   const scrollableRef = useRef(null);
 
+  // Recarga la página desde el comienzo
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Manejadores de eventos
   const handleStartButtonClick = () => {
     setStartButtonClicked(true); // Configura el inicio de la animación

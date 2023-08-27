@@ -3,7 +3,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
 export const useLastImageScrollAnimation = (imageRef, scrollableRef, isTextureLoaded) => {
   useEffect(() => {
     if (!isTextureLoaded) {
@@ -17,7 +16,7 @@ export const useLastImageScrollAnimation = (imageRef, scrollableRef, isTextureLo
     const imageTl = gsap.timeline({
       scrollTrigger: {
         trigger: scrollableRef.current,
-        start: "78% top",
+        start: "70% top",
         end: "bottom bottom",
         scrub: true,
       },
@@ -26,6 +25,10 @@ export const useLastImageScrollAnimation = (imageRef, scrollableRef, isTextureLo
     imageTl
       .set(imageRef.current.material.uniforms.u_opacity, {
         value: 0,
+      })
+      .to(imageRef.current.position, {
+        z: 2.91,
+        duration: 0.2,
       })
       .to(imageRef.current.material.uniforms.u_opacity, {
         value: 1,

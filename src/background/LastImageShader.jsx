@@ -1,7 +1,6 @@
 import { TextureLoader, BufferAttribute, ShaderMaterial, PlaneGeometry } from "three";
 import { useRef, useState, useEffect, useMemo } from "react";
 import gsap from "gsap";
-import dat from "dat.gui";
 
 import { useLastImageScrollAnimation } from "./useLastImageScrollAnimation";
 
@@ -82,7 +81,7 @@ const LastImageShader = ({ scrollableRef }) => {
   }, [startButtonClicked, material]);
 
   return (
-    <mesh ref={planeRef} geometry={geometry} material={material} position={[0, 1.5, 3]} />
+    <mesh ref={planeRef} geometry={geometry} material={material} position={[0, 1.5, 5]} />
   );
 };
 
