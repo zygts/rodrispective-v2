@@ -1,38 +1,62 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { Vector3, Quaternion, Euler } from "three";
 import { useEffect, useRef, useState, useContext, useCallback } from "react";
+
 import { AppContext } from "../appContext";
 
 export function CameraManager({ radius, numCubes, rotation, setRotation }) {
-  const { activeCube, setActiveCube } = useContext(AppContext); // Usa los valores de contexto aquí
+  const { activeCube, setActiveCube } = useContext(AppContext);
   const { camera } = useThree();
-  const positionRef = useRef(new Vector3(0, 5, 0));
+
+  const [cameraSpeed, setCameraSpeed] = useState(0.009);
+  const cameraHeight = 5;
+  const cameraZoom = 0.5;
+  const positionRef = useRef(new Vector3(0, cameraHeight, 0));
   const rotationRef = useRef(new Quaternion().setFromEuler(new Euler(-0.5, 0, 0, "XYZ")));
   const targetRef = useRef(new Vector3(0, 0, 10));
   const initialCameraRotation = new Quaternion().setFromEuler(
     new Euler(-0.5, 0, 0, "XYZ")
   );
-  const [target, setTarget] = useState(new Vector3(0, 0, 10));
+  const [target, setTarget] = useState(new Vector3(0, 0, -10));
   const lastClickedCube = useRef(null);
   const isCameraAtInitialPosition = useRef(true);
-  const cameraHeight = 2.3;
-  const cameraZoom = 0.55;
-  const cameraSpeed = 0.04;
+
   const cube1Position = new Vector3(
     radius * Math.cos((1 / numCubes) * 2 * Math.PI),
     0,
     radius * Math.sin((1 / numCubes) * 2 * Math.PI)
   );
   const [isAnimationFinished, setAnimationFinished] = useState(false);
+  const [isShaderAnimationComplete, setShaderAnimationComplete] = useState(false);
+  const [startAnimation, setStartAnimation] = useState(false);
+  const animationStartTime = useRef(null);
 
   useEffect(() => {
-    camera.position.set(0, cameraHeight, 0);
-    camera.lookAt(cube1Position);
-    positionRef.current.copy(camera.position);
-    setTarget(cube1Position);
+    const handleShaderAnimationComplete = () => {
+      setShaderAnimationComplete(true);
+      setStartAnimation(true);
+      animationStartTime.current = Date.now();
+    };
+
+    window.addEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
+
+    return () => {
+      window.removeEventListener(
+        "shaderAnimationComplete",
+        handleShaderAnimationComplete
+      );
+    };
   }, []);
 
-  // Función de click en el botón de volver
+  useEffect(() => {
+    if (isShaderAnimationComplete) {
+      camera.position.set(0, cameraHeight, 0);
+      camera.lookAt(cube1Position);
+      positionRef.current.copy(camera.position);
+      setTarget(cube1Position);
+    }
+  }, [isShaderAnimationComplete]);
+
   const resetCamera = () => {
     positionRef.current.set(0, cameraHeight, 0);
     rotationRef.current.copy(initialCameraRotation);
@@ -40,13 +64,14 @@ export function CameraManager({ radius, numCubes, rotation, setRotation }) {
     isCameraAtInitialPosition.current = true;
   };
 
-  // Función de click en cada elemento
   const handleCubeClickRef = useRef();
   handleCubeClickRef.current = useCallback(
     (index) => {
       if (activeCube !== null) {
         return;
       }
+      setCameraSpeed(0.035);
+
       const angle = (index / numCubes) * 2 * Math.PI;
       const x = radius * Math.cos(angle);
       const z = radius * Math.sin(angle);
@@ -63,9 +88,8 @@ export function CameraManager({ radius, numCubes, rotation, setRotation }) {
         resetCamera();
       } else {
         positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
-        // Ajusta la posición de la cámara a la izquierda y abajo después de hacer lerp
         positionRef.current.x += 0.7;
-        positionRef.current.y -= 1;
+        positionRef.current.y -= 2.5;
         setTarget(cubePosition);
         lastClickedCube.current = index;
         isCameraAtInitialPosition.current = false;
@@ -74,32 +98,49 @@ export function CameraManager({ radius, numCubes, rotation, setRotation }) {
     [activeCube, setActiveCube, rotation]
   );
 
-  // Se acerca al elemento activo
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
   useFrame(() => {
     if (target) {
       targetRef.current.lerp(target, cameraSpeed);
       camera.position.lerp(positionRef.current, cameraSpeed);
       camera.lookAt(targetRef.current);
 
-      // Comprueba si la animación ha terminado
       if (camera.position.distanceTo(positionRef.current) < cameraSpeed) {
         setAnimationFinished(true);
       } else {
         setAnimationFinished(false);
       }
     }
+
+    if (startAnimation) {
+      const currentTime = Date.now();
+      const duration = 5000; // Duración en milisegundos
+      let progress = (currentTime - animationStartTime.current) / duration;
+      progress = easeOutCubic(progress);
+
+      if (progress <= 1) {
+        const initialPosition = new Vector3(0, cameraHeight + 25, 0);
+        const finalPosition = new Vector3(0, cameraHeight, 0);
+
+        camera.position.lerpVectors(initialPosition, finalPosition, progress);
+        camera.lookAt(targetRef.current);
+      } else {
+        setStartAnimation(false);
+      }
+    }
   });
 
-  // Gira el círculo cuando el usuario hace scroll
   const handleScroll = (e) => {
     if (activeCube !== null) {
-      return; // No hacer nada si un cubo está activo
+      return;
     }
     setRotation(rotation + e.deltaY * 0.001);
   };
 
   useEffect(() => {
-    // Añade el evento de scroll si ningún cubo está activo
     if (activeCube === null) {
       window.addEventListener("wheel", handleScroll);
     } else {
@@ -108,7 +149,7 @@ export function CameraManager({ radius, numCubes, rotation, setRotation }) {
     return () => {
       window.removeEventListener("wheel", handleScroll);
     };
-  }, [rotation, activeCube]); // Actualiza el listener cuando cambia rotation o active
+  }, [rotation, activeCube]);
 
   return {
     handleCubeClick: handleCubeClickRef.current,
