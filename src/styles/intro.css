@@ -126,3 +126,33 @@
       filter: blur(0);
     }
   }
+
+#scrollable #hello-text,
+#scrollable h1 {
+    font-family: 'GTPressuraMono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5vw;
+    font-size: 10vw;
+    font-weight: normal;
+    text-align: left;
+    word-break: break-all;
+    padding: 1vh 2vw;
+    margin: 0;
+    line-height: 1;
+    color: #bcb4b2;
+    opacity: 0.5;
+}
+
+#scrollable h1 {
+    position: absolute;
+    color: #887d7d;
+    left: 0;
+    top: 12.8rem;
+    opacity: 0.8;
+    text-indent: 60vw;
+    width: 100vw;
+}
+
+#scrollable #hello-text > span {
+    visibility: hidden;
+}
