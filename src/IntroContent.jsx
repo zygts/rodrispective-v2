@@ -12,6 +12,7 @@ function IntroContent() {
   const scrollDownDiv = useRef(null);
   const paragraphs = useRef([]);
   const displacementScaleRef = useRef(null);
+  const firstLine = useRef(null);
 
   // Efecto de entrada
   useEffect(() => {
@@ -30,14 +31,40 @@ function IntroContent() {
       delay: 4,
     });
 
-    tl.from(
-      appTitle.current,
-      {
-        opacity: 0,
+    // tl.from(
+    //   appTitle.current,
+    //   {
+    //     opacity: 0,
+    //     duration: 7,
+    //   },
+    //   0
+    // );
+
+    gsap.set(lines, {
+      opacity: 0,
+    });
+    gsap.set(firstLine.current, {
+      opacity: 0,
+    });
+
+    tl.to(firstLine.current, {
+      opacity: 1,
+      duration: 1,
+      delay: 1,
+    })
+      .to(
+        firstLine.current,
+        {
+          opacity: 0,
+          duration: 1,
+        },
+        "+=2"
+      )
+      .to(lines, {
+        opacity: 1,
         duration: 4,
-      },
-      0
-    );
+        stagger: 0,
+      });
 
     // Define los settings iniciales
     const settings = { wdth: 100, wght: 200 };
@@ -109,6 +136,23 @@ function IntroContent() {
             overwrite: true,
           });
         }
+      },
+    });
+
+    const startButton = document.getElementById("start-button");
+    gsap.set(startButton, { opacity: 0 });
+
+    ScrollTrigger.create({
+      trigger: startButton,
+      start: "top 60%",
+      scrub: false,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(startButton, {
+          opacity: progress,
+          immediateRender: true,
+          overwrite: true,
+        });
       },
     });
   }, []);
@@ -197,6 +241,7 @@ function IntroContent() {
       </svg>
 
       <h1 ref={appTitle} style={{ filter: 'url("#filter")' }}>
+        <span ref={firstLine}>THIS IS</span>
         <span className="line">RODRISPECTIVE</span>
         <span className="line">RODRISPECTIVE</span>
         <span className="line">RODRISPECTIVE</span>
@@ -223,7 +268,7 @@ function IntroContent() {
         <span className="line">RODRISPECTIVE</span>
       </h1>
       <div ref={scrollDownDiv} className="scroll-down">
-        Start scrolling down to begin
+        Please scroll down to begin
       </div>
       <p
         style={{ marginTop: "60vh" }}
