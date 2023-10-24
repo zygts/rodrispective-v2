@@ -22,6 +22,37 @@ function IntroContent() {
 
   return (
     <>
+      <svg style={{ position: "absolute", width: 0, height: 0 }}>
+        <filter
+          id="filter"
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+          filterUnits="objectBoundingBox"
+          primitiveUnits="userSpaceOnUse"
+          colorInterpolationFilters="linearRGB"
+        >
+          <feTurbulence
+            type="turbulence"
+            baseFrequency="0.01 0.05"
+            numOctaves="2"
+            seed="2"
+            stitchTiles="noStitch"
+            result="turbulence"
+          />
+          <feDisplacementMap
+            ref={displacementScaleRef}
+            in="SourceGraphic"
+            in2="turbulence"
+            scale="0"
+            xChannelSelector="G"
+            yChannelSelector="A"
+            result="displacementMap"
+          />
+        </filter>
+      </svg>
+
       <h1>Rodrispective</h1>
       <p id="hello-text">
         Hello there. Welcome to a <span>retrospective</span> of the music I have been
