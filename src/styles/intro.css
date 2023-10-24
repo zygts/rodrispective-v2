@@ -127,8 +127,7 @@
     }
   }
 
-#scrollable #hello-text,
-#scrollable h1 {
+#scrollable #hello-text {
     font-family: 'GTPressuraMono', monospace;
     text-transform: uppercase;
     letter-spacing: 0.5vw;
@@ -143,16 +142,11 @@
     opacity: 0.5;
 }
 
-#scrollable h1 {
-    position: absolute;
-    color: #887d7d;
-    left: 0;
-    top: 12.8rem;
-    opacity: 0.8;
-    text-indent: 60vw;
-    width: 100vw;
+#scrollable #hello-text .word {
+    display: inline;
 }
 
-#scrollable #hello-text > span {
-    visibility: hidden;
+#hello-title-2 {
+    display: none;
+    color: #675b5b;
 }

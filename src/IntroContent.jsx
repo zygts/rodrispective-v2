@@ -20,6 +20,58 @@ function IntroContent() {
     window.dispatchEvent(event);
   };
 
+  useEffect(() => {
+    //Animación de entrada
+    const helloText = document.querySelector("#hello-text");
+    const split = Splitting({ target: helloText, by: "words" })[0];
+    const words = split.words;
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        startSecondAnimation();
+      },
+    });
+
+    gsap.set(words, { opacity: 0 });
+
+    tl.to(words[0], {
+      duration: 0.8,
+      opacity: 1,
+    })
+      .to(
+        words[1],
+        {
+          duration: 0.8,
+          opacity: 1,
+        },
+        "<0.75"
+      )
+      .to({}, { duration: 1 }) // añade una pausa de 2 segundos usando un objeto vacío
+      .to(words.slice(2), {
+        duration: 0.8,
+        opacity: 1,
+        stagger: 0.5,
+      });
+  }, []);
+
+  const startSecondAnimation = () => {
+    // Animación alternando títulos
+    const span1 = document.querySelector("#hello-title-1");
+    const span2 = document.querySelector("#hello-title-2");
+
+    gsap.set(span2, { display: "none" });
+
+    const tl = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 }); // crea una línea de tiempo que se repite indefinidamente
+
+    tl.to(span1, {
+      duration: 1,
+      display: "none",
+    }).to(span2, {
+      duration: 1,
+      display: "inline",
+    });
+  };
+
   return (
     <>
       <svg style={{ position: "absolute", width: 0, height: 0 }}>
@@ -53,10 +105,10 @@ function IntroContent() {
         </filter>
       </svg>
 
-      <h1>Rodrispective</h1>
       <p id="hello-text">
-        Hello there. Welcome to a <span>retrospective</span> of the music I have been
-        working on for almost a lifetime
+        Hello there. Welcome to a <span id="hello-title-1">retrospective </span>
+        <span id="hello-title-2">Rodrispective </span>of the music I have been working on
+        for almost a lifetime
       </p>
       <div ref={scrollDownDiv} className="scroll-down">
         Please scroll down to begin
