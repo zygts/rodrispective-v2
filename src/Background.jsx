@@ -52,7 +52,6 @@ export function BackgroundCanvas({ scrollableRef }) {
         ) : (
           <>
             <BackgroundStars />
-            <Blob scrollableRef={scrollableRef} />
             <Images scrollableRef={scrollableRef} />
             <LastImageShader scrollableRef={scrollableRef} />
             <BackgroundPlane scrollableRef={scrollableRef} />

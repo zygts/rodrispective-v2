@@ -4,27 +4,7 @@
     z-index: 99;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-#scrollable h1 {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100vh;
-    font-family: "Bandeins Strange";
-    text-align: center;
-    font-size: 2.5vw;
-    color: #fff;
-    font-variation-settings: 'wght' 200, 'wdth' 100;
-    margin-bottom: 50vh;
-}
-
-#scrollable h1 > span {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    align-items: flex-start;
 }
 
 #scrollable h1 > span:nth-of-type(12) {
@@ -77,16 +57,6 @@
     100% {
         height: 2.5rem;
     }
-}
-
-
-#scrollable p {
-    font-family: 'GT Eesti Pro Display';
-    font-size: 2.3vw;
-    padding: 15vw;
-    margin-bottom: 15rem;
-    color: white;
-    text-align: center;
 }
 
 #scrollable #start-button {
@@ -149,4 +119,28 @@
 #hello-title-2 {
     display: none;
     color: #675b5b;
+}
+
+#scrollable p {
+    font-family: 'GTPressuraMono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5vw;
+    font-size: 5vw;
+    font-weight: normal;
+    text-align: left;
+    padding: 1vh 2vw;
+    margin-top: 75vh;
+    line-height: 1;
+    color: #fff;
+    opacity: 0.8;
+}
+
+#scrollable button {
+    font-family: 'GTPressuraMono', monospace;
+    text-transform: uppercase;
+    margin-top: 75vh;
+    margin-bottom: 50vh;
+    line-height: 1;
+    color: #fff;
+    opacity: 1;
 }

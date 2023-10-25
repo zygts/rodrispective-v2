@@ -110,14 +110,18 @@ function IntroContent() {
         <span id="hello-title-2">Rodrispective </span>of the music I have been working on
         for almost a lifetime
       </p>
+      <p>Yes, a lifetime.</p>
+      <p>A lifetime of hope and unfulfilled dreams.</p>
+      <p>
+        Working under different names. In collaboration but mostly solo, from the darkness
+        of my bedroom.
+        <p>Always unreleased.</p>
+      </p>
+      <p>The time has come to pause, reflect and open up.</p>
+      <button>Start exploring</button>
       <div ref={scrollDownDiv} className="scroll-down">
         Please scroll down to begin
       </div>
-      <p>Yes, a lifetime. </p>
-      <p>Yes, a lifetime. </p>
-      <p>Yes, a lifetime. </p>
-      <p>Yes, a lifetime. </p>
-      <p>Yes, a lifetime. </p>
     </>
   );
 }
