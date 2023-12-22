@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@react-spring/web": "^9.7.3",
-    "@react-three/drei": "^9.50.3",
+    "@react-three/drei": "^9.92.5",
     "@react-three/fiber": "^8.9.2",
     "@react-three/postprocessing": "^2.14.9",
     "@use-gesture/react": "^10.2.27",
@@ -24,6 +24,7 @@
     "r3f-perf": "^6.6.3",
     "react": "18.2",
     "react-dom": "18.2",
+    "react-tilt": "^1.0.2",
     "simplex-noise": "^4.0.1",
     "splitting": "^1.0.6",
     "three": "^0.148.0",

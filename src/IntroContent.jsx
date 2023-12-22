@@ -1,9 +1,11 @@
 import "./styles/intro.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import { gsap } from "gsap";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
 import Splitting from "splitting";
+
+import { AppContext } from "./appContext";
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -11,15 +13,81 @@ import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
 
 function IntroContent() {
+  const { setCursorState } = useContext(AppContext);
   const scrollDownDiv = useRef(null);
+  const startButtonEvent = new CustomEvent("startButtonClick");
+  const startButton = document.querySelector(".start-btn");
 
   // Botón start
   const handleClick = () => {
-    const event = new CustomEvent("startButtonClick");
-    window.dispatchEvent(event);
+    window.dispatchEvent(startButtonEvent);
   };
 
+  // Change event
+  const [startButtonClicked, setStartButtonClicked] = useState(false);
   useEffect(() => {
+    const handleStartButtonClick = () => {
+      setStartButtonClicked(true);
+    };
+
+    window.addEventListener("startButtonClick", handleStartButtonClick);
+
+    return () => {
+      window.removeEventListener("startButtonClick", handleStartButtonClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (startButtonClicked) {
+      startButton.classList.add("inactive");
+
+      gsap.fromTo(
+        startButton,
+        {
+          scale: 1,
+          filter: "brightness(100%) blur('0px')",
+        },
+        {
+          scale: 0,
+          filter: "brightness(150%) blur('10px')",
+          duration: 2,
+          ease: "power2.in",
+        }
+      );
+    }
+  }, [startButtonClicked]);
+
+  useEffect(() => {
+    // Texto del botón
+    const canTrig = CSS.supports("(top: calc(sin(1) * 1px))");
+    const HEADING = document.querySelector(".ring");
+    const OPTIONS = {
+      SPACING: 2,
+      SIZE: 1,
+      TEXT: "Click here to start exploring • ",
+    };
+    // Make the ring text
+    const text = OPTIONS.TEXT;
+    // 1. Take the text and split it into spans...
+    const chars = text.split("");
+    HEADING.innerHTML = "";
+    HEADING.style.setProperty("--char-count", chars.length);
+    for (let c = 0; c < chars.length; c++) {
+      HEADING.innerHTML += `<span aria-hidden="true" class="char" style="--char-index: ${c};">${chars[c]}</span>`;
+    }
+    // Set the styles
+    HEADING.style.setProperty("--font-size", OPTIONS.SIZE);
+    HEADING.style.setProperty("--character-width", OPTIONS.SPACING);
+    HEADING.style.setProperty(
+      "--radius",
+      canTrig
+        ? "calc((var(--character-width) / sin(var(--inner-angle))) * -1ch"
+        : `calc(
+      (${OPTIONS.SPACING} / ${Math.sin(360 / HEADING.children.length / (180 / Math.PI))})
+      * -1ch
+    )`
+    );
+
     // Animación de entrada
     const helloText = document.querySelector("#hello-text");
     const split = Splitting({ target: helloText, by: "words" })[0];
@@ -151,9 +219,18 @@ function IntroContent() {
       <p className="content__title" data-splitting data-effect17>
         The time has come to pause, reflect and open up.
       </p>
-      <button onClick={handleClick}>Start exploring</button>
       <div ref={scrollDownDiv} className="scroll-down">
         Keep scrolling down
+      </div>
+      <div id="start-container">
+        <button
+          className="start-btn"
+          onClick={handleClick}
+          onPointerEnter={() => setCursorState("large--filled")}
+          onPointerLeave={() => setCursorState("default")}
+        >
+          <div className="ring"></div>
+        </button>
       </div>
     </>
   );

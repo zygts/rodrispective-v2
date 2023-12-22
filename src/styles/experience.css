@@ -49,9 +49,15 @@ h1 {
 }
 
 .custom-cursor.large {
-    width: 30px !important;
-    height: 30px !important;
-  }
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.custom-cursor.large--filled {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: white;
+}
 
   .canvas2 {
     width: 100vw;
@@ -163,3 +169,18 @@ h1 {
     color: white;
 }
 
+.song-details {
+    min-width: 500px;
+}
+
+.song-details p {
+    font-family: 'GTPressuraMono', monospace;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+}
+
+.song-details p:first-child {
+    font-weight: 700;
+}

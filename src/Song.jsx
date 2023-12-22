@@ -231,6 +231,14 @@ export default function Cube({
         uniforms={uniforms}
       />
 
+      <Html position={[-0.04, 0.87, 0]}>
+        <div className="song-details">
+          <p>{content.title}</p>
+          <p>By {content.author}</p>
+          <p>{content.year}</p>
+        </div>
+      </Html>
+
       <Html
         position={[0, 0, 0]}
         center

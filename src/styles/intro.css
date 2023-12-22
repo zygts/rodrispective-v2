@@ -14,7 +14,7 @@
 .scroll-down {
     position: fixed;
     opacity: 0;
-    top: 88vh;
+    top: 92vh;
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
@@ -23,30 +23,32 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: 'GT Eesti Pro Display';
+    font-family: 'GTPressuraMono', monospace;
     color: #b7aea7;
+    font-size: 13px;
+    letter-spacing: 0.3px;
 }
 
 .scroll-down::before {
     content: "";
     width: 2px;
-    height: 2.5rem;
+    height: 2.3rem;
     position: absolute;
     top: 100%;
     left: 50%;
     background-color: #b7aea7;
-    margin-top: 1rem;
+    margin-top: 0.85rem;
 }
 
 .scroll-down::after {
     content: "";
     width: 2px;
-    height: 2.5rem;
+    height: 2.3rem;
     background-color: #34312f;
     position: absolute;
     top: 100%;
     left: 50%;
-    margin-top: 1rem;
+    margin-top: 0.85rem;
     animation: fillUp 1.5s infinite;
 }
 
@@ -57,27 +59,6 @@
     100% {
         height: 2.5rem;
     }
-}
-
-#scrollable #start-button {
-    margin: 0 0 50vh 0;
-    width: 20vw;
-    display: inline-block;
-    appearance: none;
-    background: transparent;
-    border: none;
-    color: #381022;
-    font-size: 0.8vw;
-    font-family: "Bandeins Strange";
-    text-align: center;
-    letter-spacing: 2px;
-    font-variation-settings: 'wght' 500, 'wdth' 100;
-    transition: all 0.2s ease-in-out;
-    cursor: none;
-}
-
-#scrollable #start-button:hover {
-    font-variation-settings: 'wght' 600, 'wdth' 800;
 }
 
 #scrollable .splitting .words {
@@ -108,7 +89,7 @@
     padding: 1vh 2vw;
     margin: 0;
     line-height: 1;
-    color: #bcb4b2;
+    color: #bcb9b8;
     opacity: 0.5;
 }
 
@@ -135,12 +116,71 @@
     opacity: 0.7;
 }
 
-#scrollable button {
+#start-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    margin-top: 75vh;
+}
+
+.start-btn {
     font-family: 'GTPressuraMono', monospace;
     text-transform: uppercase;
-    margin-top: 75vh;
-    margin-bottom: 50vh;
-    line-height: 1;
-    color: #fff;
-    opacity: 1;
+    height: 15vw;
+    width: 15vw;
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(244, 230, 236, 0.45), rgba(255, 235, 235, 0.45));
+    position: absolute;
+    bottom: 19%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(10px) grayscale(41%) hue-rotate(31deg) brightness(110%);
+    appearance: none;
+    border: none;
+    cursor: none;
+    transition: transform 0.2s ease-in-out;
+    transform-style: preserve-3d;
 }
+
+.start-btn:hover {
+    font-variation-settings: 'wght' 600, 'wdth' 800;
+}
+
+.ring {
+    --char-count: 33;
+    --inner-angle: calc((360 / var(--char-count, 33)) * 1deg);
+    --character-width: 2.0;
+    --radius: calc((var(--character-width, 2.0) / sin(var(--inner-angle))) * -1ch);
+    --font-size: 1.0rem;
+    text-transform: uppercase;
+    font-size: calc(var(--font-size, 1) * 1rem);
+    animation: spin 10s infinite linear;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.7s ease-in-out;
+  }
+
+  .start-btn:hover .ring {
+    animation-play-state: paused;
+  }
+
+  .start-btn.inactive .ring {
+    opacity: 0;
+  }
+
+  .ring .char {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:
+        translate(-50%, -50%)
+        rotate(calc(var(--inner-angle) * var(--char-index)))
+        translateY(var(--radius));
+}
+    
+@keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }

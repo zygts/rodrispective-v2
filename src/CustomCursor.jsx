@@ -11,7 +11,9 @@ const CustomCursor = () => {
 
   useEffect(() => {
     // Función hover sobre cubo
-    const cubeHover = () => {};
+    const cubeHover = () => {
+      console.log("hover");
+    };
     setCubeHover(() => cubeHover);
 
     // Recoje la posición del botón de play
