@@ -30,15 +30,8 @@ export default function Cube({
 
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const {
-    setCursorState,
-    activeCube,
-    cubeHover,
-    setAudio,
-    audio,
-    isPlaying,
-    setIsPlaying,
-  } = useContext(AppContext);
+  const { setCursorState, activeCube, setAudio, audio, isPlaying, setIsPlaying } =
+    useContext(AppContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -82,6 +75,42 @@ export default function Cube({
     [texture]
   );
 
+  // Estado para controlar la visibilidad del div
+  const [isDivVisible, setIsDivVisible] = useState(false);
+
+  // Referencias para los elementos <p>
+  const titleRef = useRef(null);
+  const authorRef = useRef(null);
+  const yearRef = useRef(null);
+
+  // Timeline de GSAP para la animación
+  let tl = useRef(null);
+
+  const createTimeline = () => {
+    if (titleRef.current && authorRef.current && yearRef.current) {
+      tl.current = gsap
+        .timeline({ paused: true })
+        .to([titleRef.current, authorRef.current, yearRef.current], {
+          opacity: 1,
+          duration: 0.3,
+          stagger: 0.12,
+          ease: "power1.inOut",
+        });
+    }
+  };
+
+  const cubeHover = () => {
+    setIsDivVisible(true); // Hacer visible el div
+    createTimeline();
+    tl.current.play(); // Reproducir la animación
+  };
+
+  const cubeLeave = () => {
+    if (tl.current) {
+      tl.current.reverse(); // Revertir la animación
+    }
+  };
+
   // Función al hacer click en Play
   const spin = () => {
     setIsPlaying(!isPlaying); // Alterna el valor de isPlaying
@@ -95,7 +124,7 @@ export default function Cube({
         },
         {
           opacity: 1,
-          duration: 2,
+          duration: 1,
         }
       );
     }
@@ -206,7 +235,10 @@ export default function Cube({
           cubeHover();
         }
       }}
-      onPointerLeave={() => setCursorState("default")}
+      onPointerLeave={() => {
+        setCursorState("default");
+        cubeLeave();
+      }}
     >
       <planeGeometry
         ref={(geoRef) => {
@@ -232,10 +264,19 @@ export default function Cube({
       />
 
       <Html position={[-0.04, 0.87, 0]}>
-        <div className="song-details">
-          <p>{content.title}</p>
-          <p>By {content.author}</p>
-          <p>{content.year}</p>
+        <div
+          className={`song-details ${isDivVisible ? "visible" : ""}`}
+          style={{ display: isDivVisible ? "block" : "none" }}
+        >
+          <p ref={titleRef} style={{ opacity: 0 }}>
+            {content.title}
+          </p>
+          <p ref={authorRef} style={{ opacity: 0 }}>
+            By {content.author}
+          </p>
+          <p ref={yearRef} style={{ opacity: 0 }}>
+            {content.year}
+          </p>
         </div>
       </Html>
 
