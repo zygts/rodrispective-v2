@@ -30,8 +30,15 @@ export default function Cube({
 
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const { setCursorState, activeCube, setAudio, audio, isPlaying, setIsPlaying } =
-    useContext(AppContext);
+  const {
+    setCursorState,
+    activeCube,
+    setAudio,
+    audio,
+    isPlaying,
+    setIsPlaying,
+    cursorPosition,
+  } = useContext(AppContext);
 
   useEffect(() => {
     if (meshRef.current) {
@@ -78,17 +85,18 @@ export default function Cube({
   // Estado para controlar la visibilidad del div
   const [isDivVisible, setIsDivVisible] = useState(false);
 
-  // Referencias para los elementos <p>
+  // Referencias para los elementos de la preview
+
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const yearRef = useRef(null);
-
-  // Timeline de GSAP para la animación
-  let tl = useRef(null);
+  const elementRef = useRef(null);
+  // Animación de Preview
+  let tlPreview = useRef(null);
 
   const createTimeline = () => {
     if (titleRef.current && authorRef.current && yearRef.current) {
-      tl.current = gsap
+      tlPreview.current = gsap
         .timeline({ paused: true })
         .to([titleRef.current, authorRef.current, yearRef.current], {
           opacity: 1,
@@ -102,14 +110,29 @@ export default function Cube({
   const cubeHover = () => {
     setIsDivVisible(true); // Hacer visible el div
     createTimeline();
-    tl.current.play(); // Reproducir la animación
+    tlPreview.current.play(); // Reproducir la animación
   };
 
   const cubeLeave = () => {
-    if (tl.current) {
-      tl.current.reverse(); // Revertir la animación
+    if (tlPreview.current) {
+      tlPreview.current.reverse(); // Revertir la animación
     }
   };
+
+  // Escuchar la posición del cursor y actualizar la posición del elemento
+  useEffect(() => {
+    if (elementRef.current) {
+      const x = cursorPosition.x * window.innerWidth * 0.1;
+      const y = -cursorPosition.y * window.innerHeight * 0.1;
+
+      gsap.to(elementRef.current, {
+        x: x,
+        y: y,
+        ease: "power4.out",
+        duration: 0.15,
+      });
+    }
+  }, [cursorPosition]);
 
   // Función al hacer click en Play
   const spin = () => {
@@ -265,6 +288,7 @@ export default function Cube({
 
       <Html position={[-0.04, 0.87, 0]}>
         <div
+          ref={elementRef}
           className={`song-details ${isDivVisible ? "visible" : ""}`}
           style={{ display: isDivVisible ? "block" : "none" }}
         >
