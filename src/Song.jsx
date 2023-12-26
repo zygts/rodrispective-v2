@@ -53,10 +53,13 @@ export default function Cube({
     }
   }, []);
 
-  // Click en el elemento
+  // Click en la canción
   const handleClick = (event) => {
     event.stopPropagation(); // detén la propagación del evento para evitar el comportamiento inesperado
     onClick(index); // pasa el index al controlador de clics
+    gsap.to([titleRef.current, authorRef.current, yearRef.current], {
+      opacity: 0,
+    });
   };
 
   // Retrasa la aparición del HTML para evitar flash
@@ -100,9 +103,10 @@ export default function Cube({
         .timeline({ paused: true })
         .to([titleRef.current, authorRef.current, yearRef.current], {
           opacity: 1,
+          x: 20,
           duration: 0.3,
           stagger: 0.12,
-          ease: "power1.inOut",
+          ease: "power3.inOut",
         });
     }
   };
@@ -317,32 +321,33 @@ export default function Cube({
         >
           <div className="song-preview">
             <h2>{content.title}</h2>
-            <h3>
-              by <span className="artist">Incierto</span>
-            </h3>
+            <h3>by {content.author}</h3>
+            <div className="song-info">
+              <p>{content.paragraph}</p>
+              <div className="song-credits">
+                <span>Album:</span>
+                <span>{content.album}</span>
+                <span>Year:</span>
+                <span>{content.year}</span>
+              </div>
+              <a
+                href={content.songUrl}
+                target="blank"
+                className="btn-goto"
+                onPointerEnter={() => setCursorState("large--filled-red")}
+                onPointerLeave={() => setCursorState("default")}
+              >
+                Listen to it
+              </a>
+            </div>
           </div>
-          <div className="song-info">
-            <p>{content.paragraph}</p>
-            <h3>Year:</h3>
-            <span className="song-date"></span>
-            <h3>Credits:</h3>
-            <p className="song-credits">Created and recorded by Rodrigo Núñez</p>
-            <a
-              href={content.songUrl}
-              target="blank"
-              className="btn-goto"
-              onPointerEnter={() => setCursorState("large")}
-              onPointerLeave={() => setCursorState("default")}
-            >
-              Go to Album
-            </a>
-          </div>
+
           <button ref={buttonPlayRef} className="btn-play" onClick={spin}>
             {isPlaying ? "Stop Playing" : "Play Song"}
           </button>
           <button
             className="btn-back"
-            onPointerEnter={() => setCursorState("large")}
+            onPointerEnter={() => setCursorState("large--filled-red")}
             onPointerLeave={() => setCursorState("default")}
             onClick={() => {
               onBackClick();
