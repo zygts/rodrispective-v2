@@ -40,6 +40,8 @@ export default function Cube({
     cursorPosition,
   } = useContext(AppContext);
 
+  const [audioCtx, setAudioCtx] = useState(null);
+
   useEffect(() => {
     if (meshRef.current) {
       meshRef.current.lookAt(new Vector3(0, 0, 0));
@@ -57,6 +59,16 @@ export default function Cube({
   const handleClick = (event) => {
     event.stopPropagation(); // detén la propagación del evento para evitar el comportamiento inesperado
     onClick(index); // pasa el index al controlador de clics
+
+    // Crear o reanudar el AudioContext en respuesta al clic del usuario
+    if (!audioCtx) {
+      const newAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      setAudioCtx(newAudioCtx);
+      setAudio(newAudioCtx);
+    } else if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+
     gsap.to([titleRef.current, authorRef.current, yearRef.current], {
       opacity: 0,
     });
@@ -140,54 +152,58 @@ export default function Cube({
 
   // Función al hacer click en Play
   const spin = () => {
-    setIsPlaying(!isPlaying); // Alterna el valor de isPlaying
+    setIsPlaying(!isPlaying);
 
     if (!isPlaying) {
-      const tl = gsap.timeline();
-      tl.fromTo(
-        ".song-info",
-        {
-          opacity: 0,
-        },
-        {
-          opacity: 1,
-          duration: 1,
-        }
-      );
+      if (audio && audio.element) {
+        audio.element.play(); // Asegúrate de que audio y audio.element estén definidos
+      }
+
+      gsap.to(meshRef.current.rotation, {
+        // Gira indefinidamente
+        duration: 8,
+        z: "-=6.29*Math.PI",
+        repeat: -1,
+        ease: "linear",
+        overwrite: "none",
+      });
+    } else {
+      if (audio && audio.element) {
+        audio.element.pause(); // Pausa si el audio está definido
+        audio.element.currentTime = 0; // Reinicia el tiempo de reproducción
+      }
     }
   };
 
   // Utiliza setAudio para almacenar tu objeto de audio
   useEffect(() => {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const audioElement = document.createElement("audio");
-    audioElement.src = content.audioFileUrl;
-    const track = audioCtx.createMediaElementSource(audioElement);
-    const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    track.connect(analyser);
-    track.connect(audioCtx.destination);
+    if (audioCtx) {
+      const audioElement = document.createElement("audio");
+      audioElement.src = content.audioFileUrl;
+      const track = audioCtx.createMediaElementSource(audioElement);
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      track.connect(analyser);
+      track.connect(audioCtx.destination);
 
-    const data = new Uint8Array(analyser.frequencyBinCount);
+      const data = new Uint8Array(analyser.frequencyBinCount);
 
-    function getAverageVolume() {
-      analyser.getByteFrequencyData(data);
-
-      let values = 0;
-      let length = data.length;
-
-      for (let i = 0; i < length; i++) {
-        values += data[i];
+      function getAverageVolume() {
+        analyser.getByteFrequencyData(data);
+        let values = 0;
+        let length = data.length;
+        for (let i = 0; i < length; i++) {
+          values += data[i];
+        }
+        return values / length;
       }
 
-      return values / length;
+      setAudio({
+        element: audioElement,
+        getAverageVolume,
+      });
     }
-
-    setAudio({
-      element: audioElement,
-      getAverageVolume,
-    });
-  }, [content]);
+  }, [audioCtx, content, setAudio]);
 
   // Este efecto se ejecuta cada vez que cambia "isPlaying"
   useEffect(() => {

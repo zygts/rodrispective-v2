@@ -231,7 +231,7 @@ export default function CubeGroup({
       {
         title: "Tigre en El Ártico",
         author: "Rdrk",
-        year: "2016",
+        year: "2015",
         album: "Historias del hambre",
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
@@ -310,26 +310,17 @@ export default function CubeGroup({
   };
 
   return textures.map((texture, index) => (
-    <>
-      <Cube
-        key={index}
-        index={index}
-        radius={radius}
-        isActive={index === activeCube}
-        texture={textures[index]}
-        content={cubeContents[index]}
-        onClick={handleCubeClick}
-        onBackClick={handleBackClick}
-        resetCamera={resetCamera}
-        isAnimationFinished={isAnimationFinished}
-      />
-      <Html>
-        <div className="cube-info">
-          <h3>{cubeContents[index].title}</h3>
-          <p>Author: {cubeContents[index].author}</p>
-          <p>Year: {cubeContents[index].year}</p>
-        </div>
-      </Html>
-    </>
+    <Cube
+      key={index}
+      index={index}
+      radius={radius}
+      isActive={index === activeCube}
+      texture={textures[index]}
+      content={cubeContents[index]}
+      onClick={handleCubeClick}
+      onBackClick={handleBackClick}
+      resetCamera={resetCamera}
+      isAnimationFinished={isAnimationFinished}
+    />
   ));
 }

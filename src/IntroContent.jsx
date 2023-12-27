@@ -140,7 +140,6 @@ function IntroContent() {
 
     const scroll = () => {
       const fx17Titles = document.querySelectorAll("[data-effect17]");
-      console.log(fx17Titles);
 
       fx17Titles.forEach((title) => {
         Splitting({ target: "[data-effect17]", by: "chars" });

@@ -95,6 +95,5 @@ const App = () => {
   );
 };
 
-console.log("App renderizado");
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(<App />);
