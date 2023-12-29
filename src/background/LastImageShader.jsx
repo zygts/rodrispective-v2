@@ -1,9 +1,9 @@
 import { TextureLoader, BufferAttribute, ShaderMaterial, PlaneGeometry } from "three";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect, useMemo, useContext } from "react";
 import gsap from "gsap";
 
 import { useLastImageScrollAnimation } from "./useLastImageScrollAnimation";
-
+import { AppContext } from "../appContext";
 import vertexShader from "./lastImage.vert";
 import fragmentShader from "./lastImage.frag";
 
@@ -52,7 +52,7 @@ const LastImageShader = ({ scrollableRef }) => {
     [texture]
   );
 
-  const [startButtonClicked, setStartButtonClicked] = useState(false);
+  const { startButtonClicked, setStartButtonClicked } = useContext(AppContext);
 
   useEffect(() => {
     const handleStartButtonClick = () => {

@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
+import gsap from "gsap";
 
 import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
 import LastImageShader from "./background/LastImageShader.jsx";
 import BackgroundPlane from "./background/BackgroundPlane.jsx";
 import BackgroundStars from "./background/BackgroundStars.jsx";
-import Blob from "./Blob.jsx";
+import { AppContext } from "./appContext";
 
 export function BackgroundCanvas({ scrollableRef }) {
   const [isAnimationComplete, setAnimationComplete] = useState(false);
+  const animationContainerRef = useRef(); // Referencia al contenedor de animación
+  const { startButtonClicked } = useContext(AppContext);
 
   useEffect(() => {
     const handleShaderAnimationComplete = () => {
@@ -20,15 +23,36 @@ export function BackgroundCanvas({ scrollableRef }) {
     window.addEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
 
     return () => {
-      window.removeEventListener(
-        "shaderAnimationComplete",
-        handleShaderAnimationComplete
-      );
+      console.log("complete"),
+        window.removeEventListener(
+          "shaderAnimationComplete",
+          handleShaderAnimationComplete
+        );
     };
   }, []);
 
+  useEffect(() => {
+    if (startButtonClicked && animationContainerRef.current) {
+      gsap.to(animationContainerRef.current, {
+        filter: "blur(7px)",
+        scale: 1.6,
+        duration: 2.8,
+        ease: "power2.inOut",
+        onComplete: () => {
+          gsap.to(animationContainerRef.current, {
+            filter: "blur(0px)",
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.inOut",
+          });
+        },
+      });
+    }
+  }, [startButtonClicked]);
+
   return (
     <Canvas
+      ref={animationContainerRef}
       id="background-canvas"
       camera={{
         fov: 15,

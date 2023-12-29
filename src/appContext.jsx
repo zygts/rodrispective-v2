@@ -13,6 +13,7 @@ export const AppContextProvider = ({ children, value }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [startButtonClicked, setStartButtonClicked] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -40,6 +41,8 @@ export const AppContextProvider = ({ children, value }) => {
         setIsPlaying,
         showIntro,
         setShowIntro,
+        startButtonClicked,
+        setStartButtonClicked,
         ...value,
       }}
     >
