@@ -58,36 +58,6 @@ function IntroContent() {
   }, [startButtonClicked]);
 
   useEffect(() => {
-    // Texto del botón
-    const canTrig = CSS.supports("(top: calc(sin(1) * 1px))");
-    const HEADING = document.querySelector(".ring");
-    const OPTIONS = {
-      SPACING: 2,
-      SIZE: 1,
-      TEXT: "Click here to start exploring • ",
-    };
-    // Make the ring text
-    const text = OPTIONS.TEXT;
-    // 1. Take the text and split it into spans...
-    const chars = text.split("");
-    HEADING.innerHTML = "";
-    HEADING.style.setProperty("--char-count", chars.length);
-    for (let c = 0; c < chars.length; c++) {
-      HEADING.innerHTML += `<span aria-hidden="true" class="char" style="--char-index: ${c};">${chars[c]}</span>`;
-    }
-    // Set the styles
-    HEADING.style.setProperty("--font-size", OPTIONS.SIZE);
-    HEADING.style.setProperty("--character-width", OPTIONS.SPACING);
-    HEADING.style.setProperty(
-      "--radius",
-      canTrig
-        ? "calc((var(--character-width) / sin(var(--inner-angle))) * -1ch"
-        : `calc(
-      (${OPTIONS.SPACING} / ${Math.sin(360 / HEADING.children.length / (180 / Math.PI))})
-      * -1ch
-    )`
-    );
-
     // Animación de entrada
     const helloText = document.querySelector("#hello-text");
     const split = Splitting({ target: helloText, by: "words" })[0];
@@ -223,12 +193,76 @@ function IntroContent() {
       </div>
       <div id="start-container">
         <button
-          className="start-btn"
+          className="start-btn loader__item"
+          data-target-loader="landing"
+          data-allow-audio="true"
+          data-audio-play="background"
+          data-message="Click here to enter with audio"
           onClick={handleClick}
           onPointerEnter={() => setCursorState("large--filled")}
           onPointerLeave={() => setCursorState("default")}
         >
-          <div className="ring"></div>
+          <svg
+            className="loader__svg"
+            viewBox="0 0 306.5 306.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g className="loader__loaded" style={{ opacity: 1 }}>
+              <g className="loaded__circles">
+                <circle
+                  className="loaded__circle"
+                  cx="153.2"
+                  cy="153.2"
+                  r="152.5"
+                  vectorEffect="non-scaling-stroke"
+                  data-svg-origin="153.1999969482422 153.1999969482422"
+                  transform="matrix(1,0,0,1,0,0)"
+                  style={{ transformOrigin: "0px 0px" }}
+                ></circle>
+                <circle
+                  className="loaded__circle"
+                  cx="153.2"
+                  cy="153.2"
+                  r="152.5"
+                  vectorEffect="non-scaling-stroke"
+                  data-svg-origin="153.1999969482422 153.1999969482422"
+                  transform="matrix(0.97,0,0,0.97,4.596,4.596)"
+                  style={{ transformOrigin: "0px 0px" }}
+                ></circle>
+                <circle
+                  className="loaded__circle"
+                  cx="153.2"
+                  cy="153.2"
+                  r="152.5"
+                  vectorEffect="non-scaling-stroke"
+                  data-svg-origin="153.1999969482422 153.1999969482422"
+                  transform="matrix(0.94,0,0,0.94,9.192,9.192)"
+                  style={{ transformOrigin: "0px 0px" }}
+                ></circle>
+                <circle
+                  className="loaded__circle"
+                  cx="153.2"
+                  cy="153.2"
+                  r="152.5"
+                  vectorEffect="non-scaling-stroke"
+                  data-svg-origin="153.1999969482422 153.1999969482422"
+                  transform="matrix(0.91,0,0,0.91,13.788,13.788)"
+                  style={{ transformOrigin: "0px 0px" }}
+                ></circle>
+                <circle
+                  className="loaded__circle"
+                  cx="153.2"
+                  cy="153.2"
+                  r="152.5"
+                  vectorEffect="non-scaling-stroke"
+                  data-svg-origin="153.1999969482422 153.1999969482422"
+                  transform="matrix(0.88,0,0,0.88,18.384,18.384)"
+                  style={{ transformOrigin: "0px 0px" }}
+                ></circle>
+              </g>
+            </g>
+          </svg>
+          <span>Begin</span>
         </button>
       </div>
     </>

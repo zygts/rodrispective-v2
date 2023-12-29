@@ -16,7 +16,7 @@ const LastImageShader = ({ scrollableRef }) => {
 
   useEffect(() => {
     const loader = new TextureLoader();
-    const textureFile = "frame1-2.jpg";
+    const textureFile = "frame2-3.jpeg";
     loader.load(`./img/homepage/${textureFile}`, (texture) => {
       setTexture(texture);
       setIsTextureLoaded(true);
