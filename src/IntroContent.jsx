@@ -199,7 +199,7 @@ function IntroContent() {
           data-audio-play="background"
           data-message="Click here to enter with audio"
           onClick={handleClick}
-          onPointerEnter={() => setCursorState("large--filled")}
+          onPointerEnter={() => setCursorState("large--filled-exlusion")}
           onPointerLeave={() => setCursorState("default")}
         >
           <svg

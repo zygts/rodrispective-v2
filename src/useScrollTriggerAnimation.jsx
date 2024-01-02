@@ -30,14 +30,14 @@ export const useScrollAnimation = (
         scrub: true,
         onUpdate: (self) => {
           const progress = self.progress;
-          if (progress > 0 && glitchAnimationRef.current) {
-            uniforms.uGlitch.value = 0;
-            glitchAnimationRef.current.kill();
-            glitchAnimationRef.current = null;
-          }
+          // if (progress > 0 && glitchAnimationRef.current) {
+          //   uniforms.uGlitch.value = 0;
+          //   glitchAnimationRef.current.kill();
+          //   glitchAnimationRef.current = null;
+          // }
 
             // Ajusta el punto de inicio de la animación
-            const scrollStartOffsetAdjusted = scrollStartOffset - 0.15; // Comienza 0.1 antes
+            const scrollStartOffsetAdjusted = scrollStartOffset - 0.15; // Comienza 0.15 antes
             let adjustedScroll =
               (self.progress - scrollStartOffsetAdjusted) / (1.0 - scrollStartOffsetAdjusted);
             adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
@@ -78,7 +78,7 @@ export const useScrollAnimation = (
     const opacityTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: scrollableRef.current,
-        start: '80% top',
+        start: '83% top',
         end: 'bottom bottom',
         scrub: true,
       },

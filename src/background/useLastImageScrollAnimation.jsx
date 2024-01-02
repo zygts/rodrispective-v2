@@ -16,7 +16,7 @@ export const useLastImageScrollAnimation = (imageRef, scrollableRef, isTextureLo
     const imageTl = gsap.timeline({
       scrollTrigger: {
         trigger: scrollableRef.current,
-        start: "70% top",
+        start: "71% top",
         end: "bottom bottom",
         scrub: true,
       },
@@ -32,7 +32,7 @@ export const useLastImageScrollAnimation = (imageRef, scrollableRef, isTextureLo
       })
       .to(imageRef.current.material.uniforms.u_opacity, {
         value: 1,
-        duration: 0.2,
+        duration: 0.18,
       });
 
     return () => {

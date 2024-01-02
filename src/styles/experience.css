@@ -60,6 +60,13 @@ h1 {
     background-color: white;
 }
 
+.custom-cursor.large--filled-exlusion {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: white;
+    mix-blend-mode: difference;
+}
+
 .custom-cursor.large--filled-red {
     width: 40px !important;
     height: 40px !important;

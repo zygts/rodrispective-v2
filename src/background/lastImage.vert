@@ -14,7 +14,7 @@ void main() {
     pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
 
     float aspect = uResolution.x / uResolution.y;
-    float imageAspect = 14.0 / 8.5;
+    float imageAspect = 14.0 / 9.0;
     
     if(aspect > imageAspect) {
         pos.y *= imageAspect / aspect;
