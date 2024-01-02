@@ -6,7 +6,7 @@ void main() {
   vec3 pos = position;
 
   float aspect = uResolution.x / uResolution.y;
-  float imageAspect = 14.0 / 8.5;
+  float imageAspect = 14.0 / 9.0;
   
   // Mantén la relación de aspecto 16:9
   if(aspect > imageAspect) {

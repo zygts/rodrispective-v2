@@ -12,11 +12,11 @@ const LastImageShader = ({ scrollableRef }) => {
   const planeRef = useRef();
   const [isTextureLoaded, setIsTextureLoaded] = useState(false);
 
-  const geometry = new PlaneGeometry(14, 9.5, 28, 17).toNonIndexed();
+  const geometry = new PlaneGeometry(14, 9.0, 28, 17).toNonIndexed();
 
   useEffect(() => {
     const loader = new TextureLoader();
-    const textureFile = "frame2-3.jpeg";
+    const textureFile = "frame4-2.jpg";
     loader.load(`./img/homepage/${textureFile}`, (texture) => {
       setTexture(texture);
       setIsTextureLoaded(true);

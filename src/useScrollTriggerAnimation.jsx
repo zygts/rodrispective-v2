@@ -35,10 +35,14 @@ export const useScrollAnimation = (
             glitchAnimationRef.current.kill();
             glitchAnimationRef.current = null;
           }
-          let adjustedScroll =
-            (self.progress - scrollStartOffset) / (1.0 - scrollStartOffset);
-          adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
-          uniforms.uScroll.value = adjustedScroll;
+
+            // Ajusta el punto de inicio de la animación
+            const scrollStartOffsetAdjusted = scrollStartOffset - 0.15; // Comienza 0.1 antes
+            let adjustedScroll =
+              (self.progress - scrollStartOffsetAdjusted) / (1.0 - scrollStartOffsetAdjusted);
+            adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
+            
+            uniforms.uScroll.value = adjustedScroll;
 
           const numImages = textures.length;
           const index = Math.min(

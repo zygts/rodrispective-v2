@@ -37,7 +37,7 @@ const Images = ({ scrollableRef }) => {
   // Animación entrada imagenes
   const props = useSpring({
     scale: [1, 1, 1],
-    position: [0, 1.5, 3], // posicion objetivo
+    position: [0, 1.2, 3], // posicion objetivo
     rotation: [0, 0, 0], // rotacion objetivo
     from: {
       scale: [0.3, 0.3, 0.3],
@@ -54,19 +54,20 @@ const Images = ({ scrollableRef }) => {
   useEffect(() => {
     const loader = new TextureLoader();
     const textureFiles = [
-      "frame0-2.jpg",
+      "frame0-3.jpg",
       "frame8.jpg",
-
-      "frame10.jpg",
       "frame7.jpg",
       "frame1-2.jpg",
+      "frame9.jpg",
       "frame2-2.jpg",
       "frame6.jpg",
 
       "frame8.jpg",
-      "frame9.jpg",
-      "frame4-2.jpg",
       "frame3-2.jpg",
+      
+      
+      
+      "frame10.jpg",
     ];
 
     const promises = textureFiles.map(
@@ -197,7 +198,7 @@ const Images = ({ scrollableRef }) => {
       position={props.position}
       rotation={props.rotation}
     >
-      <planeGeometry args={[14, 9.5]} />
+      <planeGeometry args={[14, 9.0]} />
       <shaderMaterial
         uniforms={uniforms}
         vertexShader={vertexShader}

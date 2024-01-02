@@ -33,9 +33,9 @@ void main() {
   vec2 rectMinStart = vec2(0.41, 0.12);
   vec2 rectMaxStart = vec2(0.59, 0.54);
 
-  // Define los bordes de tu rectángulo al final
-  vec2 rectMinEnd = vec2(0.22, 0.08);
-  vec2 rectMaxEnd = vec2(0.78, 0.65);
+// Define los bordes de tu rectángulo al final
+vec2 rectMinEnd = vec2(0.15, 0.03); // Reducir más los valores para aumentar el tamaño de la máscara
+vec2 rectMaxEnd = vec2(0.85, 0.72); // Aumentar más los valores para aumentar el tamaño de la máscara
 
   // Interpola los bordes del rectángulo en función de uScroll
   vec2 rectMin = mix(rectMinStart, rectMinEnd, scroll);
