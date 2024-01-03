@@ -53,7 +53,7 @@ export default function CubeGroup({
         album: "Grito",
         year: "2018",
         paragraph:
-          "Inspired by late-night coding sessions during my early years as a programmer, 'Digital Dreams' is a vibrant journey through a pulsing cybernetic dreamscape. Synthesized melodies, reminiscent of the twinkling constellations I would gaze at from my rooftop, intertwine with futuristic beats and echo the rhythmic typing that fueled my creative process. This hypnotic dance floor anthem is a testament to those evenings that blurred the lines between reality and imagination, serving as a metaphor for my journey into the world of electronic music production.",
+          "This is one of the last tracks I ever recorded. At the time I thought it signified the highest point in my music career. It was inspired by recent events on the Mediterranean sea, when it seemed an atrocious amount of people were dying every day trying to reach a better life.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/amanecer.mp3",
       },
@@ -63,7 +63,7 @@ export default function CubeGroup({
         album: "Glim.mer",
         year: "2006",
         paragraph:
-          " As a child, I was fascinated by the radio's ability to transport stories and emotions across vast distances. 'Frequency Fables' reflects this early fascination. This track playfully explores electronic soundscapes, each fluctuating wavelength and layered harmonic intended to transport listeners on a sonic rollercoaster ride. Every beat, bass line, and melodic rift contributes to a rich, ever-evolving narrative that tells the story of my personal journey through the world of music.",
+          "A fan favourite, I made this song in just a couple of days, in a frantic moment of inspiration. The muse only touches you with her magic a few times during a lifetime. My mom keeps asking me why I don’t make music like this anymore.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/wednesday-morning.mp3",
       },

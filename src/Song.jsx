@@ -367,8 +367,10 @@ export default function Cube({
             onPointerLeave={() => setCursorState("default")}
             onClick={() => {
               onBackClick();
-              resetCamera();
               setIsPlaying(false);
+              setTimeout(() => {
+                resetCamera();
+              }, 500);
             }}
           >
             Back to Catalogue
