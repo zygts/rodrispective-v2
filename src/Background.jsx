@@ -70,7 +70,7 @@ export function BackgroundCanvas({ scrollableRef }) {
         pointerEvents: "none",
         height: "100vh",
         width: "100vw",
-        backgroundColor: "black",
+        backgroundColor: "#0E0C0C",
       }}
     >
       <Suspense fallback={null}>
@@ -79,7 +79,7 @@ export function BackgroundCanvas({ scrollableRef }) {
         ) : (
           <>
             {/* <BackgroundStars /> */}
-            <Stars starCount={35000} />
+            <Stars starCount={15000} />
             <Images scrollableRef={scrollableRef} />
             <LastImageShader scrollableRef={scrollableRef} />
             <BackgroundPlane scrollableRef={scrollableRef} />
