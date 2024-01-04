@@ -8,6 +8,8 @@ import Images from "./background/ImageTransition.jsx";
 import LastImageShader from "./background/LastImageShader.jsx";
 import BackgroundPlane from "./background/BackgroundPlane.jsx";
 import BackgroundStars from "./background/BackgroundStars.jsx";
+import Stars from "./background/NewStars.jsx";
+
 import { AppContext } from "./appContext";
 
 export function BackgroundCanvas({ scrollableRef }) {
@@ -68,6 +70,7 @@ export function BackgroundCanvas({ scrollableRef }) {
         pointerEvents: "none",
         height: "100vh",
         width: "100vw",
+        backgroundColor: "black",
       }}
     >
       <Suspense fallback={null}>
@@ -75,7 +78,8 @@ export function BackgroundCanvas({ scrollableRef }) {
           <ParticlesGrid />
         ) : (
           <>
-            <BackgroundStars />
+            {/* <BackgroundStars /> */}
+            <Stars starCount={35000} />
             <Images scrollableRef={scrollableRef} />
             <LastImageShader scrollableRef={scrollableRef} />
             <BackgroundPlane scrollableRef={scrollableRef} />
