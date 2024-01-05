@@ -13,14 +13,16 @@ void main() {
     // Desplazamiento basado en el triangleID
     pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
 
-    float aspect = uResolution.x / uResolution.y;
-    float imageAspect = 14.0 / 9.0;
-    
-    if(aspect > imageAspect) {
-        pos.y *= imageAspect / aspect;
-    } else {
-        pos.x *= aspect / imageAspect;
-    }
+
+  float aspect = uResolution.x / uResolution.y;
+  float imageAspect = 20.0 / 9.0;
+
+  // Ajuste para mantener la relación de aspecto de la imagen
+  if (aspect > imageAspect) {
+    pos.y *= aspect / imageAspect;
+  } else {
+    pos.x *= imageAspect / aspect;
+  }
 
     // Coordenadas del centro del mesh
     vec3 center = vec3(0.5, 0.5, 0.0);

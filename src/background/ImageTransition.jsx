@@ -37,7 +37,7 @@ const Images = ({ scrollableRef }) => {
   // Animación entrada imagenes
   const props = useSpring({
     scale: [1, 1, 1],
-    position: [0, 1.2, 3], // posicion objetivo
+    position: [0, 1.4, 3], // posicion objetivo
     rotation: [0, 0, 0], // rotacion objetivo
     from: {
       scale: [0.3, 0.3, 0.3],
@@ -64,7 +64,6 @@ const Images = ({ scrollableRef }) => {
       "frame8.jpg",
       "frame10.jpg",
       "frame3-2.jpg",
-      
     ];
 
     const promises = textureFiles.map(
@@ -110,6 +109,31 @@ const Images = ({ scrollableRef }) => {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [uniforms]);
+
+  // Ajusta el tamaño del plano para mantener la proporción de las imágenes
+  useEffect(() => {
+    const adjustPlaneSize = () => {
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      const imageAspectRatio = 20 / 9; // Suponiendo que tus imágenes tienen una relación de aspecto de 16:9
+      const plane = meshRef.current;
+      if (plane) {
+        if (aspectRatio > imageAspectRatio) {
+          plane.scale.x = aspectRatio / imageAspectRatio;
+          plane.scale.y = 1;
+        } else {
+          plane.scale.x = 1;
+          plane.scale.y = imageAspectRatio / aspectRatio;
+        }
+      }
+    };
+
+    adjustPlaneSize();
+    window.addEventListener("resize", adjustPlaneSize);
+
+    return () => {
+      window.removeEventListener("resize", adjustPlaneSize);
+    };
+  }, []);
 
   // Animación en scroll
   useScrollAnimation(uniforms, textures, scrollableRef, camera, glitchAnimationRef);

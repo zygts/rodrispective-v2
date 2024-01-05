@@ -6,16 +6,14 @@ void main() {
   vec3 pos = position;
 
   float aspect = uResolution.x / uResolution.y;
-  float imageAspect = 14.0 / 9.0;
-  
-  // Mantén la relación de aspecto 16:9
-  if(aspect > imageAspect) {
-    // Si la pantalla es más ancha que 16:9, ajusta el eje Y
-    pos.y *= imageAspect / aspect;
+  float imageAspect = 20.0 / 9.0;
+
+  // Ajuste para mantener la relación de aspecto de la imagen
+  if (aspect > imageAspect) {
+    pos.y *= aspect / imageAspect;
   } else {
-    // Si la pantalla es más alta que 16:9, ajusta el eje X
-    pos.x *= aspect / imageAspect;
+    pos.x *= imageAspect / aspect;
   }
-  
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

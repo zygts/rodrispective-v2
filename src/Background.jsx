@@ -60,7 +60,7 @@ export function BackgroundCanvas({ scrollableRef }) {
         fov: 15,
         near: 0.1,
         far: 600,
-        zoom: 0.055,
+        zoom: 0.045,
       }}
       style={{
         position: "fixed",
