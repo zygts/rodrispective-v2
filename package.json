@@ -16,6 +16,7 @@
     "@react-three/drei": "^9.92.5",
     "@react-three/fiber": "^8.9.2",
     "@react-three/postprocessing": "^2.15.11",
+    "@studio-freight/react-lenis": "^0.0.43",
     "@use-gesture/react": "^10.2.27",
     "dat.gui": "^0.7.9",
     "glslify": "^7.1.1",

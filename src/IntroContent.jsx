@@ -9,8 +9,6 @@ import { AppContext } from "./appContext";
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
-import "splitting/dist/splitting.css";
-import "splitting/dist/splitting-cells.css";
 
 function IntroContent() {
   const { setCursorState } = useContext(AppContext);

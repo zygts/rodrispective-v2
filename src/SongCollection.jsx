@@ -26,7 +26,7 @@ export default function CubeGroup({
       "./img/ghosts.jpg",
       "./img/solo.jpg",
       "./img/nino.jpg",
-      "./img/birthday.jpg",
+      "./img/atmosphera.jpg",
       "./img/requiem.jpg",
       "./img/burakumin.jpg",
       "./img/blueice.jpg",
@@ -38,7 +38,7 @@ export default function CubeGroup({
       "./img/short.jpg",
       "./img/urbania.jpg",
       "./img/tear.jpg",
-      "./img/atmosphera.jpg",
+      "./img/birthday.jpg",
       "./img/tenagumakao.jpg",
     ];
 
@@ -63,8 +63,8 @@ export default function CubeGroup({
         album: "Glim.mer",
         year: "2006",
         paragraph:
-          "A fan favourite, I made this song in just a couple of days, in a frantic moment of inspiration. The muse only touches you with her magic a few times during a lifetime. My mom keeps asking me why I don’t make music like this anymore.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "By far my most popular song among family and friends. I made it in just a couple of days, in a frantic rush of inspiration. The muse only touches you with her magic a few times during a lifetime. My mom keeps asking me why I don’t make music like this anymore.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/glim-mer",
         audioFileUrl: "./audio/wednesday-morning.mp3",
       },
       {
@@ -73,8 +73,8 @@ export default function CubeGroup({
         album: "El Ciclo de la Vida",
         year: "2017",
         paragraph:
-          " Inspired by my long-standing fascination with quantum mechanics and the nature of the universe, 'Quantum Echoes' combines elements of downtempo and ambient music to create an otherworldly atmosphere. Ethereal synths and minimalist beats echo across a universe of sound, suggesting the interconnectedness of all things and the vastness of the cosmos. It's a sonic manifestation of my contemplative moments spent stargazing, pondering the mysteries of the universe.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "Making music has often been a painful process, like giving birth to a child. This track, however, was made during a time when that process was peak joy for me. I had lots of fun recording this track and even more fun playing it live. ",
+        songUrl: "https://incierto.bandcamp.com/album/incierto",
         audioFileUrl: "./audio/mentiras.mp3",
       },
       {
@@ -83,8 +83,8 @@ export default function CubeGroup({
         author: "Incierto",
         album: "El Ciclo de la Vida",
         paragraph:
-          "From a young age, I was captivated by the power of the human voice. 'Vox Illumination' is a testament to that fascination, celebrating the art of vocal manipulation. Processed vocals, transformed into transcendent melodies, weave through a labyrinth of deep bass lines and intricate beats. The resulting sonic texture is a tribute to my early choir days, the layering of human voices, and the complex harmonies we would create.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "When I started my new project Incierto, I had a clear goal in mind: Moving away from the “teen angst” that had punctured much of my musical output with Zygotus towards a lighter, better humoured persona without losing the mysterious aura. It took me a few tentative attempts but in “Homenaje”, with its silly lyrics in homage to nature, I felt I had for the first time achieved that goal.",
+        songUrl: "https://incierto.bandcamp.com/album/incierto",
         audioFileUrl: "./audio/homenaje.mp3",
       },
       {
@@ -93,8 +93,8 @@ export default function CubeGroup({
         album: "Historias del hambre",
         year: "2015",
         paragraph:
-          "Growing up in a city renowned for its extensive underground network, I found a unique rhythmic pulse beneath the surface. 'Subterranean Pulse' is a sonic exploration into the heart of the earth, inspired by the subways' rhythm, the subterranean ecosystems, and the city's heartbeat. The deep, resonant bass represents this thrum, while higher synth patterns mimic life stirring beneath the urban surface.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "Years after recoding the last time as Zygotus, I realized all my songs were in english, and it felt a little phony. I hardly ever listened to music in my native language, so writing them in english felt more natural at the time. I decided to re-record some of my favourite past songs, this time in Spanish, using the my new-found style with Rdrk. In the end, unfortunately, I only managed to complete this one song.",
+        songUrl: "https://rdrk.bandcamp.com/album/historias-del-hambre",
         audioFileUrl: "./audio/boca-voz-grito.mp3",
       },
       {
@@ -103,8 +103,8 @@ export default function CubeGroup({
         author: "Zygotus",
         album: "Farewell to none",
         paragraph:
-          "As a child, I was captivated by the colors of the northern lights dancing across the night sky. 'Neon Nebula' is a dynamic burst of color and sound that captures the vibrant energy of those lights. This track pulses with lively synth and progressive beats, merging the awe-inspiring beauty of a cosmic light show with the captivating energy of a supernova.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "Musically speaking, I have been most prolific in the hardest times, and boy was this a hard time to be alive. Dazed and confused, lost in a foreign country, with no purpose in life, in this track you can hear the cracks trying to contain the blast from within. In that moment I remember wishing I had a band, or better resources, to convey that feeling of existential dread. I thought I did a pretty good job regardless of my technical limitations.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/farewell-to-none",
         audioFileUrl: "./audio/farewell.mp3",
       },
       {
@@ -113,8 +113,8 @@ export default function CubeGroup({
         year: "2017",
         album: "Piggy Bites",
         paragraph:
-          " Growing up in a bustling metropolis, I found solace in quiet parks nestled amidst the urban chaos. 'Synthetic Serenity' captures this sense of peace amid turmoil. Soft, undulating synth chords and gentle, rhythmic percussion lull the listener into a state of calm, while ambient sounds provide an organic touch to the synthesized composition, mirroring my experiences of finding tranquility in nature amidst the city's cacophony.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "Apart from a few sporadic collaborations, I've always been very reclusive when it comes to making music. After playing live in a bar, my bass player friend Varian approached me and proposed to start a band together. We only recorded a handful of songs, but it was extremely refreshing to have the chance of getting out of myself and musically connect with a kindred soul.",
+        songUrl: "https://www.youtube.com/watch?v=uKapjZGFfWg",
         audioFileUrl: "./audio/piggy.mp3",
       },
       {
@@ -123,8 +123,8 @@ export default function CubeGroup({
         year: "2006",
         album: "Glim.mer",
         paragraph:
-          " Growing up in a bustling metropolis, I found solace in quiet parks nestled amidst the urban chaos. 'Synthetic Serenity' captures this sense of peace amid turmoil. Soft, undulating synth chords and gentle, rhythmic percussion lull the listener into a state of calm, while ambient sounds provide an organic touch to the synthesized composition, mirroring my experiences of finding tranquility in nature amidst the city's cacophony.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "There was a time when I found myself constantly waiting in an airport. It seemed to me a rather unreal place, where all kinds of emotions, of sadness, joy and boredom, permeated every inch of its walls. This song was my dedication to that bizarre place.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/glim-mer",
         audioFileUrl: "./audio/airports.mp3",
       },
       {
@@ -133,8 +133,8 @@ export default function CubeGroup({
         year: "2005",
         album: "Farewell to none",
         paragraph:
-          "My early music education in classical piano melded with my passion for technology in 'Cybernetic Sonata'. This track blends classical melodies with electronic rhythms, creating a fusion of old and new that captures my personal and artistic journey. The sophisticated air maintained throughout the track is a nod to my classical roots, while the heart-pounding beats reflect my immersion into the world of electronic music.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "At a party I was approached by some university friends, surprised because they had somehow heard this track. They didn't know I made music and they really liked it. From that moment on, I thought that maybe it was time to stop keeping this hobby so secret!",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/farewell-to-none",
         audioFileUrl: "./audio/ghosts.mp3",
       },
       {
@@ -143,7 +143,7 @@ export default function CubeGroup({
         year: "2019",
         album: "Tiza negra",
         paragraph:
-          "Inspired by my lifelong dream of space exploration, 'Astral Aura' is a musical journey through the stars. Ethereal soundscapes, celestial synths, and dreamy rhythms encapsulate the beauty of a cosmic voyage, making for a surreal and transcendent listening experience. This track embodies my curiosity and fascination with the cosmos, serving as a sonic exploration of my own 'space odyssey'.",
+          "This is the last song I have ever recorded in my life. It is also one of the songs I am most satisfied with. If there is one that brings together all the roads I have travelled for more than 2 decades, every style, every transformation... it is undoubtedly this one.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/soloquierenjugar.mp3",
       },
@@ -153,8 +153,8 @@ export default function CubeGroup({
         year: "2015",
         album: "Historias del hambre",
         paragraph:
-          "Growing up near the ocean, I was always captivated by the rhythmic flow of the tides. 'Techno Tides' captures this natural rhythm in the context of our digital age. Thumping bass and hypnotic beats roll like waves in a digital ocean, embodying the ebb and flow of life as a modern music artist and the inevitable tides of technological change.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "By the time I recorded Un Niño (”A Kid”), I already felt much more comfortable using my mother tongue. I thought I had managed to get to a more sincere, more starkly autobiographical point. There are a lot of raw emotions in this song, and I liked being able to get them out in this way.",
+        songUrl: "https://rdrk.bandcamp.com/album/historias-del-hambre",
         audioFileUrl: "./audio/nino.mp3",
       },
       {
@@ -163,8 +163,8 @@ export default function CubeGroup({
         year: "2007",
         album: "Glim.mer",
         paragraph:
-          "Inspired by my urban upbringing, 'Grid Groove' pays homage to the city's grids and the vibrant life within them. With bustling beats, soaring synths, and pulsating bass, this track reflects the heart and soul of urban living, capturing the essence of city streets that formed my early experiences and influenced my music.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "This song marked for me musically and personally, the end of an era. It was also the last time I made music under the pseudonym Zygotus. Everything was going to change from that moment on, but I hadn't realised it yet. Somehow, though, this track captures that moment of shift beautifully.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/glim-mer",
         audioFileUrl: "./audio/birthday.mp3",
       },
       {
@@ -173,8 +173,8 @@ export default function CubeGroup({
         year: "2017",
         album: "El Ciclo de la Vida",
         paragraph:
-          "As an artist navigating the digital world, I've often marveled at our virtual interconnectedness. 'Binary Bliss' is a melodic meditation on this digital existence. The repetitive, soothing rhythms paired with floating arpeggios echo the binary code underpinning our virtual world, symbolizing my fascination with the convergence of music and technology.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "One of my goals with Incierto was to be able to make 3-4 minute songs, almost pop songs, something that had always been particularly difficult for me. Possibly the only time in my life when I have been 100% satisfied with the result. For me, this song is perfect, in the sense that it sounds exactly the way I want, and I wouldn’t change one bit of it.",
+        songUrl: "https://incierto.bandcamp.com/album/incierto",
         audioFileUrl: "./audio/requiem.mp3",
       },
       {
@@ -183,8 +183,8 @@ export default function CubeGroup({
         year: "2008",
         album: "Late Recordings",
         paragraph:
-          "This high-energy track is a celebration of joy and abandon. Its infectious rhythms, catchy hook, and buoyant synths create a surge of positivity reflecting my optimistic outlook on life. 'Electro Euphoria' is about the thrill of performing live, the joy of connecting with an audience, and the shared ecstasy of a crowd moving in unison to the beat.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "One thing I had always had trouble with was writing lyrics. The writing process used to slow down the musical expression that was sometimes too intense to contain. So on this occasion I decided to pick up the microphone and just blurt out the first nonsensical sounds that popped into my head, to keep the animal inside me from going to sleep.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
         audioFileUrl: "./audio/burakumin.mp3",
       },
       {
@@ -193,8 +193,8 @@ export default function CubeGroup({
         year: "2007",
         album: "Late Recordings",
         paragraph:
-          "This downtempo track is a serene yet poignant ode to the day's end. Inspired by countless evenings spent coding, its warm synth pads and subtle beats evoke the feeling of watching the sun set over a cityscape. 'Silicon Sunset' captures the peace that comes with the conclusion of a productive day and the anticipation of the creative possibilities the next day holds.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "Zygotus was over. Now I was Zygts, his older and more experimental brother. Not knowing what to expect, each track was an exciting blank canvas on which to try new things. At that time my raw voice, free from saying anything meaningful at all, became one of the most important forces in this search for new ways.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
         audioFileUrl: "./audio/heeyes.mp3",
       },
       {
@@ -203,8 +203,8 @@ export default function CubeGroup({
         year: "2009",
         album: "minmax()",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "I had started the new Max Gluckman project as an excuse to look for different sounds. I wanted to explore new terrains closer to techno music and other more danceable rhythms. The new venture ended up being very short, but I had a blast doing it.",
+        songUrl: "https://maxgluckman.bandcamp.com/album/minmax",
         audioFileUrl: "./audio/equatorial.mp3",
       },
       {
@@ -213,7 +213,7 @@ export default function CubeGroup({
         year: "2017",
         album: "Edad sin piedad",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+          "Incierto as a project was a completely new way of making music, of searching for sounds, a different way of being, even. It meant forgetting much of what I had been doing in the past. At the beginning it was a lot of trial and error, but when I finished this track I thought: this is the sound of Incierto.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/edad.mp3",
       },
@@ -224,7 +224,7 @@ export default function CubeGroup({
         album: "Incierto",
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+        songUrl: "https://incierto.bandcamp.com/album/incierto",
         audioFileUrl: "./audio/fakenews.mp3",
       },
       {
@@ -234,17 +234,17 @@ export default function CubeGroup({
         album: "Historias del hambre",
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+        songUrl: "https://rdrk.bandcamp.com/album/historias-del-hambre",
         audioFileUrl: "./audio/audio.mp3",
       },
       {
-        title: "Requiem For Iraq",
-        author: "Zygotus",
-        year: "2005",
-        album: "Farewell to none",
+        title: "Circle Sounds",
+        author: "Zygts",
+        year: "2006",
+        album: "Late Recordings",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "In the early days of the internet, before social media, I participated in some collaborations with people on the other side of the screen. In this case it was with a guy who played the bagpipes and apparently admired my music. The mix of styles was a lot of fun, I would have liked to have done more.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
         audioFileUrl: "./audio/audio.mp3",
       },
 
@@ -254,8 +254,8 @@ export default function CubeGroup({
         year: "2009",
         album: "minmax()",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "Making techno music (or whatever this was) was incredibly liberating for me. I found it refreshing to start with just a few sounds and work out something close to improvisation, without limits or expectations. Although I've rarely gone back to doing things in this style, this playful attitude has ended up helping my creative process in one way or another ever since.",
+        songUrl: "https://maxgluckman.bandcamp.com/album/minmax",
         audioFileUrl: "./audio/audio.mp3",
       },
       {
@@ -265,7 +265,7 @@ export default function CubeGroup({
         album: "Early Recordings",
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/early-recordings",
         audioFileUrl: "./audio/audio.mp3",
       },
       {
@@ -274,8 +274,8 @@ export default function CubeGroup({
         year: "2005",
         album: "Late Recordings",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "As a fun creative exercise, I have always had in mind to make extremely different covers of other people’s work, but rarely managed to complete them (Michael Jackson's Billy Jean is still half done).",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
         audioFileUrl: "./audio/audio.mp3",
       },
       {
@@ -284,8 +284,8 @@ export default function CubeGroup({
         year: "2005",
         album: "Early Recordings",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+          "The Zygotus era had sucked all the creative energy out of me. Every song ended up being a painful experience. So when I put the matter to rest, I just wanted to experiment, improvise and try new stuff with no clear goal in mind. It was a liberating process that culminated in my “Atmospheras” series.",
+        songUrl: "https://zygotusmusic.bandcamp.com/album/early-recordings",
         audioFileUrl: "./audio/audio.mp3",
       },
       {
@@ -294,7 +294,7 @@ export default function CubeGroup({
         year: "2018",
         album: "Grito",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+          "One of the weapons I had acquired after my several transformations and experiments was not to think too much about something if I couldn't figure out what I needed. In this case, I wanted to sing something but I didn't know what lyrics to put in my voice, so I just made it up. That word ended up being the title of the song, too.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/audio.mp3",
       },

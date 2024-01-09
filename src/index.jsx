@@ -3,16 +3,19 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
+import { ReactLenis } from "@studio-freight/react-lenis";
 
 import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
 import { AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent";
+import Instructions from "./Instructions";
 
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
+  const [startAnimation, setStartAnimation] = useState(false);
   const scrollableRef = useRef(null);
 
   // Recarga la página desde el comienzo
@@ -31,6 +34,7 @@ const MainContent = () => {
 
   const handleShaderAnimationComplete = () => {
     setShowIntro(false); // Oculta el contenido introductorio después de que la animación haya terminado
+    setStartAnimation(true); // Inicia la animación de las instrucciones
   };
 
   useEffect(() => {
@@ -51,38 +55,41 @@ const MainContent = () => {
   return (
     <>
       <CustomCursor />
-      <div
-        id="scrollable"
-        ref={scrollableRef}
-        style={{
-          zIndex: 1,
-          visibility: showIntro ? "visible" : "hidden",
-        }}
-      >
-        <IntroContent />
-      </div>
-      <div
-        className="app-wrapper"
-        style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
-      >
-        <Canvas
-          id="experience-canvas"
+      <ReactLenis root={true} options={{ smooth: true, lerp: 0.1 }}>
+        <div
+          id="scrollable"
+          ref={scrollableRef}
           style={{
             zIndex: 1,
-            visibility: showIntro ? "hidden" : "visible",
-          }}
-          camera={{
-            fov: 24,
-            near: 0.1,
-            far: 200,
+            visibility: showIntro ? "visible" : "hidden",
           }}
         >
-          <Suspense fallback={null}>
-            <Experience />
-          </Suspense>
-        </Canvas>
-      </div>
-      <BackgroundCanvas scrollableRef={scrollableRef} />
+          <IntroContent />
+        </div>
+        <div
+          className="app-wrapper"
+          style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
+        >
+          <Instructions isVisible={!showIntro} animate={startAnimation} />
+          <Canvas
+            id="experience-canvas"
+            style={{
+              zIndex: 1,
+              visibility: showIntro ? "hidden" : "visible",
+            }}
+            camera={{
+              fov: 24,
+              near: 0.1,
+              far: 200,
+            }}
+          >
+            <Suspense fallback={null}>
+              <Experience />
+            </Suspense>
+          </Canvas>
+        </div>
+        <BackgroundCanvas scrollableRef={scrollableRef} />
+      </ReactLenis>
     </>
   );
 };
