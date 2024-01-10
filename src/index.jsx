@@ -11,11 +11,14 @@ import { AppContextProvider } from "./appContext";
 import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent";
 import Instructions from "./Instructions";
+import Loader from "./Loader";
 
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const scrollableRef = useRef(null);
 
   // Recarga la página desde el comienzo
@@ -37,6 +40,11 @@ const MainContent = () => {
     setStartAnimation(true); // Inicia la animación de las instrucciones
   };
 
+  // Función llamada cuando Experience ha terminado de cargar
+  const handleExperienceLoaded = () => {
+    setIsLoading(false); // Actualiza el estado para indicar que la carga ha terminado
+  };
+
   useEffect(() => {
     // Escucha los eventos
     window.addEventListener("startButtonClick", handleStartButtonClick);
@@ -54,6 +62,7 @@ const MainContent = () => {
 
   return (
     <>
+      {isLoading && <Loader />}
       <CustomCursor />
       <ReactLenis root={true} options={{ smooth: true, lerp: 0.1 }}>
         <div
@@ -64,7 +73,7 @@ const MainContent = () => {
             visibility: showIntro ? "visible" : "hidden",
           }}
         >
-          <IntroContent />
+          <IntroContent isLoading={isLoading} />
         </div>
         <div
           className="app-wrapper"
@@ -84,7 +93,7 @@ const MainContent = () => {
             }}
           >
             <Suspense fallback={null}>
-              <Experience />
+              <Experience onLoaded={handleExperienceLoaded} />
             </Suspense>
           </Canvas>
         </div>

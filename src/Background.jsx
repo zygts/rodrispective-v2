@@ -36,7 +36,7 @@ export function BackgroundCanvas({ scrollableRef }) {
   useEffect(() => {
     if (startButtonClicked && animationContainerRef.current) {
       gsap.to(animationContainerRef.current, {
-        filter: "blur(7px)",
+        filter: "blur(3px)",
         scale: 1.6,
         duration: 2.8,
         ease: "power2.inOut",
@@ -78,7 +78,6 @@ export function BackgroundCanvas({ scrollableRef }) {
           <ParticlesGrid />
         ) : (
           <>
-            {/* <BackgroundStars /> */}
             <Stars starCount={15000} />
             <Images scrollableRef={scrollableRef} />
             <LastImageShader scrollableRef={scrollableRef} />

@@ -48,6 +48,7 @@ const Images = ({ scrollableRef }) => {
       tension: 35,
       friction: 55,
     },
+    delay: 1200,
   });
 
   // Carga las imágenes como texturas

@@ -43,8 +43,18 @@ export default function CubeGroup({
     ];
 
     const loader = new TextureLoader();
-    const loadedTextures = texturePaths.map((path) => loader.load(path));
-    setTextures(loadedTextures);
+    const loadTexture = (path) => new Promise((resolve) => loader.load(path, resolve));
+    const texturePromises = texturePaths.map(loadTexture);
+
+    Promise.all(texturePromises).then((loadedTextures) => {
+      setTextures(loadedTextures);
+      setCubeContents(contents);
+
+      // Retrasa el evento resourcesLoaded para simular un tiempo de carga más largo
+      setTimeout(() => {
+        window.dispatchEvent(new Event("resourcesLoaded"));
+      }, 1000); // Retrasa por 3000 milisegundos (3 segundos)
+    });
 
     const contents = [
       {
@@ -300,6 +310,8 @@ export default function CubeGroup({
       },
     ];
     setCubeContents(contents);
+
+    window.dispatchEvent(new Event("resourcesLoaded")); // Notifica a Experience
   }, []);
 
   const { setActiveCube, activeCube } = useContext(AppContext);
