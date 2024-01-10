@@ -170,7 +170,7 @@ export default function CubeGroup({
       {
         title: "Birthday Present",
         author: "Zygotus",
-        year: "2007",
+        year: "2006",
         album: "Glim.mer",
         paragraph:
           "This song marked for me musically and personally, the end of an era. It was also the last time I made music under the pseudonym Zygotus. Everything was going to change from that moment on, but I hadn't realised it yet. Somehow, though, this track captures that moment of shift beautifully.",
@@ -179,7 +179,7 @@ export default function CubeGroup({
       },
       {
         title: "Requiem",
-        author: "Zygotus",
+        author: "Incierto",
         year: "2017",
         album: "El Ciclo de la Vida",
         paragraph:

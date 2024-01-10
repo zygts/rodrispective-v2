@@ -64,41 +64,39 @@ const MainContent = () => {
     <>
       {isLoading && <Loader />}
       <CustomCursor />
-      <ReactLenis root={true} options={{ smooth: true, lerp: 0.1 }}>
-        <div
-          id="scrollable"
-          ref={scrollableRef}
+      <div
+        id="scrollable"
+        ref={scrollableRef}
+        style={{
+          zIndex: 1,
+          visibility: showIntro ? "visible" : "hidden",
+        }}
+      >
+        <IntroContent isLoading={isLoading} />
+      </div>
+      <div
+        className="app-wrapper"
+        style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
+      >
+        <Instructions isVisible={!showIntro} animate={startAnimation} />
+        <Canvas
+          id="experience-canvas"
           style={{
             zIndex: 1,
-            visibility: showIntro ? "visible" : "hidden",
+            visibility: showIntro ? "hidden" : "visible",
+          }}
+          camera={{
+            fov: 24,
+            near: 0.1,
+            far: 200,
           }}
         >
-          <IntroContent isLoading={isLoading} />
-        </div>
-        <div
-          className="app-wrapper"
-          style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
-        >
-          <Instructions isVisible={!showIntro} animate={startAnimation} />
-          <Canvas
-            id="experience-canvas"
-            style={{
-              zIndex: 1,
-              visibility: showIntro ? "hidden" : "visible",
-            }}
-            camera={{
-              fov: 24,
-              near: 0.1,
-              far: 200,
-            }}
-          >
-            <Suspense fallback={null}>
-              <Experience onLoaded={handleExperienceLoaded} />
-            </Suspense>
-          </Canvas>
-        </div>
-        <BackgroundCanvas scrollableRef={scrollableRef} />
-      </ReactLenis>
+          <Suspense fallback={null}>
+            <Experience onLoaded={handleExperienceLoaded} />
+          </Suspense>
+        </Canvas>
+      </div>
+      <BackgroundCanvas scrollableRef={scrollableRef} />
     </>
   );
 };

@@ -93,6 +93,7 @@ export default function Cube({
       uRadius: { value: 0.3 },
       noiseScale: { value: 5.0 },
       noiseStrength: { value: 0.0 },
+      uDarken: { value: 1.0 },
     }),
     [texture]
   );
@@ -208,6 +209,11 @@ export default function Cube({
   // Este efecto se ejecuta cada vez que cambia "isPlaying"
   useEffect(() => {
     if (materialRef && materialRef.current) {
+      gsap.to(materialRef.current.uniforms.uDarken, {
+        value: isPlaying ? 0.5 : 1, // Oscurece cuando la música está sonando
+        duration: 0.5,
+      });
+
       // Cambia entre cuadrado y círculo
       let finalValue = isPlaying ? 1 : 0;
       gsap.to(materialRef.current.uniforms.uDistortCircular, {
