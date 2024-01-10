@@ -57,14 +57,13 @@ const Images = ({ scrollableRef }) => {
     const textureFiles = [
       "frame0-3.jpg",
       "frame8.jpg",
+      "frame7-2.jpg",
+      "frame11.jpg",
       "frame7.jpg",
-      "frame1-2.jpg",
-      "frame9.jpg",
-      "frame2-2.jpg",
+      "frame12-2.jpg",
       "frame6.jpg",
-      "frame8.jpg",
       "frame10.jpg",
-      "frame3-2.jpg",
+      "frame3-3.jpg",
     ];
 
     const promises = textureFiles.map(
@@ -188,7 +187,7 @@ const Images = ({ scrollableRef }) => {
       };
 
       const addRandomPause = () => {
-        const duration = Math.random() * 3 + 1; // Pausa más larga
+        const duration = Math.random() * 3 + 3; // Pausa más larga
         tl.to({}, { duration });
       };
 

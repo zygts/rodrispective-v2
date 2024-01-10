@@ -233,7 +233,7 @@ export default function CubeGroup({
         year: "2017",
         album: "Incierto",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+          "I don't think I've ever made more joyful and luminous music. So bright that I never felt comfortable with it and never played it live. Although it did get some airplay online and was played on a couple of amateur radio stations. It just didn't feel like me. So when I finished it I went back to making depressing songs, which is what I was good at.",
         songUrl: "https://incierto.bandcamp.com/album/incierto",
         audioFileUrl: "./audio/fakenews.mp3",
       },
@@ -243,9 +243,9 @@ export default function CubeGroup({
         year: "2015",
         album: "Historias del hambre",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+          "One of my biggest disappointments. I had high hopes for this song, thinking that it might be the one that would catapult me to a wider (not so tiny?) audience, but it never turned out exactly the way i wanted it to. I recorded the vocals a hundred times. I got stuck. Then I gave up. Often the best results come when expectations are the lowest.",
         songUrl: "https://rdrk.bandcamp.com/album/historias-del-hambre",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/tigre.mp3",
       },
       {
         title: "Circle Sounds",
@@ -255,7 +255,7 @@ export default function CubeGroup({
         paragraph:
           "In the early days of the internet, before social media, I participated in some collaborations with people on the other side of the screen. In this case it was with a guy who played the bagpipes and apparently admired my music. The mix of styles was a lot of fun, I would have liked to have done more.",
         songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/circle.mp3",
       },
 
       {
@@ -266,7 +266,7 @@ export default function CubeGroup({
         paragraph:
           "Making techno music (or whatever this was) was incredibly liberating for me. I found it refreshing to start with just a few sounds and work out something close to improvisation, without limits or expectations. Although I've rarely gone back to doing things in this style, this playful attitude has ended up helping my creative process in one way or another ever since.",
         songUrl: "https://maxgluckman.bandcamp.com/album/minmax",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/giraffes.mp3",
       },
       {
         title: "Urbania",
@@ -276,7 +276,7 @@ export default function CubeGroup({
         paragraph:
           "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
         songUrl: "https://zygotusmusic.bandcamp.com/album/early-recordings",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/urbania.mp3",
       },
       {
         title: "Love Will Tear Us Apart",
@@ -286,7 +286,7 @@ export default function CubeGroup({
         paragraph:
           "As a fun creative exercise, I have always had in mind to make extremely different covers of other people’s work, but rarely managed to complete them (Michael Jackson's Billy Jean is still half done).",
         songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/love.mp3",
       },
       {
         title: "Atmosphera (Part 4)",
@@ -296,7 +296,7 @@ export default function CubeGroup({
         paragraph:
           "The Zygotus era had sucked all the creative energy out of me. Every song ended up being a painful experience. So when I put the matter to rest, I just wanted to experiment, improvise and try new stuff with no clear goal in mind. It was a liberating process that culminated in my “Atmospheras” series.",
         songUrl: "https://zygotusmusic.bandcamp.com/album/early-recordings",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/atmosphera.mp3",
       },
       {
         title: "Tenagumakao",
@@ -306,7 +306,7 @@ export default function CubeGroup({
         paragraph:
           "One of the weapons I had acquired after my several transformations and experiments was not to think too much about something if I couldn't figure out what I needed. In this case, I wanted to sing something but I didn't know what lyrics to put in my voice, so I just made it up. That word ended up being the title of the song, too.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
-        audioFileUrl: "./audio/audio.mp3",
+        audioFileUrl: "./audio/tenagumakao.mp3",
       },
     ];
     setCubeContents(contents);

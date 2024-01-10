@@ -56,65 +56,115 @@ function IntroContent({ isLoading }) {
   }, [startButtonClicked]);
 
   useEffect(() => {
-    const handleResourcesLoaded = () => {
-      // Animación de entrada
-      const helloText = document.querySelector("#hello-text");
+    // Animación de entrada
+    const helloText = document.querySelector("#hello-text");
+    const split = Splitting({ target: helloText, by: "words" })[0];
+    const words = split.words;
 
-      if (helloText) {
-        const split = Splitting({ target: helloText, by: "words" })[0];
-        if (split && split.words) {
-          const words = split.words;
+    const tl = gsap.timeline({
+      onComplete: () => {
+        startSecondAnimation();
+      },
+    });
 
-          const tl = gsap.timeline({
-            onComplete: () => {
-              startSecondAnimation();
-            },
-          });
+    gsap.set(words, { opacity: 0 });
 
-          gsap.set(words, { opacity: 0 });
+    tl.to(
+      words[0],
+      {
+        duration: 0.8,
+        opacity: 1,
+      },
+      "+2.4"
+    )
+      .to(
+        words[1],
+        {
+          duration: 0.8,
+          opacity: 1,
+        },
+        "+3"
+      )
+      .to({}, { duration: 1 }) // añade una pausa de 2 segundos usando un objeto vacío
+      .to(words.slice(2), {
+        duration: 0.8,
+        opacity: 1,
+        stagger: 0.35,
+      });
 
-          tl.to(words[0], {
-            duration: 0.8,
+    const startSecondAnimation = () => {
+      // Animación alternando títulos
+      const span1 = document.querySelector("#hello-title-1");
+      const span2 = document.querySelector("#hello-title-2");
+
+      gsap.set(span2, { display: "none" });
+
+      const tl = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 }); // crea una línea de tiempo que se repite indefinidamente
+
+      tl.to(span1, {
+        duration: 1,
+        display: "none",
+      }).to(span2, {
+        duration: 1,
+        display: "inline",
+      });
+    };
+
+    const scroll = () => {
+      const fx17Titles = document.querySelectorAll("[data-effect17]");
+
+      fx17Titles.forEach((title) => {
+        Splitting({ target: "[data-effect17]", by: "chars" });
+        const chars = title.querySelectorAll(".char");
+
+        chars.forEach((char) => gsap.set(char.parentNode, { perspective: 1000 }));
+
+        gsap.fromTo(
+          chars,
+          {
+            "will-change": "opacity, transform",
             opacity: 1,
-            delay: 1.5,
-          })
-            .to(words[1], {
-              duration: 0.8,
-              opacity: 1,
-            })
-            .to({}, { duration: 1 }) // añade una pausa de 1 segundo usando un objeto vacío
-            .to(words.slice(2), {
-              duration: 0.8,
-              opacity: 1,
-              stagger: 0.35,
-            });
+            rotateX: 0,
+            z: 0,
+          },
+          {
+            ease: "none",
+            opacity: 0,
+            rotateX: () => gsap.utils.random(-120, 120),
+            z: () => gsap.utils.random(-200, 200),
 
-          const startSecondAnimation = () => {
-            // Animación alternando títulos
-            const span1 = document.querySelector("#hello-title-1");
-            const span2 = document.querySelector("#hello-title-2");
-
-            gsap.set(span2, { display: "none" });
-
-            const tl = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 });
-
-            tl.to(span1, {
-              duration: 1,
-              display: "none",
-            }).to(span2, {
-              duration: 1,
-              display: "inline",
-            });
-          };
-        }
-      }
+            stagger: 0.02,
+            scrollTrigger: {
+              trigger: title,
+              start: "top 60%",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      });
     };
 
-    window.addEventListener("resourcesLoaded", handleResourcesLoaded);
+    // Animación de opacidad para scrollDownDiv
+    const scrollTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#scrollable",
+        start: "800px top",
+        end: "90% center",
+        scrub: true,
+      },
+    });
 
-    return () => {
-      window.removeEventListener("resourcesLoaded", handleResourcesLoaded);
-    };
+    scrollTimeline
+      .fromTo(scrollDownDiv.current, { opacity: 0 }, { opacity: 1, duration: 0.2 })
+      .to({}, { duration: 2 }) // Agrega un tiempo de espera de 2 segundos
+      .to(scrollDownDiv.current, {
+        opacity: 0,
+        duration: 0.2,
+        immediateRender: false,
+      });
+
+    scroll();
   }, []);
 
   return (

@@ -1,10 +1,10 @@
 const Loader = () => {
   return (
     <div className="loader">
-      <div class="content">
-        <div class="loader-circle"></div>
-        <div class="loader-line-mask">
-          <div class="loader-line"></div>
+      <div className="content">
+        <div className="loader-circle"></div>
+        <div className="loader-line-mask">
+          <div className="loader-line"></div>
         </div>
         <span>Loading</span>
       </div>

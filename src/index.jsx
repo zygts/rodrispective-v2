@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { ReactLenis } from "@studio-freight/react-lenis";
 
 import Experience from "./Experience.jsx";
 import CustomCursor from "./CustomCursor";
