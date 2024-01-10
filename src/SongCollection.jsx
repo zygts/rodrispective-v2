@@ -64,7 +64,7 @@ export default function CubeGroup({
         album: "Grito",
         year: "2018",
         paragraph:
-          "This is one of the last tracks I ever recorded. At the time I thought it signified the highest point in my music career. It was inspired by recent events on the Mediterranean sea, when it seemed an atrocious amount of people were dying every day trying to reach a better life.",
+          "This is one of the last songs I ever recorded in my life. When I finished it, I felt I was at my musical peak. I was on a roll, releasing track after track, and almost everything I did gave me satisfaction. I thought that maybe, just maybe this was finally my time to shine (it wasn't).",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/amanecer.mp3",
       },
@@ -85,7 +85,7 @@ export default function CubeGroup({
         year: "2017",
         paragraph:
           "Making music has often been a painful process, like giving birth to a child. This track, however, was made during a time when that process was peak joy for me. I had lots of fun recording this track and even more fun playing it live. ",
-        songUrl: "https://incierto.bandcamp.com/album/incierto",
+        songUrl: "https://incierto.bandcamp.com/album/el-ciclo-de-la-vida",
         audioFileUrl: "./audio/mentiras.mp3",
       },
       {
@@ -95,7 +95,7 @@ export default function CubeGroup({
         album: "El Ciclo de la Vida",
         paragraph:
           "When I started my new project Incierto, I had a clear goal in mind: Moving away from the “teen angst” that had punctured much of my musical output with Zygotus towards a lighter, better humoured persona without losing the mysterious aura. It took me a few tentative attempts but in “Homenaje”, with its silly lyrics in homage to nature, I felt I had for the first time achieved that goal.",
-        songUrl: "https://incierto.bandcamp.com/album/incierto",
+        songUrl: "https://incierto.bandcamp.com/album/el-ciclo-de-la-vida",
         audioFileUrl: "./audio/homenaje.mp3",
       },
       {
@@ -275,7 +275,7 @@ export default function CubeGroup({
         year: "2003",
         album: "Early Recordings",
         paragraph:
-          "Drawing inspiration from my fascination with virtual reality, 'Harmonic Hologram' fuses lush melodies with dynamic beats to create a vivid 3D soundscape. This track immerses listeners in a multi-layered sonic experience that mirrors the multi-dimensional landscapes of VR, reflecting my ongoing exploration of the intersections between music, technology, and perception.",
+          "Urbania was the first track I ever recorded, although I had been composing music in some form or another since I was a child. I was armed only with my Yamaha synthesiser, as my only recording equipment was the audio editing software that came with Windows 98 and a couple of home-made cables. Truly a feat for the ages.",
         songUrl: "https://zygotusmusic.bandcamp.com/album/early-recordings",
         audioFileUrl: "./audio/urbania.mp3",
       },
@@ -285,7 +285,7 @@ export default function CubeGroup({
         year: "2005",
         album: "Late Recordings",
         paragraph:
-          "As a fun creative exercise, I have always had in mind to make extremely different covers of other people’s work, but rarely managed to complete them (Michael Jackson's Billy Jean is still half done).",
+          "As a fun creative exercise, I have always had in mind to make extremely different covers of other people’s work, but rarely managed to complete them (Michael Jackson's Billy Jean is still half done). I found doing this one by Joy Division a lot of fun, although I wouldn't bet on their good reaction to it.",
         songUrl: "https://zygotusmusic.bandcamp.com/album/zygts-late-recordings",
         audioFileUrl: "./audio/love.mp3",
       },

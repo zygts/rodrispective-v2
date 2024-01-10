@@ -85,7 +85,7 @@ const LastImageShader = ({ scrollableRef }) => {
       ref={planeRef}
       geometry={geometry}
       material={material}
-      position={[0, 1.45, 0]}
+      position={[0, 1.45, 4]}
     />
   );
 };
