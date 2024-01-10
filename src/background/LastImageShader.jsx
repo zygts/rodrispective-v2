@@ -12,11 +12,11 @@ const LastImageShader = ({ scrollableRef }) => {
   const planeRef = useRef();
   const [isTextureLoaded, setIsTextureLoaded] = useState(false);
 
-  const geometry = new PlaneGeometry(14, 9.0, 40, 18).toNonIndexed();
+  const geometry = new PlaneGeometry(14 * 1.04, 9.0 * 1.04, 40, 18).toNonIndexed();
 
   useEffect(() => {
     const loader = new TextureLoader();
-    const textureFile = "framefinal.jpg";
+    const textureFile = "lastimage.jpg";
     loader.load(`./img/homepage/${textureFile}`, (texture) => {
       setTexture(texture);
       setIsTextureLoaded(true);
@@ -81,7 +81,12 @@ const LastImageShader = ({ scrollableRef }) => {
   }, [startButtonClicked, material]);
 
   return (
-    <mesh ref={planeRef} geometry={geometry} material={material} position={[0, 1.4, 4]} />
+    <mesh
+      ref={planeRef}
+      geometry={geometry}
+      material={material}
+      position={[0, 1.45, 0]}
+    />
   );
 };
 

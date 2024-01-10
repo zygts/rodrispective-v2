@@ -19,6 +19,7 @@ export default function CubeGroup({
       "./img/wednesday.jpg",
       "./img/mentiras.jpg",
       "./img/homenaje.jpg",
+      "./img/edad.jpg",
       "./img/boca.jpg",
       "./img/farewell.jpg",
       "./img/piggy.jpg",
@@ -31,7 +32,7 @@ export default function CubeGroup({
       "./img/burakumin.jpg",
       "./img/blueice.jpg",
       "./img/equatorial.jpg",
-      "./img/edad.jpg",
+
       "./img/fake.jpg",
       "./img/tigre.jpg",
       "./img/iraq.jpg",
@@ -96,6 +97,16 @@ export default function CubeGroup({
           "When I started my new project Incierto, I had a clear goal in mind: Moving away from the “teen angst” that had punctured much of my musical output with Zygotus towards a lighter, better humoured persona without losing the mysterious aura. It took me a few tentative attempts but in “Homenaje”, with its silly lyrics in homage to nature, I felt I had for the first time achieved that goal.",
         songUrl: "https://incierto.bandcamp.com/album/incierto",
         audioFileUrl: "./audio/homenaje.mp3",
+      },
+      {
+        title: "Edad Sin Piedad",
+        author: "Incierto",
+        year: "2017",
+        album: "Edad sin piedad",
+        paragraph:
+          "Incierto as a project was a completely new way of making music, of searching for sounds, a different way of being, even. It meant forgetting much of what I had been doing in the past. At the beginning it was a lot of trial and error, but when I finished this track I thought: this is the sound of Incierto.",
+        songUrl: "https://incierto.bandcamp.com/album/grito",
+        audioFileUrl: "./audio/edad.mp3",
       },
       {
         title: "Boca, Voz, Grito",
@@ -216,16 +227,6 @@ export default function CubeGroup({
           "I had started the new Max Gluckman project as an excuse to look for different sounds. I wanted to explore new terrains closer to techno music and other more danceable rhythms. The new venture ended up being very short, but I had a blast doing it.",
         songUrl: "https://maxgluckman.bandcamp.com/album/minmax",
         audioFileUrl: "./audio/equatorial.mp3",
-      },
-      {
-        title: "Edad Sin Piedad",
-        author: "Incierto",
-        year: "2017",
-        album: "Edad sin piedad",
-        paragraph:
-          "Incierto as a project was a completely new way of making music, of searching for sounds, a different way of being, even. It meant forgetting much of what I had been doing in the past. At the beginning it was a lot of trial and error, but when I finished this track I thought: this is the sound of Incierto.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
-        audioFileUrl: "./audio/edad.mp3",
       },
       {
         title: "#FakeNews",

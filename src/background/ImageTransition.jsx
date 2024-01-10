@@ -59,11 +59,11 @@ const Images = ({ scrollableRef }) => {
       "frame8.jpg",
       "frame7-2.jpg",
       "frame11.jpg",
-      "frame7.jpg",
-      "frame12-2.jpg",
+      "frame13.jpg",
+      "frame15.jpg",
       "frame6.jpg",
       "frame10.jpg",
-      "frame3-3.jpg",
+      "frame14.jpg",
     ];
 
     const promises = textureFiles.map(
