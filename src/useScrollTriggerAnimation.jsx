@@ -18,8 +18,8 @@ export const useScrollAnimation = (
       return;
     }
 
-    const imageShowTime = 0.7; // 80% del tiempo
-    const transitionTime = 0.3; // 30% del tiempo
+    const imageShowTime = 0.5; // 80% del tiempo
+    const transitionTime = 0.5; // 30% del tiempo
     const scrollStartOffset = 0.15;
 
     const timeline = gsap.timeline({
@@ -36,13 +36,14 @@ export const useScrollAnimation = (
           //   glitchAnimationRef.current = null;
           // }
 
-            // Ajusta el punto de inicio de la animación
-            const scrollStartOffsetAdjusted = scrollStartOffset - 0.15; // Comienza 0.15 antes
-            let adjustedScroll =
-              (self.progress - scrollStartOffsetAdjusted) / (1.0 - scrollStartOffsetAdjusted);
-            adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
-            
-            uniforms.uScroll.value = adjustedScroll;
+          // Ajusta el punto de inicio de la animación
+          const scrollStartOffsetAdjusted = scrollStartOffset - 0.15; // Comienza 0.15 antes
+          let adjustedScroll =
+            (self.progress - scrollStartOffsetAdjusted) /
+            (1.0 - scrollStartOffsetAdjusted);
+          adjustedScroll = gsap.utils.clamp(0.0, 1.0, adjustedScroll);
+
+          uniforms.uScroll.value = adjustedScroll;
 
           const numImages = textures.length;
           const index = Math.min(
@@ -78,17 +79,16 @@ export const useScrollAnimation = (
     const opacityTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: scrollableRef.current,
-        start: '83% top',
-        end: 'bottom bottom',
+        start: "83% top",
+        end: "bottom bottom",
         scrub: true,
       },
     });
 
-    opacityTimeline
-      .to(uniforms.u_opacity, {
-        value: 0.0,
-        duration: 0.2,
-      });
+    opacityTimeline.to(uniforms.u_opacity, {
+      value: 0.0,
+      duration: 0.2,
+    });
 
     if (camera) {
       timeline.add(

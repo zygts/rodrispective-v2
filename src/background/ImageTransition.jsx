@@ -187,7 +187,7 @@ const Images = ({ scrollableRef }) => {
       };
 
       const addRandomPause = () => {
-        const duration = Math.random() * 3 + 3; // Pausa más larga
+        const duration = Math.random() * 3 + 7; // Pausa más larga
         tl.to({}, { duration });
       };
 

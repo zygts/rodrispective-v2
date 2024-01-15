@@ -257,12 +257,14 @@ h1 {
 }
 
 .song-details {
+    display: none;
     min-width: 500px;
     position: absolute;
     transform: translate(-50%, -50%);
 }
 
 .song-details p {
+    opacity: 0;
     font-family: 'GTPressuraMono', monospace;
     color: white;
     text-transform: uppercase;

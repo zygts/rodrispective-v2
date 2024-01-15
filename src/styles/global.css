@@ -59,9 +59,13 @@ body,
 
 .hide {
     display: none !important;
+}
+
+.no-pointer-events {
+    pointer-events: none;
   }
 
-  .dg.ac {
+.dg.ac {
     z-index: 999999 !important;
 }
 

@@ -132,7 +132,11 @@ export default function Cube({
 
   const cubeLeave = () => {
     if (tlPreview.current) {
-      tlPreview.current.reverse(); // Revertir la animación
+      // Configura el evento onReverseComplete
+      tlPreview.current.eventCallback("onReverseComplete", () => {
+        setIsDivVisible(false); // Esto se ejecutará después de que la animación haya terminado
+      });
+      tlPreview.current.reverse(); // Inicia la animación inversa
     }
   };
 
@@ -272,6 +276,15 @@ export default function Cube({
     materialRef.current.uniforms.uTime.value += delta;
   });
 
+  // Modifica los eventos para controlar la interactividad
+  const handleEvent = (event, action) => {
+    if (!isAnimationFinished) {
+      event.stopPropagation(); // Evita que el evento se propague si la animación no ha terminado
+      return; // No ejecutar más acciones
+    }
+    action(); // Ejecuta la acción si la animación ha terminado
+  };
+
   return (
     <mesh
       ref={meshRef}
@@ -312,7 +325,10 @@ export default function Cube({
         uniforms={uniforms}
       />
 
-      <Html position={[-0.04, 0.87, 0]}>
+      <Html
+        position={[-0.04, 0.87, 0]}
+        className={!isAnimationFinished ? "no-pointer-events" : ""}
+      >
         <div
           ref={elementRef}
           className={`song-details ${isDivVisible ? "visible" : ""}`}
@@ -334,6 +350,7 @@ export default function Cube({
         position={[0, 0, 0]}
         center
         scaleFactor={1}
+        className={!isAnimationFinished ? "no-pointer-events" : ""}
         style={{ display: showHtml ? "block" : "none" }}
       >
         <div

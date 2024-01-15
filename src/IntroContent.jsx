@@ -145,19 +145,29 @@ function IntroContent({ isLoading }) {
       });
     };
 
-    // Animación de opacidad para scrollDownDiv
+    // Asegúrate de que scrollDownDiv comienza con opacidad 0
+    gsap.set(scrollDownDiv.current, { opacity: 0 });
+
+    // Animación de opacidad inicial para scrollDownDiv
+    gsap.to(scrollDownDiv.current, {
+      opacity: 1,
+      delay: 5,
+      duration: 0.2, // Agrega una duración a esta animación
+    });
+
+    // Definición del timeline con ScrollTrigger
     const scrollTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: "#scrollable",
-        start: "800px top",
+        start: "top center",
         end: "90% center",
         scrub: true,
       },
     });
 
+    // Animaciones dentro del timeline
     scrollTimeline
-      .fromTo(scrollDownDiv.current, { opacity: 0 }, { opacity: 1, duration: 0.2 })
-      .to({}, { duration: 2 }) // Agrega un tiempo de espera de 2 segundos
+      .to({}, { duration: 2 }) // Tiempo de espera antes de empezar a desvanecer
       .to(scrollDownDiv.current, {
         opacity: 0,
         duration: 0.2,
@@ -191,7 +201,7 @@ function IntroContent({ isLoading }) {
         The time has come to pause, reflect and open up.
       </p>
       <div ref={scrollDownDiv} className="scroll-down">
-        Keep scrolling down
+        Please scroll down
       </div>
       <div id="start-container">
         <button
