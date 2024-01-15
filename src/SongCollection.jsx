@@ -74,7 +74,7 @@ export default function CubeGroup({
         album: "Glim.mer",
         year: "2006",
         paragraph:
-          "By far my most popular song among family and friends. I made it in just a couple of days, in a frantic rush of inspiration. The muse only touches you with her magic a few times during a lifetime. My mom keeps asking me why I don’t make music like this anymore.",
+          "By far my most popular song among family and friends. I made it in just a couple of days, in a frantic rush of inspiration. My mom keeps asking me why I don’t make music like this anymore.",
         songUrl: "https://zygotusmusic.bandcamp.com/album/glim-mer",
         audioFileUrl: "./audio/wednesday-morning.mp3",
       },
@@ -164,7 +164,7 @@ export default function CubeGroup({
         year: "2019",
         album: "Tiza negra",
         paragraph:
-          "This is the last song I have ever recorded in my life. It is also one of the songs I am most satisfied with. If there is one that brings together all the roads I have travelled for more than 2 decades, every style, every transformation... it is undoubtedly this one.",
+          "This is the last song I have ever recorded in my life. It is also one of the songs I am most satisfied with. If there is one that brings together all the roads I have travelled for almost two decades, every style, every transformation... it is undoubtedly this one.",
         songUrl: "https://incierto.bandcamp.com/album/grito",
         audioFileUrl: "./audio/soloquierenjugar.mp3",
       },

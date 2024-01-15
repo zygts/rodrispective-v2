@@ -41,8 +41,8 @@ const CustomCursor = () => {
     const y = -(e.clientY / window.innerHeight) * 2 + 1;
     const cursorPos = new Vector2(x, y);
     const distance = cursorPos.distanceTo(buttonPosition);
-    const isNearButton = distance < 0.07 && activeCube !== null; // check if a cube is active
-    const cursorSize = isNearButton ? "110px" : "12px";
+    const isNearButton = distance < 0.09 && activeCube !== null; // check if a cube is active
+    const cursorSize = isNearButton ? "120px" : "12px";
 
     setCursorPosition({ x, y });
 
@@ -55,14 +55,14 @@ const CustomCursor = () => {
         left: `${(buttonPosition.x * window.innerWidth) / 2 + window.innerWidth / 2}px`,
         top: `${(-(buttonPosition.y - 1) * window.innerHeight) / 2}px`,
         ease: "power4.out",
-        duration: 0.15,
+        duration: 0.17,
       });
     } else {
       gsap.to(cursorRef.current, {
         left: `${e.clientX}px`,
         top: `${e.clientY}px`,
         ease: "power4.out",
-        duration: 0.15,
+        duration: 0.17,
       });
     }
   };

@@ -382,7 +382,7 @@ export default function Cube({
           </div>
 
           <button ref={buttonPlayRef} className="btn-play" onClick={spin}>
-            {isPlaying ? "Stop Playing" : "Play Song"}
+            {isPlaying ? "Stop playing" : "Play preview"}
           </button>
           <button
             className="btn-back"
