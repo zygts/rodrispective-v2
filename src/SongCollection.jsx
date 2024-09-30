@@ -165,7 +165,7 @@ export default function CubeGroup({
         album: "Tiza negra",
         paragraph:
           "This is the last song I have ever recorded in my life. It is also one of the songs I am most satisfied with. If there is one that brings together all the roads I have travelled for almost two decades, every style, every transformation... it is undoubtedly this one.",
-        songUrl: "https://incierto.bandcamp.com/album/grito",
+        songUrl: "https://incierto.bandcamp.com/album/tiza-negra",
         audioFileUrl: "./audio/soloquierenjugar.mp3",
       },
       {

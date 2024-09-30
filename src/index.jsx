@@ -11,6 +11,7 @@ import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent";
 import Instructions from "./Instructions";
 import Loader from "./Loader";
+import Header from "./header";
 
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -78,6 +79,7 @@ const MainContent = () => {
         style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
       >
         <Instructions isVisible={!showIntro} animate={startAnimation} />
+        <Header />
         <Canvas
           id="experience-canvas"
           style={{

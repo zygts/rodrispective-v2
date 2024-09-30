@@ -73,3 +73,24 @@ p, h1, h2, h3, h4, h5 {
     margin-block-start: 0;
     margin-block-end: 0;
 }
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.header ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 100px;
+}
+
+.header ul a {
+    color: white;
+    font-family: 'GTPressuraMono';
+    text-decoration: none;
+    text-transform: uppercase;
+}
