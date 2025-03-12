@@ -7,7 +7,6 @@ import ParticlesGrid from "./background/ParticlesGrid.jsx";
 import Images from "./background/ImageTransition.jsx";
 import LastImageShader from "./background/LastImageShader.jsx";
 import BackgroundPlane from "./background/BackgroundPlane.jsx";
-import BackgroundStars from "./background/BackgroundStars.jsx";
 import Stars from "./background/NewStars.jsx";
 
 import { AppContext } from "./appContext";

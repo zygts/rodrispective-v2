@@ -13,7 +13,7 @@ void main() {
 
     float speed = uTime * uSoundVolume;
     float strenght = uSoundVolume * 0.09;
-    float zPosition = 0.99 + (uSoundVolume * 0.01);
+    float zPosition = 0.99 + (uSoundVolume * 0.5);
 
     transformed = initPosition + ((position - initPosition) * uProgress);
 
