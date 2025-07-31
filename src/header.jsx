@@ -38,7 +38,13 @@ const Header = () => {
         >
           My Story
         </span>
-        <span>Contact Me</span>
+        <span
+          className="contact-link"
+          onPointerEnter={() => setCursorState("large--filled-red")}
+          onPointerLeave={() => setCursorState("default")}
+        >
+          Contact Me
+        </span>
       </nav>
     </header>
   );

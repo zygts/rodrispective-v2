@@ -14,6 +14,7 @@ import Instructions from "./Instructions";
 import Loader from "./Loader";
 import Header from "./Header.jsx";
 import AboutPage from "./aboutPage.jsx";
+import ContactPage from "./ContactPage.jsx";
 
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -64,6 +65,7 @@ const MainContent = () => {
       <CustomCursor />
       <Header />
       <AboutPage />
+      <ContactPage />
 
       {!removeScrollable && (
         <div id="scrollable" ref={scrollableRef}>

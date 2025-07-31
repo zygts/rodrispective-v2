@@ -4,6 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useTextLinesReveal from "./useTextLinesReveal";
 import { AppContext } from "./appContext";
 
+import "./styles/contact.css";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutPage = () => {
