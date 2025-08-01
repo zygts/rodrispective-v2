@@ -77,7 +77,7 @@ export function BackgroundCanvas({ scrollableRef }) {
           <ParticlesGrid />
         ) : (
           <>
-            <Stars starCount={15000} />
+            <Stars starCount={10000} />
             <Images scrollableRef={scrollableRef} />
             <LastImageShader scrollableRef={scrollableRef} />
             <BackgroundPlane scrollableRef={scrollableRef} />

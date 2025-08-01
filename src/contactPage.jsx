@@ -40,7 +40,7 @@ const ContactPage = () => {
       if (res.ok) {
         setSuccess(true);
         setFormData({ email: "", message: "" });
-              setTimeout(() => setSuccess(false), 3000);
+              setTimeout(() => setSuccess(false), 5000);
       } else {
         setError("Hubo un problema al enviar el mensaje.");
       }
