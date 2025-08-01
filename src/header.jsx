@@ -21,6 +21,7 @@ const Header = () => {
 
   useEffect(() => {
     if (isVisible && headerRef.current) {
+      
       gsap.fromTo(headerRef.current, 
         { autoAlpha: 0, y: -50 },
         { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out", delay: 4 }
