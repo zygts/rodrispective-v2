@@ -12,7 +12,7 @@ import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent";
 import Instructions from "./Instructions";
 import Loader from "./Loader";
-import Header from "./Header.jsx";
+import Header from "./header.jsx";
 import AboutPage from "./aboutPage.jsx";
 import ContactPage from "./ContactPage.jsx";
 
