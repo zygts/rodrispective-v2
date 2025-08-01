@@ -16,6 +16,7 @@ import Header from "./header.jsx";
 import AboutPage from "./aboutPage.jsx";
 import ContactPage from "./ContactPage.jsx";
 
+
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
