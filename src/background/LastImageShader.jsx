@@ -1,5 +1,10 @@
-import { TextureLoader, BufferAttribute, ShaderMaterial, PlaneGeometry } from "three";
-import { useRef, useState, useEffect, useMemo, useContext } from "react";
+import {
+  TextureLoader,
+  BufferAttribute,
+  ShaderMaterial,
+  PlaneGeometry,
+} from "three";
+import { useRef, useEffect, useMemo, useContext } from "react";
 import gsap from "gsap";
 
 import { useLastImageScrollAnimation } from "./useLastImageScrollAnimation";
@@ -8,77 +13,99 @@ import vertexShader from "./lastImage.vert";
 import fragmentShader from "./lastImage.frag";
 
 const LastImageShader = ({ scrollableRef }) => {
-  const [texture, setTexture] = useState(null);
+  const textureRef = useRef(null);
   const planeRef = useRef();
-  const [isTextureLoaded, setIsTextureLoaded] = useState(false);
+  const shaderMaterialRef = useRef();
+  const isTextureLoadedRef = useRef(false);
+  const geometryRef = useRef();
 
-  const geometry = new PlaneGeometry(14 * 1.04, 9.0 * 1.04, 40, 18).toNonIndexed();
+  const { setStartButtonClicked } = useContext(AppContext);
 
+  // Carga la textura
   useEffect(() => {
     const loader = new TextureLoader();
-    const textureFile = "lastimage.jpg";
-    loader.load(`./img/homepage/${textureFile}`, (texture) => {
-      setTexture(texture);
-      setIsTextureLoaded(true);
+    loader.load("./img/homepage/lastimage.jpg", (tex) => {
+      textureRef.current = tex;
+      isTextureLoadedRef.current = true;
+      shaderMaterialRef.current.uniforms.uTexture.value = tex;
     });
   }, []);
 
-  useLastImageScrollAnimation(planeRef, scrollableRef, isTextureLoaded);
+  // Genera geometría una sola vez
+  const geometry = useMemo(() => {
+    const geo = new PlaneGeometry(14 * 1.04, 9 * 1.04, 40, 18).toNonIndexed();
+    const triangleIDs = new Float32Array(geo.attributes.position.count);
 
-  const triangleIDs = new Float32Array(geometry.attributes.position.count);
+    for (let i = 0; i < triangleIDs.length; i += 3) {
+      const id = i / 3;
+      triangleIDs[i] = triangleIDs[i + 1] = triangleIDs[i + 2] = id;
+    }
 
-  for (let i = 0; i < geometry.attributes.position.count; i += 3) {
-    triangleIDs[i] = i / 3;
-    triangleIDs[i + 1] = i / 3;
-    triangleIDs[i + 2] = i / 3;
-  }
-
-  geometry.setAttribute("triangleID", new BufferAttribute(triangleIDs, 1));
-
-  const material = useMemo(
-    () =>
-      new ShaderMaterial({
-        uniforms: {
-          uTexture: { type: "t", value: texture },
-          uResolution: { value: { x: window.innerWidth, y: window.innerHeight } },
-          uAspectRatio: { value: window.innerWidth / window.innerHeight },
-          u_opacity: { value: 0.0 },
-          uDisplacementFactor: { value: 0.0 },
-        },
-        vertexShader,
-        fragmentShader,
-        transparent: true,
-      }),
-    [texture]
-  );
-
-  const { startButtonClicked, setStartButtonClicked } = useContext(AppContext);
-
-  useEffect(() => {
-    const handleStartButtonClick = () => {
-      setStartButtonClicked(true);
-    };
-
-    window.addEventListener("startButtonClick", handleStartButtonClick);
-
-    return () => {
-      window.removeEventListener("startButtonClick", handleStartButtonClick);
-    };
+    geo.setAttribute("triangleID", new BufferAttribute(triangleIDs, 1));
+    geometryRef.current = geo;
+    return geo;
   }, []);
 
+  // Material y uniforms
+  const material = useMemo(() => {
+    const uniforms = {
+      uTexture: { type: "t", value: null },
+      uResolution: {
+        value: { x: window.innerWidth, y: window.innerHeight },
+      },
+      uAspectRatio: {
+        value: window.innerWidth / window.innerHeight,
+      },
+      u_opacity: { value: 0.0 },
+      uDisplacementFactor: { value: 0.0 },
+    };
+
+    const mat = new ShaderMaterial({
+      uniforms,
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+    });
+
+    shaderMaterialRef.current = mat;
+    return mat;
+  }, []);
+
+  // Actualiza resolución al redimensionar
   useEffect(() => {
-    if (startButtonClicked) {
-      gsap.to(material.uniforms.uDisplacementFactor, {
+    const handleResize = () => {
+      if (!shaderMaterialRef.current) return;
+      const { uniforms } = shaderMaterialRef.current;
+      uniforms.uResolution.value.x = window.innerWidth;
+      uniforms.uResolution.value.y = window.innerHeight;
+      uniforms.uAspectRatio.value = window.innerWidth / window.innerHeight;
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Scroll animation
+  useLastImageScrollAnimation(planeRef, scrollableRef, isTextureLoadedRef.current);
+
+  // Botón de inicio
+  useEffect(() => {
+    const handleStart = () => {
+      setStartButtonClicked(true);
+
+      gsap.to(shaderMaterialRef.current.uniforms.uDisplacementFactor, {
         value: 3,
         duration: 3,
         ease: "power2.in",
         onComplete: () => {
-          const event = new CustomEvent("shaderAnimationComplete");
-          window.dispatchEvent(event);
+          window.dispatchEvent(new CustomEvent("shaderAnimationComplete"));
         },
       });
-    }
-  }, [startButtonClicked, material]);
+    };
+
+    window.addEventListener("startButtonClick", handleStart);
+    return () => window.removeEventListener("startButtonClick", handleStart);
+  }, [setStartButtonClicked]);
 
   return (
     <mesh

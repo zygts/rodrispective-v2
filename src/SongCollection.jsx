@@ -1,9 +1,8 @@
-import { useEffect, useState, useContext } from "react";
-import { TextureLoader } from "three";
+import { useEffect, useState, useContext, useMemo, useCallback } from "react";
+import { TextureLoader, LinearFilter } from "three";
 
 import { AppContext } from "./appContext";
 import Cube from "./Song";
-
 // 1. Define los paths de imágenes y el contenido en constantes FUERA del componente
 //    para evitar recrearlos en cada render.
 const TEXTURE_PATHS = [
@@ -298,27 +297,56 @@ export default function CubeGroup({
   const [textures, setTextures] = useState([]);
   const { setActiveCube, activeCube } = useContext(AppContext);
 
+  // ====================================
+  // CAMBIO 1: TEXTURE LOADER MEMOIZADO
+  // ====================================
+  const loader = useMemo(() => new TextureLoader(), []);
+
+  // ====================================
+  // CAMBIO 2: CALLBACK MEMOIZADO
+  // ====================================
+  const handleBackClick = useCallback(() => {
+    setActiveCube(null);
+  }, [setActiveCube]);
+
   // 3. Carga de texturas: solo se hace una vez
   useEffect(() => {
-    const loader = new TextureLoader();
     const loadTexture = (path) => {
       return new Promise((resolve) => {
-        loader.load(path, (texture) => resolve(texture));
+        loader.load(path, (texture) => {
+          // ====================================
+          // CAMBIO 3: OPTIMIZACIÓN BÁSICA DE TEXTURAS
+          // ====================================
+          texture.generateMipmaps = false;
+          texture.minFilter = LinearFilter;
+          texture.magFilter = LinearFilter;
+          resolve(texture);
+        });
       });
     };
 
     // Carga todas las texturas de forma asíncrona
     Promise.all(TEXTURE_PATHS.map(loadTexture)).then((loadedTextures) => {
       setTextures(loadedTextures);
-      // Notificamos a "Experience" que los recursos están cargados
-      // Si quieres retrasar la notificación, puedes usar setTimeout
-      window.dispatchEvent(new Event("resourcesLoaded"));
+      // ====================================
+      // CAMBIO 4: DELAY PARA NO BLOQUEAR RENDER
+      // ====================================
+      setTimeout(() => {
+        window.dispatchEvent(new Event("resourcesLoaded"));
+      }, 100);
     });
-  }, []);
 
-  const handleBackClick = () => {
-    setActiveCube(null);
-  };
+    // ====================================
+    // CAMBIO 5: CLEANUP DE TEXTURAS
+    // ====================================
+    return () => {
+      textures.forEach(texture => {
+        if (texture.dispose) {
+          texture.dispose();
+        }
+      });
+    };
+  }, [loader]); // Solo depende del loader memoizado
 
   // 4. Renderizado condicional: si aún no se han cargado las texturas, puedes
   //    mostrar un fallback o simplemente no renderizar nada

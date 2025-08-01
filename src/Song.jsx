@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo, useState, useContext } from "react";
+import { useRef, useEffect, useMemo, useState, useContext, useCallback } from "react";
 import { Vector2, Vector3, BufferAttribute } from "three";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
@@ -19,6 +19,7 @@ export default function Cube({
   onBackClick,
   resetCamera,
 }) {
+
   const angle = (index / 25) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
   const z = radius * Math.sin(angle);
@@ -40,23 +41,25 @@ export default function Cube({
     cursorPosition,
   } = useContext(AppContext);
 
+  const handleLinkEnter = useCallback(() => {
+    setCursorState("large--filled-red");
+  }, [setCursorState]);
+
+  const handleLinkLeave = useCallback(() => {
+    setCursorState("default");
+  }, [setCursorState]);
+
   const [audioCtx, setAudioCtx] = useState(null);
 
   useEffect(() => {
-    if (meshRef.current) {
-      meshRef.current.lookAt(new Vector3(0, 0, 0));
-    }
-  }, []);
-
-  // Almacenamos la rotación inicial al montar el componente
-  useEffect(() => {
-    if (meshRef.current) {
-      setInitialRotation(meshRef.current.rotation.z);
-    }
-  }, []);
+  if (meshRef.current) {
+    meshRef.current.lookAt(new Vector3(0, 0, 0));
+    setInitialRotation(meshRef.current.rotation.z);
+  }
+}, []);
 
   // Click en la canción
-  const handleClick = (event) => {
+const handleClick = useCallback((event) => {
     event.stopPropagation(); // detén la propagación del evento para evitar el comportamiento inesperado
     onClick(index); // pasa el index al controlador de clics
 
@@ -72,16 +75,18 @@ export default function Cube({
     gsap.to([titleRef.current, authorRef.current, yearRef.current], {
       opacity: 0,
     });
-  };
+}, [index, onClick, audioCtx]);
 
   // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
+    let timeout;
     if (activeCube === index && isAnimationFinished) {
-      setTimeout(() => setShowHtml(true), 100);
+      timeout = setTimeout(() => setShowHtml(true), 100);
     } else {
       setShowHtml(false);
     }
-  }, [activeCube, index, isAnimationFinished]);
+    return () => clearTimeout(timeout);
+}, [activeCube, index, isAnimationFinished]);
 
   // Shaders
   const uniforms = useMemo(
@@ -373,8 +378,8 @@ export default function Cube({
                 href={content.songUrl}
                 target="blank"
                 className="btn-goto"
-                onPointerEnter={() => setCursorState("large--filled-red")}
-                onPointerLeave={() => setCursorState("default")}
+                onPointerEnter={handleLinkEnter}
+                onPointerLeave={handleLinkLeave}
               >
                 Listen to it
               </a>
@@ -386,8 +391,8 @@ export default function Cube({
           </button>
           <button
             className="btn-back"
-            onPointerEnter={() => setCursorState("large--filled-red")}
-            onPointerLeave={() => setCursorState("default")}
+            onPointerEnter={handleLinkEnter}
+            onPointerLeave={handleLinkLeave}
             onClick={() => {
               onBackClick();
               setIsPlaying(false);

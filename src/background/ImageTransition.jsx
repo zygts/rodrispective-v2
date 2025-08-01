@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { TextureLoader } from "three";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,9 +12,14 @@ import { useScrollAnimation } from "../useScrollTriggerAnimation";
 gsap.registerPlugin(ScrollTrigger);
 
 const Images = ({ scrollableRef }) => {
-  const [textures, setTextures] = useState([null, null, null, null, null]);
-  const [displacementTexture, setDisplacementTexture] = useState(null);
-  const [uniforms, setUniforms] = useState({
+  const { camera } = useThree();
+  const meshRef = useRef();
+  const glitchAnimationRef = useRef(null);
+
+  const [textures, setTextures] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const uniforms = useRef({
     currentTexture: { type: "t", value: null },
     nextTexture: { type: "t", value: null },
     mixValue: { value: 0.0 },
@@ -23,35 +28,30 @@ const Images = ({ scrollableRef }) => {
     uAspectRatio: { value: window.innerWidth / window.innerHeight },
     uDisplacement: { type: "t", value: null },
     uScroll: { value: 0 },
+    uRandomValues: {
+      value: {
+        r: Math.random() * 0.1 - 0.05,
+        g: Math.random() * 0.1 - 0.05,
+        b: Math.random() * 0.1 - 0.05,
+      },
+    },
+    u_opacity: { value: 1.0 },
   });
-  const { camera } = useThree();
-  const glitchAnimationRef = useRef(null);
-  const meshRef = useRef();
 
-  const randomValues = {
-    r: Math.random() * 0.1 - 0.05, // Valor aleatorio entre -0.05 y 0.05
-    g: Math.random() * 0.1 - 0.05,
-    b: Math.random() * 0.1 - 0.05,
-  };
-
-  // Animación entrada imagenes
-  const props = useSpring({
+  const springProps = useSpring({
     scale: [1, 1, 1],
-    position: [0, 1.4, 3], // posicion objetivo
-    rotation: [0, 0, 0], // rotacion objetivo
+    position: [0, 1.4, 3],
+    rotation: [0, 0, 0],
     from: {
       scale: [0.3, 0.3, 0.3],
-      position: [-2, 5, 1], // posicion inicial
-      rotation: [0.5, 0.9, 0.5], // rotacion inicial
+      position: [-2, 5, 1],
+      rotation: [0.5, 0.9, 0.5],
     },
-    config: {
-      tension: 35,
-      friction: 55,
-    },
+    config: { tension: 35, friction: 55 },
     delay: 1200,
   });
 
-  // Carga las imágenes como texturas
+  // 🖼️ Cargar texturas y displacement
   useEffect(() => {
     const loader = new TextureLoader();
     const textureFiles = [
@@ -66,165 +66,129 @@ const Images = ({ scrollableRef }) => {
       "frame14.jpg",
     ];
 
-    const promises = textureFiles.map(
-      (file) =>
-        new Promise((resolve) => {
-          loader.load(`./img/homepage/${file}`, resolve);
-        })
-    );
+    const loadTextures = async () => {
+      const textures = await Promise.all(
+        textureFiles.map(
+          (file) => new Promise((res) => loader.load(`./img/homepage/${file}`, res))
+        )
+      );
 
-    // Carga la textura extra
-    const displacementPromise = new Promise((resolve) => {
-      loader.load(`./img/homepage/disp2.jpg`, resolve);
-    });
+      const displacement = await new Promise((res) =>
+        loader.load(`./img/homepage/disp2.jpg`, res)
+      );
 
-    Promise.all([...promises, displacementPromise]).then((loadedTextures) => {
-      const displacementTexture = loadedTextures.pop();
-      setTextures(loadedTextures);
-      setDisplacementTexture(displacementTexture);
-      setUniforms({
-        currentTexture: { type: "t", value: loadedTextures[0] },
-        nextTexture: { type: "t", value: loadedTextures[1] },
-        mixValue: { value: 0.0 },
-        uGlitch: { value: 0.0 },
-        uResolution: { value: { x: window.innerWidth, y: window.innerHeight } },
-        uAspectRatio: { value: window.innerWidth / window.innerHeight },
-        uDisplacement: { type: "t", value: displacementTexture },
-        uScroll: { value: 0 },
-        uRandomValues: { value: randomValues },
-        u_opacity: { value: 1.0 },
-      });
-    });
+      uniforms.current.currentTexture.value = textures[0];
+      uniforms.current.nextTexture.value = textures[1];
+      uniforms.current.uDisplacement.value = displacement;
+
+      setTextures(textures);
+      setIsLoaded(true);
+    };
+
+    loadTextures();
   }, []);
 
-  // Actualiza su resolución
+  // 📐 Resize
   useEffect(() => {
-    const onResize = () => {
-      if (uniforms) {
-        uniforms.uResolution.value.x = window.innerWidth;
-        uniforms.uResolution.value.y = window.innerHeight;
-        uniforms.uAspectRatio.value = window.innerWidth / window.innerHeight;
-      }
+    const handleResize = () => {
+      uniforms.current.uResolution.value.x = window.innerWidth;
+      uniforms.current.uResolution.value.y = window.innerHeight;
+      uniforms.current.uAspectRatio.value = window.innerWidth / window.innerHeight;
     };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [uniforms]);
 
-  // Ajusta el tamaño del plano para mantener la proporción de las imágenes
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 🧱 Ajuste del plano según aspecto
   useEffect(() => {
     const adjustPlaneSize = () => {
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const imageAspectRatio = 20 / 9; // Suponiendo que tus imágenes tienen una relación de aspecto de 16:9
+      const aspect = window.innerWidth / window.innerHeight;
+      const imageAspect = 20 / 9;
       const plane = meshRef.current;
-      if (plane) {
-        if (aspectRatio > imageAspectRatio) {
-          plane.scale.x = aspectRatio / imageAspectRatio;
-          plane.scale.y = 1;
-        } else {
-          plane.scale.x = 1;
-          plane.scale.y = imageAspectRatio / aspectRatio;
-        }
+
+      if (!plane) return;
+
+      if (aspect > imageAspect) {
+        plane.scale.x = aspect / imageAspect;
+        plane.scale.y = 1;
+      } else {
+        plane.scale.x = 1;
+        plane.scale.y = imageAspect / aspect;
       }
     };
 
     adjustPlaneSize();
     window.addEventListener("resize", adjustPlaneSize);
-
-    return () => {
-      window.removeEventListener("resize", adjustPlaneSize);
-    };
+    return () => window.removeEventListener("resize", adjustPlaneSize);
   }, []);
 
-  // Animación en scroll
-  useScrollAnimation(uniforms, textures, scrollableRef, camera, glitchAnimationRef);
+  // 🎞️ Scroll animation
+  useScrollAnimation(uniforms.current, textures, scrollableRef, camera, glitchAnimationRef);
 
-  // Animación de glitch
+  // 🔁 Glitch animation
   useEffect(() => {
-    if (!uniforms || !uniforms.uRandomValues) {
-      return; // Retorna temprano si uniforms o uniforms.uRandomValues no están definidos
-    }
-    // Defer the execution of the animation by 7 seconds
-    const timeoutId = setTimeout(() => {
+    if (!isLoaded) return;
+
+    const timeout = setTimeout(() => {
       const tl = gsap.timeline({ repeat: -1 });
 
-      const addRandomAnimation = () => {
+      for (let i = 0; i < 100; i++) {
         const glitchDuration = Math.random() * 0.18 + 0.1;
-        const targetGlitchValue = Math.random() * 0.1 + 0.1;
+        const glitchValue = Math.random() * 0.1 + 0.1;
+        const pauseDuration = Math.random() * 3 + 7;
 
-        // Define los valores objetivo de uRandomValues
-        const targetRandomValues = {
+        const target = {
           r: Math.random() * 0.1 - 0.05,
           g: Math.random() * 0.1 - 0.05,
           b: Math.random() * 0.1 - 0.05,
         };
 
-        // Anima uGlitch y uRandomValues simultáneamente
-        tl.to(uniforms.uGlitch, {
+        tl.to(uniforms.current.uGlitch, {
           duration: glitchDuration,
-          value: targetGlitchValue,
+          value: glitchValue,
           ease: "steps(3)",
           onUpdate: () => {
-            // Durante la animación, actualiza uRandomValues
-            uniforms.uRandomValues.value = {
-              r:
-                uniforms.uRandomValues.value.r +
-                (targetRandomValues.r - uniforms.uRandomValues.value.r) * 0.5,
-              g:
-                uniforms.uRandomValues.value.g +
-                (targetRandomValues.g - uniforms.uRandomValues.value.g) * 0.5,
-              b:
-                uniforms.uRandomValues.value.b +
-                (targetRandomValues.b - uniforms.uRandomValues.value.b) * 0.5,
-            };
+            const rv = uniforms.current.uRandomValues.value;
+            rv.r += (target.r - rv.r) * 0.5;
+            rv.g += (target.g - rv.g) * 0.5;
+            rv.b += (target.b - rv.b) * 0.5;
           },
         });
 
-        tl.to(uniforms.uGlitch, {
+        tl.to(uniforms.current.uGlitch, {
           duration: glitchDuration,
+          value: 0,
           ease: "steps(3)",
-          value: 0, // Regresa a 0 después de cada glitch
         });
-      };
 
-      const addRandomPause = () => {
-        const duration = Math.random() * 3 + 7; // Pausa más larga
-        tl.to({}, { duration });
-      };
-
-      for (let i = 0; i < 100; i++) {
-        addRandomAnimation();
-        addRandomPause();
+        tl.to({}, { duration: pauseDuration });
       }
 
       glitchAnimationRef.current = tl;
-    }, 7000); // 7 seconds
+    }, 7000);
 
-    // Make sure to clear the timeout if the component unmounts before the timeout finishes
     return () => {
-      clearTimeout(timeoutId);
-      if (glitchAnimationRef.current) {
-        glitchAnimationRef.current.kill();
-      }
+      clearTimeout(timeout);
+      glitchAnimationRef.current?.kill();
     };
-  }, [uniforms]);
+  }, [isLoaded]);
 
-  if (!uniforms.currentTexture.value) {
-    return null;
-  }
+  if (!isLoaded) return null;
 
   return (
     <a.mesh
       ref={meshRef}
-      scale={props.scale}
-      position={props.position}
-      rotation={props.rotation}
+      scale={springProps.scale}
+      position={springProps.position}
+      rotation={springProps.rotation}
     >
-      <planeGeometry args={[14, 9.0]} />
+      <planeGeometry args={[14, 9]} />
       <shaderMaterial
-        uniforms={uniforms}
+        uniforms={uniforms.current}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
-        transparent={true}
+        transparent
       />
     </a.mesh>
   );

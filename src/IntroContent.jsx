@@ -1,53 +1,61 @@
 import "./styles/intro.css";
-import React, { useEffect, useRef, useContext, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useContext,
+  useState,
+  useCallback,
+} from "react";
 import { gsap } from "gsap";
+import { AppContext } from "./appContext";
+import Splitting from "splitting";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
-import Splitting from "splitting";
-
-import { AppContext } from "./appContext";
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 function IntroContent({ isLoading }) {
   const { setCursorState } = useContext(AppContext);
-  const scrollDownDiv = useRef(null);
-  const startButtonEvent = new CustomEvent("startButtonClick");
-  const startButton = document.querySelector(".start-btn");
 
-  // Botón start
-  const handleClick = () => {
-    window.dispatchEvent(startButtonEvent);
-  };
-
-  // Change event
+  const scrollDownRef = useRef(null);
+  const helloTextRef = useRef(null);
+  const startButtonRef = useRef(null);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
-  useEffect(() => {
-    const handleStartButtonClick = () => {
-      setStartButtonClicked(true);
-    };
 
-    window.addEventListener("startButtonClick", handleStartButtonClick);
+  // Eventos del cursor
+  const handlePointerEnter = useCallback(() => {
+    setCursorState("large--filled-exlusion");
+  }, [setCursorState]);
 
-    return () => {
-      window.removeEventListener("startButtonClick", handleStartButtonClick);
-    };
+  const handlePointerLeave = useCallback(() => {
+    setCursorState("default");
+  }, [setCursorState]);
+
+  // Disparar evento personalizado
+  const handleClick = useCallback(() => {
+    window.dispatchEvent(new CustomEvent("startButtonClick"));
   }, []);
 
+  // Escuchar el evento personalizado
   useEffect(() => {
-    if (startButtonClicked) {
-      startButton.classList.add("inactive");
+    const handleStartButtonClick = () => setStartButtonClicked(true);
+    window.addEventListener("startButtonClick", handleStartButtonClick);
+    return () =>
+      window.removeEventListener("startButtonClick", handleStartButtonClick);
+  }, []);
 
+  // Animación botón al hacer click
+  useEffect(() => {
+    if (startButtonClicked && startButtonRef.current) {
+      const btn = startButtonRef.current;
+      btn.classList.add("inactive");
       gsap.fromTo(
-        startButton,
-        {
-          scale: 1,
-          filter: "brightness(100%) blur('0px')",
-        },
+        btn,
+        { scale: 1, filter: "brightness(100%) blur(0px)" },
         {
           scale: 0,
-          filter: "brightness(150%) blur('10px')",
+          filter: "brightness(150%) blur(10px)",
           duration: 2,
           ease: "power2.in",
         }
@@ -55,134 +63,105 @@ function IntroContent({ isLoading }) {
     }
   }, [startButtonClicked]);
 
+  // Animación de entrada + scroll-trigger
   useEffect(() => {
-    // Animación de entrada
-    const helloText = document.querySelector("#hello-text");
+    const helloText = helloTextRef.current;
     const split = Splitting({ target: helloText, by: "words" })[0];
     const words = split.words;
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        startSecondAnimation();
-      },
-    });
+    const span1 = document.querySelector("#hello-title-1");
+    const span2 = document.querySelector("#hello-title-2");
 
     gsap.set(words, { opacity: 0 });
+    gsap.set(span2, { display: "none" });
 
-    tl.to(
-      words[0],
-      {
-        duration: 0.8,
-        opacity: 1,
-      },
-      "+2.4"
-    )
-      .to(
-        words[1],
+    const introTl = gsap.timeline({
+  onComplete: () => {
+    const switchTitles = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 });
+    switchTitles
+      .to(span1, { duration: 1, display: "none" })
+      .to(span2, { duration: 1, display: "inline" });
+  },
+});
+
+gsap.set(words, { opacity: 0 });
+
+// Reproduce cada palabra con ritmo
+introTl
+  .to(words[0], { duration: 0.6, opacity: 1 }, "+=2.4")     // Mostrar "Hello"
+  .to(words[1], { duration: 0.6, opacity: 1 }, "+=0.01")     // Mostrar "there."
+  .to({}, { duration: 0.4 })                                // Pequeña pausa
+  .to(words.slice(2), {
+    duration: 0.6,
+    opacity: 1,
+    stagger: 0.275,
+  });
+
+
+    // Scroll animado de títulos
+    const titles = document.querySelectorAll("[data-effect17]");
+    Splitting({ target: "[data-effect17]", by: "chars" });
+
+    titles.forEach((title) => {
+      const chars = title.querySelectorAll(".char");
+      chars.forEach((char) =>
+        gsap.set(char.parentNode, { perspective: 1000 })
+      );
+
+      gsap.fromTo(
+        chars,
         {
-          duration: 0.8,
           opacity: 1,
+          rotateX: 0,
+          z: 0,
         },
-        "+3"
-      )
-      .to({}, { duration: 1 }) // añade una pausa de 2 segundos usando un objeto vacío
-      .to(words.slice(2), {
-        duration: 0.8,
-        opacity: 1,
-        stagger: 0.35,
-      });
-
-    const startSecondAnimation = () => {
-      // Animación alternando títulos
-      const span1 = document.querySelector("#hello-title-1");
-      const span2 = document.querySelector("#hello-title-2");
-
-      gsap.set(span2, { display: "none" });
-
-      const tl = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 }); // crea una línea de tiempo que se repite indefinidamente
-
-      tl.to(span1, {
-        duration: 1,
-        display: "none",
-      }).to(span2, {
-        duration: 1,
-        display: "inline",
-      });
-    };
-
-    const scroll = () => {
-      const fx17Titles = document.querySelectorAll("[data-effect17]");
-
-      fx17Titles.forEach((title) => {
-        Splitting({ target: "[data-effect17]", by: "chars" });
-        const chars = title.querySelectorAll(".char");
-
-        chars.forEach((char) => gsap.set(char.parentNode, { perspective: 1000 }));
-
-        gsap.fromTo(
-          chars,
-          {
-            "will-change": "opacity, transform",
-            opacity: 1,
-            rotateX: 0,
-            z: 0,
+        {
+          opacity: 0,
+          rotateX: () => gsap.utils.random(-120, 120),
+          z: () => gsap.utils.random(-200, 200),
+          stagger: 0.02,
+          ease: "none",
+          scrollTrigger: {
+            trigger: title,
+            start: "top 60%",
+            end: "bottom top",
+            scrub: true,
           },
-          {
-            ease: "none",
-            opacity: 0,
-            rotateX: () => gsap.utils.random(-120, 120),
-            z: () => gsap.utils.random(-200, 200),
-
-            stagger: 0.02,
-            scrollTrigger: {
-              trigger: title,
-              start: "top 60%",
-              end: "bottom top",
-              scrub: true,
-            },
-          }
-        );
-      });
-    };
-
-    // Asegúrate de que scrollDownDiv comienza con opacidad 0
-    gsap.set(scrollDownDiv.current, { opacity: 0 });
-
-    // Animación de opacidad inicial para scrollDownDiv
-    gsap.to(scrollDownDiv.current, {
-      opacity: 1,
-      delay: 5,
-      duration: 0.2, // Agrega una duración a esta animación
+        }
+      );
     });
 
-    // Definición del timeline con ScrollTrigger
-    const scrollTimeline = gsap.timeline({
+    // Scroll Down aparece y desaparece
+    gsap.set(scrollDownRef.current, { opacity: 0 });
+
+    gsap.to(scrollDownRef.current, {
+      opacity: 1,
+      delay: 5,
+      duration: 0.2,
+    });
+
+    gsap.timeline({
       scrollTrigger: {
         trigger: "#scrollable",
         start: "top center",
         end: "90% center",
         scrub: true,
       },
-    });
-
-    // Animaciones dentro del timeline
-    scrollTimeline
-      .to({}, { duration: 2 }) // Tiempo de espera antes de empezar a desvanecer
-      .to(scrollDownDiv.current, {
+    }).to({}, { duration: 2 })
+      .to(scrollDownRef.current, {
         opacity: 0,
         duration: 0.2,
         immediateRender: false,
       });
-
-    scroll();
   }, []);
 
   return (
     <>
-      <p id="hello-text">
-        Hello there. Welcome to a <span id="hello-title-1">retrospective </span>
-        <span id="hello-title-2">Rodrispective </span>of the music I have been working on
-        for almost a lifetime
+      <p id="hello-text" ref={helloTextRef}>
+        Hello there. Welcome to a{" "}
+        <span id="hello-title-1">retrospective </span>
+        <span id="hello-title-2">Rodrispective </span>
+        of the music I have been working on for almost a lifetime
       </p>
       <p className="content__title" data-splitting data-effect17>
         Yes, a lifetime.
@@ -200,19 +179,22 @@ function IntroContent({ isLoading }) {
       <p className="content__title" data-splitting data-effect17>
         The time has come to pause, reflect and open up.
       </p>
-      <div ref={scrollDownDiv} className="scroll-down">
+
+      <div ref={scrollDownRef} className="scroll-down">
         Please scroll down
       </div>
+
       <div id="start-container">
         <button
+          ref={startButtonRef}
           className="start-btn loader__item"
           data-target-loader="landing"
           data-allow-audio="true"
           data-audio-play="background"
           data-message="Click here to enter with audio"
           onClick={handleClick}
-          onPointerEnter={() => setCursorState("large--filled-exlusion")}
-          onPointerLeave={() => setCursorState("default")}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
         >
           <svg
             className="loader__svg"
@@ -221,56 +203,20 @@ function IntroContent({ isLoading }) {
           >
             <g className="loader__loaded" style={{ opacity: 1 }}>
               <g className="loaded__circles">
-                <circle
-                  className="loaded__circle"
-                  cx="153.2"
-                  cy="153.2"
-                  r="152.5"
-                  vectorEffect="non-scaling-stroke"
-                  data-svg-origin="153.1999969482422 153.1999969482422"
-                  transform="matrix(1,0,0,1,0,0)"
-                  style={{ transformOrigin: "0px 0px" }}
-                ></circle>
-                <circle
-                  className="loaded__circle"
-                  cx="153.2"
-                  cy="153.2"
-                  r="152.5"
-                  vectorEffect="non-scaling-stroke"
-                  data-svg-origin="153.1999969482422 153.1999969482422"
-                  transform="matrix(0.97,0,0,0.97,4.596,4.596)"
-                  style={{ transformOrigin: "0px 0px" }}
-                ></circle>
-                <circle
-                  className="loaded__circle"
-                  cx="153.2"
-                  cy="153.2"
-                  r="152.5"
-                  vectorEffect="non-scaling-stroke"
-                  data-svg-origin="153.1999969482422 153.1999969482422"
-                  transform="matrix(0.94,0,0,0.94,9.192,9.192)"
-                  style={{ transformOrigin: "0px 0px" }}
-                ></circle>
-                <circle
-                  className="loaded__circle"
-                  cx="153.2"
-                  cy="153.2"
-                  r="152.5"
-                  vectorEffect="non-scaling-stroke"
-                  data-svg-origin="153.1999969482422 153.1999969482422"
-                  transform="matrix(0.91,0,0,0.91,13.788,13.788)"
-                  style={{ transformOrigin: "0px 0px" }}
-                ></circle>
-                <circle
-                  className="loaded__circle"
-                  cx="153.2"
-                  cy="153.2"
-                  r="152.5"
-                  vectorEffect="non-scaling-stroke"
-                  data-svg-origin="153.1999969482422 153.1999969482422"
-                  transform="matrix(0.88,0,0,0.88,18.384,18.384)"
-                  style={{ transformOrigin: "0px 0px" }}
-                ></circle>
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <circle
+                    key={i}
+                    className="loaded__circle"
+                    cx="153.2"
+                    cy="153.2"
+                    r="152.5"
+                    vectorEffect="non-scaling-stroke"
+                    data-svg-origin="153.2 153.2"
+                    transform={`matrix(${1 - i * 0.03},0,0,${1 - i * 0.03},${i *
+                      4.596},${i * 4.596})`}
+                    style={{ transformOrigin: "0px 0px" }}
+                  />
+                ))}
               </g>
             </g>
           </svg>

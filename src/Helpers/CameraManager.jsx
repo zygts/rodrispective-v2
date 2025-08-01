@@ -1,158 +1,156 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { Vector3, Quaternion, Euler } from "three";
-import { useEffect, useRef, useState, useContext, useCallback } from "react";
-
+import {
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+  useCallback,
+  useMemo,
+} from "react";
 import { AppContext } from "../appContext";
 
 export function CameraManager({ radius, numCubes, rotation, setRotation }) {
-  const { activeCube, setActiveCube } = useContext(AppContext);
   const { camera } = useThree();
+  const { activeCube, setActiveCube } = useContext(AppContext);
 
-  const [cameraSpeed, setCameraSpeed] = useState(0.009);
   const cameraHeight = 5;
   const cameraZoom = 0.5;
-  const positionRef = useRef(new Vector3(0, cameraHeight, 0));
-  const rotationRef = useRef(new Quaternion().setFromEuler(new Euler(-0.5, 0, 0, "XYZ")));
-  const targetRef = useRef(new Vector3(0, 0, 10));
-  const initialCameraRotation = new Quaternion().setFromEuler(
-    new Euler(-0.5, 0, 0, "XYZ")
+
+  const initialRotation = useMemo(
+    () => new Quaternion().setFromEuler(new Euler(-0.5, 0, 0, "XYZ")),
+    []
   );
-  const [target, setTarget] = useState(new Vector3(0, 0, -10));
+
+  const cube1Position = useMemo(() => {
+    const angle = (1 / numCubes) * 2 * Math.PI;
+    return new Vector3(
+      radius * Math.cos(angle),
+      0,
+      radius * Math.sin(angle)
+    );
+  }, [radius, numCubes]);
+
+  const positionRef = useRef(new Vector3(0, cameraHeight, 0));
+  const targetRef = useRef(new Vector3(0, 0, 10));
+  const rotationRef = useRef(initialRotation.clone());
+  const animationStartTime = useRef(null);
   const lastClickedCube = useRef(null);
   const isCameraAtInitialPosition = useRef(true);
 
-  const cube1Position = new Vector3(
-    radius * Math.cos((1 / numCubes) * 2 * Math.PI),
-    0,
-    radius * Math.sin((1 / numCubes) * 2 * Math.PI)
-  );
-  const [isAnimationFinished, setAnimationFinished] = useState(false);
-  const [isShaderAnimationComplete, setShaderAnimationComplete] = useState(false);
+  const [cameraSpeed, setCameraSpeed] = useState(0.009);
+  const [target, setTarget] = useState(new Vector3(0, 0, -10));
   const [startAnimation, setStartAnimation] = useState(false);
-  const animationStartTime = useRef(null);
+  const [isAnimationFinished, setAnimationFinished] = useState(false);
+  const [shaderReady, setShaderReady] = useState(false);
 
+  // 🎬 Shader animation complete trigger
   useEffect(() => {
-    const handleShaderAnimationComplete = () => {
-      setShaderAnimationComplete(true);
+    const onShaderDone = () => {
+      setShaderReady(true);
       setStartAnimation(true);
       animationStartTime.current = Date.now();
     };
 
-    window.addEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
-
-    return () => {
-      window.removeEventListener(
-        "shaderAnimationComplete",
-        handleShaderAnimationComplete
-      );
-    };
+    window.addEventListener("shaderAnimationComplete", onShaderDone);
+    return () => window.removeEventListener("shaderAnimationComplete", onShaderDone);
   }, []);
 
+  // 🎥 Position camera when shader is ready
   useEffect(() => {
-    if (isShaderAnimationComplete) {
+    if (shaderReady) {
       camera.position.set(0, cameraHeight, 0);
       camera.lookAt(cube1Position);
       positionRef.current.copy(camera.position);
       setTarget(cube1Position);
     }
-  }, [isShaderAnimationComplete]);
+  }, [shaderReady, cube1Position, camera]);
 
-  const resetCamera = () => {
-    positionRef.current.set(0, cameraHeight, 0);
-    rotationRef.current.copy(initialCameraRotation);
-    setTarget(cube1Position);
-    isCameraAtInitialPosition.current = true;
-  };
-
-  const handleCubeClickRef = useRef();
-  handleCubeClickRef.current = useCallback(
-    (index) => {
-      if (activeCube !== null) {
-        return;
-      }
-      setCameraSpeed(0.035);
-
-      const angle = (index / numCubes) * 2 * Math.PI;
-      const x = radius * Math.cos(angle);
-      const z = radius * Math.sin(angle);
-      let cubePosition = new Vector3(x, 0, z);
-      cubePosition.applyAxisAngle(new Vector3(0, 1, 0), rotation);
-
-      if (activeCube === index) {
-        setActiveCube(null);
-      } else {
-        setActiveCube(index);
-      }
-
-      if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
-        resetCamera();
-      } else {
-        positionRef.current = camera.position.clone().lerp(cubePosition, cameraZoom);
-        positionRef.current.x += 0.7;
-        positionRef.current.y -= 2.5;
-        setTarget(cubePosition);
-        lastClickedCube.current = index;
-        isCameraAtInitialPosition.current = false;
-      }
-    },
-    [activeCube, setActiveCube, rotation]
-  );
-
-  function easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
-  }
-
+  // 🔁 Main animation loop
   useFrame(() => {
     if (target) {
       targetRef.current.lerp(target, cameraSpeed);
       camera.position.lerp(positionRef.current, cameraSpeed);
       camera.lookAt(targetRef.current);
 
-      if (camera.position.distanceTo(positionRef.current) < cameraSpeed) {
-        setAnimationFinished(true);
-      } else {
-        setAnimationFinished(false);
-      }
+      setAnimationFinished(
+        camera.position.distanceTo(positionRef.current) < cameraSpeed
+      );
     }
 
     if (startAnimation) {
-      const currentTime = Date.now();
-      const duration = 5000; // Duración en milisegundos
-      let progress = (currentTime - animationStartTime.current) / duration;
-      progress = easeOutCubic(progress);
+      const duration = 5000;
+      const elapsed = Date.now() - animationStartTime.current;
+      let t = Math.min(elapsed / duration, 1);
+      t = 1 - Math.pow(1 - t, 3); // easeOutCubic
 
-      if (progress <= 1) {
-        const initialPosition = new Vector3(0, cameraHeight + 25, 0);
-        const finalPosition = new Vector3(0, cameraHeight, 0);
+      const from = new Vector3(0, cameraHeight + 25, 0);
+      const to = new Vector3(0, cameraHeight, 0);
 
-        camera.position.lerpVectors(initialPosition, finalPosition, progress);
-        camera.lookAt(targetRef.current);
-      } else {
-        setStartAnimation(false);
-      }
+      camera.position.lerpVectors(from, to, t);
+      camera.lookAt(targetRef.current);
+
+      if (t >= 1) setStartAnimation(false);
     }
   });
 
-  const handleScroll = (e) => {
-    if (activeCube !== null) {
-      return;
-    }
-    setRotation(rotation + e.deltaY * 0.001);
-  };
+  // 🔁 Cube click handler
+  const handleCubeClick = useCallback(
+    (index) => {
+      if (activeCube !== null) return;
+
+      setCameraSpeed(0.035);
+
+      const angle = (index / numCubes) * 2 * Math.PI;
+      const cubePos = new Vector3(
+        radius * Math.cos(angle),
+        0,
+        radius * Math.sin(angle)
+      ).applyAxisAngle(new Vector3(0, 1, 0), rotation);
+
+      if (lastClickedCube.current === index && !isCameraAtInitialPosition.current) {
+        resetCamera();
+      } else {
+        const newPos = camera.position.clone().lerp(cubePos, cameraZoom);
+        newPos.x += 0.7;
+        newPos.y -= 2.5;
+
+        positionRef.current.copy(newPos);
+        setTarget(cubePos);
+        lastClickedCube.current = index;
+        isCameraAtInitialPosition.current = false;
+      }
+
+      setActiveCube(index);
+    },
+    [activeCube, numCubes, radius, rotation, camera, setActiveCube]
+  );
+
+  // 🔁 Scroll rotation handler
+  const handleScroll = useCallback(
+    (e) => {
+      if (activeCube === null) {
+        setRotation((prev) => prev + e.deltaY * 0.001);
+      }
+    },
+    [activeCube, setRotation]
+  );
 
   useEffect(() => {
-    if (activeCube === null) {
-      window.addEventListener("wheel", handleScroll);
-    } else {
-      window.removeEventListener("wheel", handleScroll);
-    }
-    return () => {
-      window.removeEventListener("wheel", handleScroll);
-    };
-  }, [rotation, activeCube]);
+    window.addEventListener("wheel", handleScroll);
+    return () => window.removeEventListener("wheel", handleScroll);
+  }, [handleScroll]);
+
+  // 🔁 Reset camera to initial state
+  const resetCamera = useCallback(() => {
+    positionRef.current.set(0, cameraHeight, 0);
+    rotationRef.current.copy(initialRotation);
+    setTarget(cube1Position);
+    isCameraAtInitialPosition.current = true;
+  }, [cube1Position, initialRotation]);
 
   return {
-    handleCubeClick: handleCubeClickRef.current,
+    handleCubeClick,
     isAnimationFinished,
     resetCamera,
   };

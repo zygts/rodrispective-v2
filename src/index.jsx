@@ -14,7 +14,7 @@ import Instructions from "./Instructions";
 import Loader from "./Loader";
 import Header from "./header.jsx";
 import AboutPage from "./aboutPage.jsx";
-import ContactPage from "./contactPage.jsx";
+import ContactPage from "./ContactPage.jsx";
 
 
 const MainContent = () => {
