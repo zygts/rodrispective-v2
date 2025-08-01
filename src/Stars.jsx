@@ -23,7 +23,7 @@ const Stars = () => {
 
   // Crea las partículas
   const { position, material } = useMemo(() => {
-    const numStars = 1000; // Cantidad de estrellas que quieres crear
+    const numStars = 100; // Cantidad de estrellas que quieres crear
     const positions = new Float32Array(numStars * 3);
     const colors = new Float32Array(numStars * 3);
 
@@ -43,7 +43,7 @@ const Stars = () => {
     geometry.setAttribute("color", new BufferAttribute(colors, 3));
 
     const material = new PointsMaterial({
-      size: 0.005, // Tamaño de las partículas, ajusta según sea necesario
+      size: 0.012, // Tamaño de las partículas, ajusta según sea necesario
       vertexColors: true,
     });
 

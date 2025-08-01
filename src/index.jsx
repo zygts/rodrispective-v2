@@ -1,4 +1,5 @@
 import "./styles/global.css";
+import "./styles/about-page.css";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
@@ -11,52 +12,50 @@ import { BackgroundCanvas } from "./Background";
 import IntroContent from "./IntroContent";
 import Instructions from "./Instructions";
 import Loader from "./Loader";
-import Header from "./header";
+import Header from "./Header.jsx";
+import AboutPage from "./aboutPage.jsx";
+import ContactPage from "./ContactPage.jsx";
 
 const MainContent = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [removeScrollable, setRemoveScrollable] = useState(false);
 
   const scrollableRef = useRef(null);
 
-  // Recarga la página desde el comienzo
   useEffect(() => {
     const timer = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 100);
-
     return () => clearTimeout(timer);
   }, []);
 
-  // Manejadores de eventos
   const handleStartButtonClick = () => {
-    setStartButtonClicked(true); // Configura el inicio de la animación
+    setStartButtonClicked(true);
+
+    setTimeout(() => {
+      setRemoveScrollable(true);
+    }, 5000); 
   };
 
   const handleShaderAnimationComplete = () => {
-    setShowIntro(false); // Oculta el contenido introductorio después de que la animación haya terminado
-    setStartAnimation(true); // Inicia la animación de las instrucciones
+    setShowIntro(false);
+    setStartAnimation(true);
   };
 
-  // Función llamada cuando Experience ha terminado de cargar
   const handleExperienceLoaded = () => {
-    setIsLoading(false); // Actualiza el estado para indicar que la carga ha terminado
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    // Escucha los eventos
     window.addEventListener("startButtonClick", handleStartButtonClick);
     window.addEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
 
-    // Limpia los oyentes de eventos al desmontar
     return () => {
       window.removeEventListener("startButtonClick", handleStartButtonClick);
-      window.removeEventListener(
-        "shaderAnimationComplete",
-        handleShaderAnimationComplete
-      );
+      window.removeEventListener("shaderAnimationComplete", handleShaderAnimationComplete);
     };
   }, []);
 
@@ -64,22 +63,18 @@ const MainContent = () => {
     <>
       {isLoading && <Loader />}
       <CustomCursor />
-      <div
-        id="scrollable"
-        ref={scrollableRef}
-        style={{
-          zIndex: 1,
-          visibility: showIntro ? "visible" : "hidden",
-        }}
-      >
-        <IntroContent isLoading={isLoading} />
-      </div>
-      <div
-        className="app-wrapper"
-        style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%" }}
-      >
+      <Header />
+      <AboutPage />
+      <ContactPage />
+
+      {!removeScrollable && (
+        <div id="scrollable" ref={scrollableRef}>
+          <IntroContent isLoading={isLoading} />
+        </div>
+      )}
+
+      <div className="app-wrapper" style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh" }}>
         <Instructions isVisible={!showIntro} animate={startAnimation} />
-        <Header />
         <Canvas
           id="experience-canvas"
           style={{
@@ -97,10 +92,12 @@ const MainContent = () => {
           </Suspense>
         </Canvas>
       </div>
+
       <BackgroundCanvas scrollableRef={scrollableRef} />
     </>
   );
 };
+
 
 const App = () => {
   return (
