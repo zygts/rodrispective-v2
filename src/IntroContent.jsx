@@ -161,23 +161,23 @@ introTl
         Hello there. Welcome to a{" "}
         <span id="hello-title-1">retrospective </span>
         <span id="hello-title-2">Rodrispective </span>
-        of the music I have been working on for almost a lifetime
+        of the music I have been working on for nearly a lifetime
       </p>
       <p className="content__title" data-splitting data-effect17>
         Yes, a lifetime.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        A lifetime of hope and unfulfilled dreams.
+       Years and years of sound. Not always heard.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        Working under different names. In collaboration but mostly solo, from the darkness
-        of my bedroom.
+        Created under different names. In collaboration, but mostly alone, in the darkness
+of my bedroom.
       </p>
       <p className="content__title" data-splitting data-effect17>
         Always unreleased.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        The time has come to pause, reflect and open up.
+        Now, the time has come to pause, reflect, and open up.
       </p>
 
       <div ref={scrollDownRef} className="scroll-down">
