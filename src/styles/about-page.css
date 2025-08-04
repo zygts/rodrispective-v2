@@ -122,6 +122,12 @@
     will-change: transform;
 }
 
+@media (max-width: 1024px) {
+    .preview__img {
+        height: 55vh;
+    }
+}
+
 .preview__img-inner {
     background-position: 50% 35%;
     background-size: cover;

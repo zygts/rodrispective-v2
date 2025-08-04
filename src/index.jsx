@@ -16,7 +16,7 @@ import Header from "./header.jsx";
 import AboutPage from "./aboutPage.jsx";
 import ContactPage from "./contactPage.jsx";
 import { useBreakpoint } from "./hooks/useBreakpoint";
-
+import OrientationWarning from "./OrientationWarning";
 
 const MainContent = () => {
   const { isDesktop } = useBreakpoint();
@@ -66,6 +66,7 @@ const MainContent = () => {
     <>
       {isLoading && <Loader />}
       {isDesktop && <CustomCursor />}
+      <OrientationWarning />
       <Header />
       <AboutPage />
       <ContactPage />

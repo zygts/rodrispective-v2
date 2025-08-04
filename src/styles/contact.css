@@ -128,10 +128,12 @@
 @media (max-width: 1024px) {
   .previews--contact .preview__column-title {
     width: 33%;
+    top: calc(55vh + 5px);
   }
   .contact-form-container {
     left: 40%;
     width: calc(60% - 15px);
+    top: calc(55vh + 7px);
   }
   .contact-form {
     height: auto;
