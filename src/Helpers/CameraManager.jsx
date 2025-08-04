@@ -13,6 +13,8 @@ import { AppContext } from "../appContext";
 export function CameraManager({ radius, numCubes, rotation, setRotation }) {
   const { camera } = useThree();
   const { activeCube, setActiveCube } = useContext(AppContext);
+  const touchStartX = useRef(null);
+  const isDragging = useRef(false);
 
   const cameraHeight = 5;
   const cameraZoom = 0.5;
@@ -135,6 +137,40 @@ export function CameraManager({ radius, numCubes, rotation, setRotation }) {
     },
     [activeCube, setRotation]
   );
+
+  useEffect(() => {
+  const handleTouchStart = (e) => {
+    if (activeCube !== null || e.touches.length !== 1) return;
+    touchStartX.current = e.touches[0].clientX;
+    isDragging.current = true;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging.current || activeCube !== null) return;
+
+    const currentX = e.touches[0].clientX;
+    const deltaX = currentX - touchStartX.current;
+    touchStartX.current = currentX;
+
+    // Convierte movimiento horizontal en rotación
+    setRotation((prev) => prev - deltaX * 0.005);
+  };
+
+  const handleTouchEnd = () => {
+    isDragging.current = false;
+  };
+
+  window.addEventListener("touchstart", handleTouchStart, { passive: true });
+  window.addEventListener("touchmove", handleTouchMove, { passive: true });
+  window.addEventListener("touchend", handleTouchEnd);
+
+  return () => {
+    window.removeEventListener("touchstart", handleTouchStart);
+    window.removeEventListener("touchmove", handleTouchMove);
+    window.removeEventListener("touchend", handleTouchEnd);
+  };
+}, [activeCube, setRotation]);
+
 
   useEffect(() => {
     window.addEventListener("wheel", handleScroll);

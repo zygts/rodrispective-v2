@@ -15,9 +15,11 @@ import Loader from "./Loader";
 import Header from "./header.jsx";
 import AboutPage from "./aboutPage.jsx";
 import ContactPage from "./contactPage.jsx";
+import { useBreakpoint } from "./hooks/useBreakpoint";
 
 
 const MainContent = () => {
+  const { isDesktop } = useBreakpoint();
   const [showIntro, setShowIntro] = useState(true);
   const [startButtonClicked, setStartButtonClicked] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
@@ -63,7 +65,7 @@ const MainContent = () => {
   return (
     <>
       {isLoading && <Loader />}
-      <CustomCursor />
+      {isDesktop && <CustomCursor />}
       <Header />
       <AboutPage />
       <ContactPage />
