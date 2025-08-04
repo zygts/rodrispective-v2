@@ -200,7 +200,6 @@ const ContactPage = () => {
                     placeholder="Your name"
                     value={formData.name || ""}
                     onChange={handleChange}
-                    required
                   />
                 </div>
 

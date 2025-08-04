@@ -147,6 +147,7 @@
 @media (max-width: 1024px) {
     .preview__title {
         font-size: 12vw;
+        margin-left: 15px;
     }
 }
 
@@ -214,6 +215,13 @@
     align-self: end;
 	left: 23px;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) all 0.5s;
+}
+
+@media (max-width: 1024px) {
+    .preview__back {
+        left: 19px;
+        top: 19px;
+    }
 }
 
 .preview__back:hover {
