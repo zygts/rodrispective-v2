@@ -11,12 +11,17 @@ import { AppContext } from "./appContext";
 import Splitting from "splitting";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
-
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 gsap.registerPlugin(ScrollTrigger);
 
 function IntroContent({ isLoading }) {
   const { setCursorState } = useContext(AppContext);
+  const {
+    canStartIntroAnimations,
+    introAnimationsPlayed,
+    setIntroAnimationsPlayed,
+  } = useContext(AppContext);
 
   const scrollDownRef = useRef(null);
   const helloTextRef = useRef(null);
@@ -32,20 +37,18 @@ function IntroContent({ isLoading }) {
     setCursorState("default");
   }, [setCursorState]);
 
-  // Disparar evento personalizado
   const handleClick = useCallback(() => {
     window.dispatchEvent(new CustomEvent("startButtonClick"));
   }, []);
 
-  // Escuchar el evento personalizado
+  // Escuchar evento de botón
   useEffect(() => {
     const handleStartButtonClick = () => setStartButtonClicked(true);
     window.addEventListener("startButtonClick", handleStartButtonClick);
-    return () =>
-      window.removeEventListener("startButtonClick", handleStartButtonClick);
+    return () => window.removeEventListener("startButtonClick", handleStartButtonClick);
   }, []);
 
-  // Animación botón al hacer click
+  // Animación del botón al hacer click
   useEffect(() => {
     if (startButtonClicked && startButtonRef.current) {
       const btn = startButtonRef.current;
@@ -63,8 +66,10 @@ function IntroContent({ isLoading }) {
     }
   }, [startButtonClicked]);
 
-  // Animación de entrada + scroll-trigger
+  // ✨ Animaciones de entrada
   useEffect(() => {
+    if (!canStartIntroAnimations || isLoading || introAnimationsPlayed) return;
+
     const helloText = helloTextRef.current;
     const split = Splitting({ target: helloText, by: "words" })[0];
     const words = split.words;
@@ -76,29 +81,25 @@ function IntroContent({ isLoading }) {
     gsap.set(span2, { display: "none" });
 
     const introTl = gsap.timeline({
-  onComplete: () => {
-    const switchTitles = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 });
-    switchTitles
-      .to(span1, { duration: 1, display: "none" })
-      .to(span2, { duration: 1, display: "inline" });
-  },
-});
+      onComplete: () => {
+        const switchTitles = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1 });
+        switchTitles
+          .to(span1, { duration: 1, display: "none" })
+          .to(span2, { duration: 1, display: "inline" });
+      },
+    });
 
-gsap.set(words, { opacity: 0 });
+    introTl
+      .to(words[0], { duration: 0.6, opacity: 1 }, "+=2.4")
+      .to(words[1], { duration: 0.6, opacity: 1 }, "+=0.01")
+      .to({}, { duration: 0.4 })
+      .to(words.slice(2), {
+        duration: 0.6,
+        opacity: 1,
+        stagger: 0.275,
+      });
 
-// Reproduce cada palabra con ritmo
-introTl
-  .to(words[0], { duration: 0.6, opacity: 1 }, "+=2.4")     // Mostrar "Hello"
-  .to(words[1], { duration: 0.6, opacity: 1 }, "+=0.01")     // Mostrar "there."
-  .to({}, { duration: 0.4 })                                // Pequeña pausa
-  .to(words.slice(2), {
-    duration: 0.6,
-    opacity: 1,
-    stagger: 0.275,
-  });
-
-
-    // Scroll animado de títulos
+    // Scroll-trigger animaciones
     const titles = document.querySelectorAll("[data-effect17]");
     Splitting({ target: "[data-effect17]", by: "chars" });
 
@@ -131,7 +132,6 @@ introTl
       );
     });
 
-    // Scroll Down aparece y desaparece
     gsap.set(scrollDownRef.current, { opacity: 0 });
 
     gsap.to(scrollDownRef.current, {
@@ -147,13 +147,17 @@ introTl
         end: "90% center",
         scrub: true,
       },
-    }).to({}, { duration: 2 })
+    })
+      .to({}, { duration: 2 })
       .to(scrollDownRef.current, {
         opacity: 0,
         duration: 0.2,
         immediateRender: false,
       });
-  }, []);
+
+    // ✅ Marcar que ya se han lanzado
+    setIntroAnimationsPlayed(true);
+  }, [canStartIntroAnimations, isLoading, introAnimationsPlayed, setIntroAnimationsPlayed]);
 
   return (
     <>
@@ -167,11 +171,10 @@ introTl
         Yes, a lifetime.
       </p>
       <p className="content__title" data-splitting data-effect17>
-       Years and years of sound. Not always heard.
+        Years and years of sound. Not always heard.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        Created under different names. In collaboration, but mostly alone, in the darkness
-of my bedroom.
+        Created under different names. In collaboration, but mostly alone, in the darkness of my bedroom.
       </p>
       <p className="content__title" data-splitting data-effect17>
         Always self-released.

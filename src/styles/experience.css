@@ -309,11 +309,7 @@ h1 {
         display: none;
     }
     .btn-play span.play-icon-mobile {
-        margin: 0 0 6px 5px;
-    } 
-
-    .btn-play span.stop-icon-mobile {
-        margin-bottom: 5px
+        margin: 0 0 4px 1px;
     } 
 }
 

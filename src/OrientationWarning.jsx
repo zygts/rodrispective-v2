@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AppContext } from "./appContext";
 import "./OrientationWarning.css";
 
 const OrientationWarning = () => {
-  const [showWarning, setShowWarning] = useState(false);
+  const { setCanStartIntroAnimations } = useContext(AppContext);
+  const [isPortrait, setIsPortrait] = useState(false);
 
   const checkOrientation = () => {
-    const isMobile = window.innerWidth <= 1024;
-    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-
-    setShowWarning(isMobile && isPortrait);
+    const portrait = window.innerHeight > window.innerWidth;
+    setIsPortrait(portrait);
+    setCanStartIntroAnimations(!portrait);
   };
 
   useEffect(() => {
-    checkOrientation(); // check on mount
-
+    checkOrientation();
     window.addEventListener("resize", checkOrientation);
     window.addEventListener("orientationchange", checkOrientation);
 
@@ -23,7 +23,7 @@ const OrientationWarning = () => {
     };
   }, []);
 
-  if (!showWarning) return null;
+  if (!isPortrait) return null;
 
   return (
     <div className="orientation-warning">
