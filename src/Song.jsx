@@ -389,15 +389,8 @@ const handleClick = useCallback((event) => {
           </div>
 
           <button ref={buttonPlayRef} className="btn-play" onClick={spin}>
-            {isTablet ? (
-              isPlaying ? (
-                <span className="stop-icon-mobile">■</span>
-              ) : (
-                <span className="play-icon-mobile">▶</span>
-              )
-            ) : (
-              isPlaying ? "Stop playing" : "Play preview" 
-            )}
+            <span className="play-icon play-icon-mobile">{isPlaying ? "■" : "▶"}</span>
+            <span className="play-text">{isPlaying ? "Stop playing" : "Play preview"}</span>
           </button>
           <button
             className="btn-back"

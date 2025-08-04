@@ -178,7 +178,7 @@ h1 {
 
 .song-preview {
     transform: translateY(25vh);
-    
+
 }
 
 .song-info {
@@ -285,6 +285,13 @@ h1 {
     cursor: none;
 }
 
+.play-icon {
+  display: none;
+}
+.play-text {
+  display: inline;
+}
+
 @media (max-width: 1024px) {
     .btn-play {
         width: 5rem;
@@ -295,6 +302,12 @@ h1 {
         display: block;
     } 
 
+    .play-icon {
+        display: inline;
+    }
+    .btn-play span.play-text {
+        display: none;
+    }
     .btn-play span.play-icon-mobile {
         margin: 0 0 6px 5px;
     } 
