@@ -396,7 +396,7 @@ const handleClick = useCallback((event) => {
                 <span className="play-icon-mobile">▶</span>
               )
             ) : (
-              isPlaying ? "Stop playing" : "Play preview"
+              isPlaying ? "Stop playing" : "Play preview" 
             )}
           </button>
           <button
