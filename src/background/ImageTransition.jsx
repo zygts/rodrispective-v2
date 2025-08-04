@@ -14,7 +14,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Images = ({ scrollableRef }) => {
 
-const { isMobile } = useBreakpoint();
 const { isTablet } = useBreakpoint();
 
   const { camera } = useThree();
