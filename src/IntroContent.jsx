@@ -174,7 +174,7 @@ introTl
 of my bedroom.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        Always unreleased.
+        Always self-released.
       </p>
       <p className="content__title" data-splitting data-effect17>
         Now, the time has come to pause, reflect, and open up.

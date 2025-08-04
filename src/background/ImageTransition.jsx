@@ -8,10 +8,15 @@ import { useSpring, a } from "@react-spring/three";
 import vertexShader from "./images.vert";
 import fragmentShader from "./images.frag";
 import { useScrollAnimation } from "../useScrollTriggerAnimation";
+import { useBreakpoint } from "../hooks/useBreakpoint";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Images = ({ scrollableRef }) => {
+
+const { isMobile } = useBreakpoint();
+const { isTablet } = useBreakpoint();
+
   const { camera } = useThree();
   const meshRef = useRef();
   const glitchAnimationRef = useRef(null);
@@ -39,18 +44,17 @@ const Images = ({ scrollableRef }) => {
   });
 
   const springProps = useSpring({
-    scale: [1, 1, 1],
-    position: [0, 1.4, 3],
-    rotation: [0, 0, 0],
-    from: {
-      scale: [0.3, 0.3, 0.3],
-      position: [-2, 5, 1],
-      rotation: [0.5, 0.9, 0.5],
-    },
-    config: { tension: 35, friction: 55 },
-    delay: 1200,
-  });
-
+  scale: isTablet ? [1.3, 1.3, 1] : [1, 1, 1],
+  position: isTablet ? [0, 1.6, 3] : [0, 1.4, 3],
+  rotation: [0, 0, 0],
+  from: {
+    scale: [0.3, 0.3, 0.3],
+    position: [-2, 5, 1],
+    rotation: [0.5, 0.9, 0.5],
+  },
+  config: { tension: 35, friction: 55 },
+  delay: 1200,
+});
   // 🖼️ Cargar texturas y displacement
   useEffect(() => {
     const loader = new TextureLoader();

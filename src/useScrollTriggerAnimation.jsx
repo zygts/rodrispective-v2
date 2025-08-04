@@ -18,8 +18,8 @@ export const useScrollAnimation = (
       return;
     }
 
-    const imageShowTime = 0.5; // 80% del tiempo
-    const transitionTime = 0.5; // 30% del tiempo
+    const imageShowTime = 0.5;
+    const transitionTime = 0.5;
     const scrollStartOffset = 0.15;
 
     const timeline = gsap.timeline({
