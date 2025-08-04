@@ -32,7 +32,7 @@ const OrientationWarning = () => {
           Please rotate your phone to landscape mode. For the full experience, consider using a desktop device.
         </p>
         <img
-          src="./mobile-landscape-mode-icon.svg"
+          src="./img/mobile-landscape-mode-icon.svg"
           alt="Rotate your device"
           className="orientation-icon"
         />
