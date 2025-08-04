@@ -11,17 +11,12 @@ import { AppContext } from "./appContext";
 import Splitting from "splitting";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 function IntroContent({ isLoading }) {
   const { setCursorState } = useContext(AppContext);
-  const {
-    canStartIntroAnimations,
-    introAnimationsPlayed,
-    setIntroAnimationsPlayed,
-  } = useContext(AppContext);
 
   const scrollDownRef = useRef(null);
   const helloTextRef = useRef(null);
@@ -37,18 +32,20 @@ function IntroContent({ isLoading }) {
     setCursorState("default");
   }, [setCursorState]);
 
+  // Disparar evento personalizado
   const handleClick = useCallback(() => {
     window.dispatchEvent(new CustomEvent("startButtonClick"));
   }, []);
 
-  // Escuchar evento de botón
+  // Escuchar el evento personalizado
   useEffect(() => {
     const handleStartButtonClick = () => setStartButtonClicked(true);
     window.addEventListener("startButtonClick", handleStartButtonClick);
-    return () => window.removeEventListener("startButtonClick", handleStartButtonClick);
+    return () =>
+      window.removeEventListener("startButtonClick", handleStartButtonClick);
   }, []);
 
-  // Animación del botón al hacer click
+  // Animación botón al hacer click
   useEffect(() => {
     if (startButtonClicked && startButtonRef.current) {
       const btn = startButtonRef.current;
@@ -66,16 +63,15 @@ function IntroContent({ isLoading }) {
     }
   }, [startButtonClicked]);
 
-  // ✨ Animaciones de entrada
-  useEffect(() => {
-    if (!canStartIntroAnimations || isLoading || introAnimationsPlayed) return;
+  // Animación de entrada + scroll-trigger
+useEffect(() => {
+  const helloText = helloTextRef.current;
+  const span1 = document.querySelector("#hello-title-1");
+  const span2 = document.querySelector("#hello-title-2");
 
-    const helloText = helloTextRef.current;
+  const startIntroAnimations = () => {
     const split = Splitting({ target: helloText, by: "words" })[0];
     const words = split.words;
-
-    const span1 = document.querySelector("#hello-title-1");
-    const span2 = document.querySelector("#hello-title-2");
 
     gsap.set(words, { opacity: 0 });
     gsap.set(span2, { display: "none" });
@@ -99,7 +95,7 @@ function IntroContent({ isLoading }) {
         stagger: 0.275,
       });
 
-    // Scroll-trigger animaciones
+    // Scroll animación para títulos
     const titles = document.querySelectorAll("[data-effect17]");
     Splitting({ target: "[data-effect17]", by: "chars" });
 
@@ -132,8 +128,8 @@ function IntroContent({ isLoading }) {
       );
     });
 
+    // Scroll down
     gsap.set(scrollDownRef.current, { opacity: 0 });
-
     gsap.to(scrollDownRef.current, {
       opacity: 1,
       delay: 5,
@@ -154,10 +150,21 @@ function IntroContent({ isLoading }) {
         duration: 0.2,
         immediateRender: false,
       });
+  };
 
-    // ✅ Marcar que ya se han lanzado
-    setIntroAnimationsPlayed(true);
-  }, [canStartIntroAnimations, isLoading, introAnimationsPlayed, setIntroAnimationsPlayed]);
+  // Condición para retrasar si es móvil en vertical
+  const isMobile = window.innerWidth < 768;
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+
+  const delay = isMobile && isPortrait ? 2000 : 0;
+
+  const timeout = setTimeout(() => {
+    startIntroAnimations();
+  }, delay);
+
+  return () => clearTimeout(timeout);
+}, []);
+
 
   return (
     <>
@@ -171,10 +178,11 @@ function IntroContent({ isLoading }) {
         Yes, a lifetime.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        Years and years of sound. Not always heard.
+       Years and years of sound. Not always heard.
       </p>
       <p className="content__title" data-splitting data-effect17>
-        Created under different names. In collaboration, but mostly alone, in the darkness of my bedroom.
+        Created under different names. In collaboration, but mostly alone, in the darkness
+of my bedroom.
       </p>
       <p className="content__title" data-splitting data-effect17>
         Always self-released.
