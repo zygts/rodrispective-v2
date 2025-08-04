@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Bentham&family=Forum&display=swap');
+
 .loader {
     width: 100%;
     height: 100vh;
@@ -158,6 +160,12 @@ h1 {
     opacity: 0;
 }
 
+@media (max-width: 1024px) {
+    .song-wrapper {
+        padding-top: 20vh;
+    }
+}
+
 .song-wrapper.active {
     opacity: 1;
   }
@@ -182,9 +190,30 @@ h1 {
     font-family: 'Gallient', serif;
     font-size: 1.45vw;
     letter-spacing: 2.5px;
+    text-wrap-style: pretty;
     max-width: 43%;
     line-height: 1.3;
     -webkit-font-smoothing: auto;
+}
+
+@media (max-width: 1024px) {
+    .song-info {
+        margin-top: 2vh;
+    }
+    .song-info p {
+        font-size: 1.7vw;
+        line-height: 1.2;
+        max-width: 40%;
+        font-family: "Bentham", serif;
+        letter-spacing: 0;
+    }
+    .song-credits {
+        margin-top: 3vh;
+        font-size: 1.5vw;
+    }
+    .btn-goto {
+        font-size: 1.5vw;
+    }
 }
 
 .song-preview h2,
@@ -196,6 +225,13 @@ h1 {
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 6px;
+}
+
+@media (max-width: 1024px) {
+    .song-preview h2,
+    .song-preview h3 {
+        font-size: 3.5vw;
+    }
 }
 
 .song-preview h3 {
@@ -246,6 +282,25 @@ h1 {
     font-weight: 700;
     transform: translate(-50%, -50%);
     cursor: none;
+}
+
+@media (max-width: 1024px) {
+    .btn-play {
+        width: 5rem;
+        height: 5rem;
+        font-size: 2rem;
+    }
+    .btn-play span {
+        display: block;
+    } 
+
+    .btn-play span.play-icon-mobile {
+        margin: 0 0 6px 5px;
+    } 
+
+    .btn-play span.stop-icon-mobile {
+        margin-bottom: 5px
+    } 
 }
 
 .btn-goto {

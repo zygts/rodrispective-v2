@@ -8,6 +8,7 @@ import CubeAnimations from "./Helpers/CubeAnimations";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 import { AppContext } from "./appContext";
+import { useBreakpoint } from "./hooks/useBreakpoint";
 
 export default function Cube({
   index,
@@ -19,6 +20,7 @@ export default function Cube({
   onBackClick,
   resetCamera,
 }) {
+  const { isTablet } = useBreakpoint();
 
   const angle = (index / 25) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
@@ -387,7 +389,15 @@ const handleClick = useCallback((event) => {
           </div>
 
           <button ref={buttonPlayRef} className="btn-play" onClick={spin}>
-            {isPlaying ? "Stop playing" : "Play preview"}
+            {isTablet ? (
+              isPlaying ? (
+                <span className="stop-icon-mobile">■</span>
+              ) : (
+                <span className="play-icon-mobile">▶</span>
+              )
+            ) : (
+              isPlaying ? "Stop playing" : "Play preview"
+            )}
           </button>
           <button
             className="btn-back"
