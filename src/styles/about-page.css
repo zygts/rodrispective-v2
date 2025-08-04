@@ -57,12 +57,6 @@
     grid-template-columns: 100%;
     pointer-events: none;
     grid-template-rows: repeat(2,1fr);
-    min-height: 100vh;
-    display: grid;
-    grid-column-gap: 10vw;
-    grid-row-gap: 1rem;
-    grid-template-columns: repeat(4,1fr);
-    grid-template-rows: 1fr auto auto;
 }
 
 .overlay__row {
@@ -277,4 +271,12 @@
 
 .item {
     margin-bottom: 0;
+}
+.preview {
+    min-height: 100vh;
+    display: grid;
+    grid-column-gap: 10vw;
+    grid-row-gap: 1rem;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: 1fr auto auto;
 }
