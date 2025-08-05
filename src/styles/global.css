@@ -43,12 +43,22 @@ body, * {
     cursor: none !important;
 }
 
+body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: auto;
+  overscroll-behavior: none;
+}
+
 .header, .header * {
     cursor: none !important;
 }
 
 html {
     -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
 }
 
 html,
