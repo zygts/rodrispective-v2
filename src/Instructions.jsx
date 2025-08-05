@@ -10,7 +10,7 @@ const Instructions = ({ isVisible, animate }) => {
   const helloTextRef2 = useRef(null);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const { isTablet } = useBreakpoint();
-  
+
   useEffect(() => {
     if (animate && helloTextRef.current) {
       const p1 = Splitting({ target: helloTextRef.current, by: "chars" })[0];
@@ -90,7 +90,7 @@ const Instructions = ({ isVisible, animate }) => {
         </>
       ) : (
         <>
-          <p ref={helloTextRef}>scroll up or down to spin the wheel</p>
+          <p ref={helloTextRef}>scrolllllll up or down to spin the wheel</p>
           <p ref={helloTextRef2}>click on any song to select</p>
         </>
       )}
