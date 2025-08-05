@@ -21,7 +21,8 @@ export default function Cube({
   resetCamera,
   instructionsAnimationComplete, // Nueva prop necesaria
 }) {
-  const { isTablet } = useBreakpoint();
+  const { isMobile, isTablet } = useBreakpoint();
+  const isTouchDevice = isMobile || isTablet;
 
   const angle = (index / 25) * 2 * Math.PI;
   const x = radius * Math.cos(angle);
@@ -65,7 +66,7 @@ export default function Cube({
 
   // Animación inicial para móvil/tablet - aparece después de 6 segundos de completarse Instructions
   useEffect(() => {
-    if (isTablet && !hasInitialAnimationRun && instructionsAnimationComplete) {
+    if (isTouchDevice && !hasInitialAnimationRun && instructionsAnimationComplete) {
       // En móvil/tablet, hacer visible el div desde el inicio
       setIsDivVisible(true);
       
@@ -82,7 +83,7 @@ export default function Cube({
 
       return () => clearTimeout(timer);
     }
-  }, [isTablet, hasInitialAnimationRun, instructionsAnimationComplete]);
+  }, [isTouchDevice, hasInitialAnimationRun, instructionsAnimationComplete]);
 
   // Click en la canción
   const handleClick = useCallback((event) => {
@@ -102,7 +103,7 @@ export default function Cube({
       opacity: 0,
       duration: 0.3,
     });
-  }, [index, onClick, audioCtx, isTablet]);
+  }, [index, onClick, audioCtx, isTouchDevice]);
 
   // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
@@ -145,7 +146,7 @@ export default function Cube({
   const createTimeline = () => {
     if (titleRef.current && authorRef.current && yearRef.current) {
       // En móvil/tablet, no cambiar la opacidad en hover
-      if (isTablet) {
+      if (isTouchDevice) {
         tlPreview.current = gsap
           .timeline({ paused: true })
           .to([titleRef.current, authorRef.current, yearRef.current], {
@@ -170,7 +171,7 @@ export default function Cube({
   };
 
   const cubeHover = () => {
-    if (!isTablet) {
+    if (!isTouchDevice) {
       // En desktop, controlar la visibilidad normalmente
       setIsDivVisible(true);
     }
@@ -183,7 +184,7 @@ export default function Cube({
 
   const cubeLeave = () => {
     if (tlPreview.current) {
-      if (!isTablet) {
+      if (!isTouchDevice) {
         // En desktop, ocultar el div cuando termine la animación
         tlPreview.current.eventCallback("onReverseComplete", () => {
           setIsDivVisible(false);
@@ -387,7 +388,7 @@ export default function Cube({
           ref={elementRef}
           className={`song-details ${isDivVisible ? "visible" : ""}`}
           style={{ 
-            display: (isDivVisible || isTablet) ? "block" : "none" 
+            display: (isDivVisible || isTouchDevice) ? "block" : "none" 
           }}
         >
           <p ref={titleRef} style={{ opacity: 0 }}>
@@ -450,7 +451,7 @@ export default function Cube({
               setIsPlaying(false);
 
               // Solo restaurar visibilidad de song-details en tablet o móvil
-              if (isTablet) {
+              if (isTouchDevice) {
                 document.querySelectorAll(".song-details").forEach((el) => {
                   el.style.display = "block";
                   gsap.to(el.children, {

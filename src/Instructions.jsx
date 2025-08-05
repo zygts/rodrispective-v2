@@ -9,7 +9,8 @@ const Instructions = ({ isVisible, animate }) => {
   const helloTextRef = useRef(null);
   const helloTextRef2 = useRef(null);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  const { isTablet } = useBreakpoint();
+  const { isMobile, isTablet } = useBreakpoint();
+  const isTouchDevice = isMobile || isTablet;
 
   useEffect(() => {
     if (animate && helloTextRef.current) {
@@ -83,14 +84,14 @@ const Instructions = ({ isVisible, animate }) => {
         visibility: isVisible ? "visible" : "hidden",
       }}
     >
-      {isTablet ? (
+      {isTouchDevice ? (
         <>
           <p ref={helloTextRef}>swipe sideways to spin the wheel</p>
           <p ref={helloTextRef2}>tap on any song to select</p>
         </>
       ) : (
         <>
-          <p ref={helloTextRef}>scrolllllll up or down to spin the wheel</p>
+          <p ref={helloTextRef}>scroll up or down to spin the wheel</p>
           <p ref={helloTextRef2}>click on any song to select</p>
         </>
       )}
