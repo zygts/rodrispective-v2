@@ -29,7 +29,7 @@ const OrientationWarning = () => {
     <div className="orientation-warning">
       <div className="orientation-warning__content">
         <p>
-          Please rotate your phone to landscape mode. For the best experience, consider using a desktop device.
+          new: Please rotate your phone to landscape mode. For the best experience, consider using a desktop device.
         </p>
         <img
           src="./img/mobile-landscape-mode-icon.svg"
