@@ -17,6 +17,7 @@ import AboutPage from "./aboutPage.jsx";
 import ContactPage from "./contactPage.jsx";
 import { useBreakpoint } from "./hooks/useBreakpoint";
 import OrientationWarning from "./OrientationWarning";
+import { usePreventTouchGestures } from "./hooks/usePreventTouchGestures";
 
 const MainContent = () => {
   const { isDesktop } = useBreakpoint();
@@ -72,7 +73,7 @@ const MainContent = () => {
       <ContactPage />
 
       {!removeScrollable && (
-        <div id="scrollable" ref={scrollableRef}>
+        <div id="scrollable" ref={scrollableRef} data-scrollable>
           <IntroContent isLoading={isLoading} />
         </div>
       )}
@@ -104,6 +105,7 @@ const MainContent = () => {
 
 
 const App = () => {
+  usePreventTouchGestures();
   return (
     <AppContextProvider>
       <MainContent />
