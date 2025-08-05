@@ -327,7 +327,7 @@ h1 {
 .song-details {
     /*display: none;*/
     pointer-events: none;
-    min-width: 500px;
+    /* min-width: 500px; */
     position: absolute;
     transform: translate(-50%, -50%);
 }
@@ -339,6 +339,7 @@ h1 {
     text-transform: uppercase;
     font-weight: 300;
     letter-spacing: 1.2px;
+    width: max-content;
 }
 
 .song-details p:first-child {
@@ -346,10 +347,10 @@ h1 {
 }
 
 @media (max-width: 1024px) {
-    /* .song-details {
+    .song-details {
         margin-left: -15px;
         margin-top: 30px;
-    } */
+    }
     .song-details p {
         font-size: 0.8rem;
     }

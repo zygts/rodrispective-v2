@@ -184,7 +184,7 @@ const AboutPage = () => {
   }, [animateIn, animateOut]);
 
   return (
-    <main ref={containerRef}>
+    <main ref={containerRef} data-scrollable>
       <div className="content" ref={contentRef}>
       </div>
       <div className="overlay">
