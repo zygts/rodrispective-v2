@@ -347,10 +347,10 @@ h1 {
 }
 
 @media (max-width: 1024px) {
-    .song-details {
+    /* .song-details {
         margin-left: -15px;
         margin-top: 30px;
-    }
+    } */
     .song-details p {
         font-size: 0.8rem;
     }
