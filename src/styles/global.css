@@ -116,6 +116,9 @@ p, h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 1024px) {
+    .header nav {
+        margin-top: 2vh;
+    }
     .header nav span {
         font-size: 0.8rem;
     }

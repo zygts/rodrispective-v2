@@ -32,7 +32,7 @@ const MainContent = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       window.scrollTo(0, 0);
-    }, 100);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 

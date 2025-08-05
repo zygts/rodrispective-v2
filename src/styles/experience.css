@@ -178,7 +178,6 @@ h1 {
 
 .song-preview {
     transform: translateY(25vh);
-
 }
 
 .song-info {
@@ -309,7 +308,7 @@ h1 {
         display: none;
     }
     .btn-play span.play-icon-mobile {
-        margin: 0 0 4px 1px;
+        margin: 0 0 5px 1px;
     } 
 }
 
@@ -326,7 +325,8 @@ h1 {
 }
 
 .song-details {
-    display: none;
+    /*display: none;*/
+    pointer-events: none;
     min-width: 500px;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -343,6 +343,16 @@ h1 {
 
 .song-details p:first-child {
     font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+    /* .song-details {
+        margin-left: -15px;
+        margin-top: 30px;
+    } */
+    .song-details p {
+        font-size: 0.8rem;
+    }
 }
 
 .instructions,

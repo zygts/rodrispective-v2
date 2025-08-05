@@ -18,10 +18,12 @@ const Instructions = ({ isVisible, animate }) => {
       const chars2 = p2.chars;
 
       const tlOne = gsap.timeline({
-        onComplete: () => {
-          setIsAnimationComplete(true); // Establece el estado a true cuando la animación está completa
-        },
-      });
+      onComplete: () => {
+        setIsAnimationComplete(true);
+        // Disparar evento personalizado cuando la animación termine
+        window.dispatchEvent(new CustomEvent('instructionsAnimationComplete'));
+      },
+    });
 
       gsap.set([chars1, chars2], { opacity: 0 });
       tlOne

@@ -295,6 +295,7 @@ export default function CubeGroup({
 }) {
   // 2. Estado local para texturas y contenido
   const [textures, setTextures] = useState([]);
+  const [instructionsComplete, setInstructionsComplete] = useState(false); // Nuevo estado
   const { setActiveCube, activeCube } = useContext(AppContext);
 
   // ====================================
@@ -308,6 +309,21 @@ export default function CubeGroup({
   const handleBackClick = useCallback(() => {
     setActiveCube(null);
   }, [setActiveCube]);
+
+  // ====================================
+  // NUEVO: ESCUCHAR EVENTO DE INSTRUCTIONS
+  // ====================================
+  useEffect(() => {
+    const handleInstructionsComplete = () => {
+      setInstructionsComplete(true);
+    };
+
+    window.addEventListener('instructionsAnimationComplete', handleInstructionsComplete);
+    
+    return () => {
+      window.removeEventListener('instructionsAnimationComplete', handleInstructionsComplete);
+    };
+  }, []);
 
   // 3. Carga de texturas: solo se hace una vez
   useEffect(() => {
@@ -369,6 +385,8 @@ export default function CubeGroup({
           // Textura y contenido
           texture={texture}
           content={CONTENTS[index]}
+          // NUEVA PROP: Estado de la animación de Instructions
+          instructionsAnimationComplete={instructionsComplete}
         />
       ))}
     </>

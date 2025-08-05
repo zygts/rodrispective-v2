@@ -19,6 +19,7 @@ export default function Cube({
   isAnimationFinished,
   onBackClick,
   resetCamera,
+  instructionsAnimationComplete, // Nueva prop necesaria
 }) {
   const { isTablet } = useBreakpoint();
 
@@ -33,6 +34,8 @@ export default function Cube({
 
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
+  const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false); // Para controlar la animación inicial en móvil
+  
   const {
     setCursorState,
     activeCube,
@@ -54,16 +57,37 @@ export default function Cube({
   const [audioCtx, setAudioCtx] = useState(null);
 
   useEffect(() => {
-  if (meshRef.current) {
-    meshRef.current.lookAt(new Vector3(0, 0, 0));
-    setInitialRotation(meshRef.current.rotation.z);
-  }
-}, []);
+    if (meshRef.current) {
+      meshRef.current.lookAt(new Vector3(0, 0, 0));
+      setInitialRotation(meshRef.current.rotation.z);
+    }
+  }, []);
+
+  // Animación inicial para móvil/tablet - aparece después de 6 segundos de completarse Instructions
+  useEffect(() => {
+    if (isTablet && !hasInitialAnimationRun && instructionsAnimationComplete) {
+      // En móvil/tablet, hacer visible el div desde el inicio
+      setIsDivVisible(true);
+      
+      const timer = setTimeout(() => {
+        if (titleRef.current && authorRef.current && yearRef.current) {
+          gsap.to([titleRef.current, authorRef.current, yearRef.current], {
+            opacity: 1,
+            duration: 0.5,
+            ease: "power3.out",
+          });
+          setHasInitialAnimationRun(true);
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isTablet, hasInitialAnimationRun, instructionsAnimationComplete]);
 
   // Click en la canción
-const handleClick = useCallback((event) => {
-    event.stopPropagation(); // detén la propagación del evento para evitar el comportamiento inesperado
-    onClick(index); // pasa el index al controlador de clics
+  const handleClick = useCallback((event) => {
+    event.stopPropagation();
+    onClick(index);
 
     // Crear o reanudar el AudioContext en respuesta al clic del usuario
     if (!audioCtx) {
@@ -76,8 +100,9 @@ const handleClick = useCallback((event) => {
 
     gsap.to([titleRef.current, authorRef.current, yearRef.current], {
       opacity: 0,
+      duration: 0.3,
     });
-}, [index, onClick, audioCtx]);
+  }, [index, onClick, audioCtx, isTablet]);
 
   // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
@@ -88,7 +113,7 @@ const handleClick = useCallback((event) => {
       setShowHtml(false);
     }
     return () => clearTimeout(timeout);
-}, [activeCube, index, isAnimationFinished]);
+  }, [activeCube, index, isAnimationFinished]);
 
   // Shaders
   const uniforms = useMemo(
@@ -109,41 +134,62 @@ const handleClick = useCallback((event) => {
   const [isDivVisible, setIsDivVisible] = useState(false);
 
   // Referencias para los elementos de la preview
-
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const yearRef = useRef(null);
   const elementRef = useRef(null);
+  
   // Animación de Preview
   let tlPreview = useRef(null);
 
   const createTimeline = () => {
     if (titleRef.current && authorRef.current && yearRef.current) {
-      tlPreview.current = gsap
-        .timeline({ paused: true })
-        .to([titleRef.current, authorRef.current, yearRef.current], {
-          opacity: 1,
-          x: 20,
-          duration: 0.3,
-          stagger: 0.12,
-          ease: "power3.inOut",
-        });
+      // En móvil/tablet, no cambiar la opacidad en hover
+      if (isTablet) {
+        tlPreview.current = gsap
+          .timeline({ paused: true })
+          .to([titleRef.current, authorRef.current, yearRef.current], {
+            x: 20,
+            duration: 0.3,
+            stagger: 0.12,
+            ease: "power3.inOut",
+          });
+      } else {
+        // Comportamiento original para desktop
+        tlPreview.current = gsap
+          .timeline({ paused: true })
+          .to([titleRef.current, authorRef.current, yearRef.current], {
+            opacity: 1,
+            x: 20,
+            duration: 0.3,
+            stagger: 0.12,
+            ease: "power3.inOut",
+          });
+      }
     }
   };
 
   const cubeHover = () => {
-    setIsDivVisible(true); // Hacer visible el div
+    if (!isTablet) {
+      // En desktop, controlar la visibilidad normalmente
+      setIsDivVisible(true);
+    }
+    // En móvil/tablet, el div ya está visible, solo ejecutar la animación
     createTimeline();
-    tlPreview.current.play(); // Reproducir la animación
+    if (tlPreview.current) {
+      tlPreview.current.play();
+    }
   };
 
   const cubeLeave = () => {
     if (tlPreview.current) {
-      // Configura el evento onReverseComplete
-      tlPreview.current.eventCallback("onReverseComplete", () => {
-        setIsDivVisible(false); // Esto se ejecutará después de que la animación haya terminado
-      });
-      tlPreview.current.reverse(); // Inicia la animación inversa
+      if (!isTablet) {
+        // En desktop, ocultar el div cuando termine la animación
+        tlPreview.current.eventCallback("onReverseComplete", () => {
+          setIsDivVisible(false);
+        });
+      }
+      tlPreview.current.reverse();
     }
   };
 
@@ -166,13 +212,17 @@ const handleClick = useCallback((event) => {
   const spin = () => {
     setIsPlaying(!isPlaying);
 
+    // Al hacer click en Play, ocultar todos los detalles
+    document.querySelectorAll(".song-details").forEach((el) => {
+      el.style.display = "none";
+    });
+
     if (!isPlaying) {
       if (audio && audio.element) {
-        audio.element.play(); // Asegúrate de que audio y audio.element estén definidos
+        audio.element.play();
       }
 
       gsap.to(meshRef.current.rotation, {
-        // Gira indefinidamente
         duration: 8,
         z: "-=6.29*Math.PI",
         repeat: -1,
@@ -181,8 +231,8 @@ const handleClick = useCallback((event) => {
       });
     } else {
       if (audio && audio.element) {
-        audio.element.pause(); // Pausa si el audio está definido
-        audio.element.currentTime = 0; // Reinicia el tiempo de reproducción
+        audio.element.pause();
+        audio.element.currentTime = 0;
       }
     }
   };
@@ -221,11 +271,10 @@ const handleClick = useCallback((event) => {
   useEffect(() => {
     if (materialRef && materialRef.current) {
       gsap.to(materialRef.current.uniforms.uDarken, {
-        value: isPlaying ? 0.5 : 1, // Oscurece cuando la música está sonando
+        value: isPlaying ? 0.5 : 1,
         duration: 0.5,
       });
 
-      // Cambia entre cuadrado y círculo
       let finalValue = isPlaying ? 1 : 0;
       gsap.to(materialRef.current.uniforms.uDistortCircular, {
         duration: 1.2,
@@ -246,14 +295,13 @@ const handleClick = useCallback((event) => {
           ease: "power1.out",
         });
     }
+    
     if (meshRef && meshRef.current) {
-      // Reproduce música
       if (isPlaying) {
         if (audio) {
           audio.element.play();
         }
         gsap.to(meshRef.current.rotation, {
-          // Gira indefinidamente
           duration: 8,
           z: "-=6.29*Math.PI",
           repeat: -1,
@@ -261,12 +309,11 @@ const handleClick = useCallback((event) => {
           overwrite: "none",
         });
       } else {
-        // Detiene música
         if (audio) {
           audio.element.pause();
           audio.element.currentTime = 0;
         }
-        gsap.killTweensOf(meshRef.current.rotation); // Vuelve a su rotación inicial
+        gsap.killTweensOf(meshRef.current.rotation);
         if (initialRotation !== null) {
           gsap.to(meshRef.current.rotation, {
             duration: 1,
@@ -286,10 +333,10 @@ const handleClick = useCallback((event) => {
   // Modifica los eventos para controlar la interactividad
   const handleEvent = (event, action) => {
     if (!isAnimationFinished) {
-      event.stopPropagation(); // Evita que el evento se propague si la animación no ha terminado
-      return; // No ejecutar más acciones
+      event.stopPropagation();
+      return;
     }
-    action(); // Ejecuta la acción si la animación ha terminado
+    action();
   };
 
   return (
@@ -339,7 +386,9 @@ const handleClick = useCallback((event) => {
         <div
           ref={elementRef}
           className={`song-details ${isDivVisible ? "visible" : ""}`}
-          style={{ display: isDivVisible ? "block" : "none" }}
+          style={{ 
+            display: (isDivVisible || isTablet) ? "block" : "none" 
+          }}
         >
           <p ref={titleRef} style={{ opacity: 0 }}>
             {content.title}
@@ -399,6 +448,18 @@ const handleClick = useCallback((event) => {
             onClick={() => {
               onBackClick();
               setIsPlaying(false);
+
+              // Solo restaurar visibilidad de song-details en tablet o móvil
+              if (isTablet) {
+                document.querySelectorAll(".song-details").forEach((el) => {
+                  el.style.display = "block";
+                  gsap.to(el.children, {
+                    opacity: 1,
+                    duration: 0.3,
+                  });
+                });
+              }
+
               setTimeout(() => {
                 resetCamera();
               }, 500);
@@ -406,10 +467,10 @@ const handleClick = useCallback((event) => {
           >
             Back to Catalogue
           </button>
+
         </div>
       </Html>
 
-      {/* Animaciones de entrada en el contenido de la canción */}
       <CubeAnimations isAnimationFinished={isAnimationFinished} isPlaying={isPlaying} />
     </mesh>
   );
