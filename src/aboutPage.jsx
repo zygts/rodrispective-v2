@@ -10,7 +10,7 @@ import "./styles/contact.css";
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutPage = () => {
-  const { isTabletTouch } = useBreakpoint();
+  const { isTouchDevice } = useBreakpoint();
   const { setCursorState } = useContext(AppContext);
   
   const containerRef = useRef(null);
@@ -224,7 +224,7 @@ const AboutPage = () => {
               </p>
             ))}
           </div>
-          {!isTabletTouch && (
+          {!isTouchDevice && (
             <section className="images-content images-content--padded images-content--full">
               <div className="grid grid--spaced grid--small" ref={gridRef} data-grid-fourth>
                 {Array.from({ length: 36 }).map((_, i) => (
