@@ -123,7 +123,7 @@
     will-change: transform;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1336px) {
     .preview__img {
         height: 55vh;
     }
@@ -151,7 +151,7 @@
     grid-area: 1 / 1 / 2 / -1;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1336px) {
     .preview__title {
         font-size: 12vw;
         margin-left: 15px;
@@ -184,12 +184,12 @@
 	font-family: GTPressuraMono;
     font-weight: 300;
     margin-top: 0;
-    font-size: 18px;
+    font-size: 1rem;
     text-transform: uppercase;
 	margin-bottom: 190px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1336px) {
     .preview__column-title {
         font-size: 1.6vw;
         margin-bottom: 11vh;
