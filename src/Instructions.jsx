@@ -9,7 +9,7 @@ const Instructions = ({ isVisible, animate }) => {
   const helloTextRef = useRef(null);
   const helloTextRef2 = useRef(null);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  const { isTouchDevice } = useBreakpoint();
+  const { isTouch } = useBreakpoint();
   useEffect(() => {
     if (animate && helloTextRef.current) {
       const p1 = Splitting({ target: helloTextRef.current, by: "chars" })[0];
@@ -82,7 +82,7 @@ const Instructions = ({ isVisible, animate }) => {
         visibility: isVisible ? "visible" : "hidden",
       }}
     >
-      {isTouchDevice ? (
+      {isTouch ? (
         <>
           <p ref={helloTextRef}>swipe sideways to spin the wheel</p>
           <p ref={helloTextRef2}>tap on any song to select</p>
