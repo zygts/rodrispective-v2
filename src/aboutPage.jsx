@@ -227,13 +227,16 @@ const AboutPage = () => {
           {!isTabletTouch && (
             <section className="images-content images-content--padded images-content--full">
               <div className="grid grid--spaced grid--small" ref={gridRef} data-grid-fourth>
-                {Array.from({ length: 36 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="grid__img"
-                    style={{ backgroundImage: `url(img/about-page/${i + 1}.webp)` }}
-                  ></div>
-                ))}
+                {Array.from({ length: 36 }).map((_, i) => {
+                  const fileNumber = (i + 1).toString().padStart(2, "0"); // "01", "02", ..., "36"
+                  return (
+                    <div
+                      key={i}
+                      className="grid__img"
+                      style={{ backgroundImage: `url(img/about-page/rodri_${fileNumber}.jpg)` }}
+                    ></div>
+                  );
+                })}
               </div>
             </section>
           )}
