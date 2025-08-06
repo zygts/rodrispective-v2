@@ -13,8 +13,8 @@ export const useBreakpoint = () => {
   }, []);
 
   const isMobile = width < 768;
-  const isTablet = width >= 768 && width < 1024;
-  const isDesktop = width >= 1024;
+  const isTablet = width >= 768 && width < 1366;
+  const isDesktop = width >= 1366;
 
   const isTouch = isTouchDevice && (isMobile || isTablet);
   const isTabletTouch = isTouchDevice && isTablet;
