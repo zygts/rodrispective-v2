@@ -135,6 +135,9 @@
     width: calc(60% - 15px);
     top: calc(50vh + 7px);
   }
+}
+
+@media (max-width: 1024px) {
   .contact-form {
     height: auto;
     grid-gap: 10px;
