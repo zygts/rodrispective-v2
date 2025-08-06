@@ -28,6 +28,12 @@
   margin-left: -4vw;
   margin-top: -4vw;
   }
+
+  @media (max-width: 1024px) {
+    .loader-circle {
+        margin-top: -15vw;
+    }
+  }
   
   .loader-line-mask {
     position: absolute;
