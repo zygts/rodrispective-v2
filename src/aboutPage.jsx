@@ -3,12 +3,14 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useTextLinesReveal from "./useTextLinesReveal";
 import { AppContext } from "./appContext";
+import { useBreakpoint } from "./hooks/useBreakpoint"; 
 
 import "./styles/contact.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutPage = () => {
+  const { isTabletTouch } = useBreakpoint();
   const { setCursorState } = useContext(AppContext);
   
   const containerRef = useRef(null);
@@ -222,17 +224,19 @@ const AboutPage = () => {
               </p>
             ))}
           </div>
-          {/* <section className="images-content images-content--padded images-content--full">
-            <div className="grid grid--spaced grid--small" ref={gridRef} data-grid-fourth>
-              {Array.from({ length: 36 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="grid__img"
-                  style={{ backgroundImage: `url(img/about-page/${i + 1}.webp)` }}
-                ></div>
-              ))}
-            </div>
-          </section> */}
+          {!isTabletTouch && (
+            <section className="images-content images-content--padded images-content--full">
+              <div className="grid grid--spaced grid--small" ref={gridRef} data-grid-fourth>
+                {Array.from({ length: 36 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="grid__img"
+                    style={{ backgroundImage: `url(img/about-page/${i + 1}.webp)` }}
+                  ></div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </section>
     </main>

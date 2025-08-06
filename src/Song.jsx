@@ -21,8 +21,7 @@ export default function Cube({
   resetCamera,
   instructionsAnimationComplete, // Nueva prop necesaria
 }) {
-  const { isMobile, isTablet } = useBreakpoint();
-  const isTouchDevice = isMobile || isTablet;
+  const { isTouchDevice } = useBreakpoint();
 
   const angle = (index / 25) * 2 * Math.PI;
   const x = radius * Math.cos(angle);

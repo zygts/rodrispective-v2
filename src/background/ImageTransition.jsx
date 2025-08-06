@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Images = ({ scrollableRef }) => {
 
-const { isTablet } = useBreakpoint();
+const { isTouchDevice } = useBreakpoint();
 
   const { camera } = useThree();
   const meshRef = useRef();
@@ -43,8 +43,8 @@ const { isTablet } = useBreakpoint();
   });
 
   const springProps = useSpring({
-  scale: isTablet ? [1.3, 1.3, 1] : [1, 1, 1],
-  position: isTablet ? [0, 1.6, 3] : [0, 1.4, 3],
+  scale: isTouchDevice ? [1.3, 1.3, 1] : [1, 1, 1],
+  position: isTouchDevice ? [0, 1.6, 3] : [0, 1.4, 3],
   rotation: [0, 0, 0],
   from: {
     scale: [0.3, 0.3, 0.3],

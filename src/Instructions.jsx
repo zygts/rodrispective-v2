@@ -9,9 +9,7 @@ const Instructions = ({ isVisible, animate }) => {
   const helloTextRef = useRef(null);
   const helloTextRef2 = useRef(null);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  const { isMobile, isTablet } = useBreakpoint();
-  const isTouchDevice = isMobile || isTablet;
-
+  const { isTouchDevice } = useBreakpoint();
   useEffect(() => {
     if (animate && helloTextRef.current) {
       const p1 = Splitting({ target: helloTextRef.current, by: "chars" })[0];
