@@ -222,7 +222,7 @@ const AboutPage = () => {
               </p>
             ))}
           </div>
-          <section className="images-content images-content--padded images-content--full">
+          {/* <section className="images-content images-content--padded images-content--full">
             <div className="grid grid--spaced grid--small" ref={gridRef} data-grid-fourth>
               {Array.from({ length: 36 }).map((_, i) => (
                 <div
@@ -232,7 +232,7 @@ const AboutPage = () => {
                 ></div>
               ))}
             </div>
-          </section>
+          </section> */}
         </div>
       </section>
     </main>
