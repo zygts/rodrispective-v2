@@ -103,6 +103,7 @@
     position: absolute;
     top: 0;
     min-height: 100vh;
+    overflow-x: clip;
     width: 100%;
 }
 
