@@ -357,11 +357,21 @@ h1 {
     font-weight: 700;
 }
 
-@media (max-width: 1024px) {
-    /* .song-details {
-        margin-left: -15px;
-        margin-top: 30px;
-    } */
+@media (max-width: 1336px) {
+    .song-details {
+        width: 10vw;
+        height: 10vw;
+        margin-top: 3vw;
+    }
+   #experience-canvas > div:nth-child(2) .song-details,
+   #experience-canvas > div:nth-child(4) .song-details,
+   #experience-canvas > div:nth-child(6) .song-details,
+   #experience-canvas > div:nth-child(8) .song-details,
+    #experience-canvas > div:nth-child(10) .song-details,
+    #experience-canvas > div:nth-child(12) .song-details{
+        margin-top: -2.5vw;
+        margin-left: -5.5vw;
+    } 
     .song-details p {
         font-size: 0.7rem;
     }
