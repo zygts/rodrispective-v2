@@ -212,18 +212,19 @@
     transition: transform 0.2s ease-in-out;
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1336px) {
     .start-btn {
         bottom: 15%;
     }
 }
-  
+*/
+
 .loader__svg {
     transform-origin: center;
     transition: transform .4s cubic-bezier(.5, 1, .89, 1);
     overflow: visible;
-    width: 17.5vw;
-    height: 17.5vw
+    width: 15vw;
+    height: 15vw
 }
 
 .loader__svg circle {
