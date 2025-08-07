@@ -1,3 +1,10 @@
+#about-page {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    overflow-x: clip;
+}
+
 .preview-visible {
     font-size: 30px;
     font-weight: 300;
