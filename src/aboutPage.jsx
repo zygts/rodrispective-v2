@@ -227,7 +227,7 @@ const AboutPage = () => {
               </p>
             ))}
           </div>
-          {!isTabletTouch && (
+          {/* {!isTabletTouch && ( */}
             <section className="images-content images-content--padded images-content--full">
               <div className="grid grid--spaced grid--small" ref={gridRef} data-grid-fourth>
                 {Array.from({ length: 36 }).map((_, i) => {
@@ -242,7 +242,7 @@ const AboutPage = () => {
                 })}
               </div>
             </section>
-          )}
+          {/* )} */}
         </div>
       </section>
     </main>
