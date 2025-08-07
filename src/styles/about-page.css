@@ -247,8 +247,6 @@
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: repeat(8,1fr);
-    grid-template-rows: 1fr 1fr 1fr;
 }
 
 .grid--spaced {
@@ -257,7 +255,8 @@
 
 .grid--small {
     grid-template-columns: repeat(9,1fr);
-    grid-auto-rows: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    grid-auto-rows: auto;
 }
 
 .grid__img {

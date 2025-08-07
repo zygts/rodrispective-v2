@@ -12,8 +12,8 @@ export const useBreakpoint = () => {
     setIsTouchDevice(checkTouchDevice());
   }, []);
 
-  const isMobile = width < 950;
-  const isTablet = width >= 950 && width < 1366;
+  const isMobile = width < 768;
+  const isTablet = width >= 768 && width < 1366;
   const isDesktop = width >= 1366;
 
   const isTouch = isTouchDevice && (isMobile || isTablet);
