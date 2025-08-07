@@ -138,6 +138,8 @@ const AboutPage = () => {
     const openPreview = () => {
       window.scrollTo({ top: 0, behavior: "instant" });
 
+      container.style.removeProperty("display");
+
       gsap.timeline({ defaults: { duration: 1, ease: "power3.inOut" } })
         .add(() => {
           content.classList.add("content--hidden");
@@ -171,6 +173,7 @@ const AboutPage = () => {
             preview.classList.remove("preview--current");
             container.classList.remove("preview-visible");
             content.classList.remove("content--hidden");
+            container.style.display = "none";
             ScrollTrigger.refresh();
           },
         }, "start+=0.6");
@@ -186,7 +189,7 @@ const AboutPage = () => {
   }, [animateIn, animateOut]);
 
   return (
-    <main ref={containerRef} data-scrollable>
+    <main style={{ display: "none" }} id="about-page" ref={containerRef} data-scrollable>
       <div className="content" ref={contentRef}>
       </div>
       <div className="overlay">

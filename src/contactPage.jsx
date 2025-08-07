@@ -70,8 +70,8 @@ const ContactPage = () => {
       const formElements = [textArea, inputName, inputEmail, submitButton];
       gsap.set(formElements, { opacity: 0, y: 20 });
 
+      container.style.removeProperty("display");
       window.scrollTo({ top: 0, behavior: "instant" });
-
       document.documentElement.style.overflow = 'hidden';
 
       gsap.timeline({ defaults: { duration: 1, ease: "power3.inOut" } })
@@ -126,6 +126,8 @@ const ContactPage = () => {
             preview.classList.remove("preview--current");
             container.classList.remove("preview-visible");
             content.classList.remove("content--hidden");
+            container.style.display = "none";
+            ScrollTrigger.refresh();
           },
         }, "start+=0.6");
     };
@@ -140,7 +142,7 @@ const ContactPage = () => {
   }, [animateIn, animateOut]);
 
   return (
-    <main ref={containerRef}>
+    <main id="contact-page" ref={containerRef} style={{ display: "none" }}>
       <div className="content" ref={contentRef} />
       <div className="overlay">
         <div className="overlay__row"></div>
