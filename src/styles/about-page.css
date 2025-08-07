@@ -103,6 +103,7 @@
     position: relative;
     top: 0;
     width: 100%;
+    overflow-x: clip;
 }
 
 .preview--current {
