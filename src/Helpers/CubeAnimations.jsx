@@ -45,18 +45,16 @@ function CubeAnimations({ isAnimationFinished, isPlaying }) {
         opacity: 1,
       });
     } else {
-      tl.to(".song-info", {
-        opacity: 0,
-      }).fromTo(
-        ".song-preview",
-        {
-          y: "0",
-        },
-        {
-          y: "25vh",
-        }
-      );
-    }
+        tl.to(".song-info", {
+          opacity: 0,
+        }, 0)
+        .fromTo(
+          ".song-preview",
+          { y: "0" },
+          { y: "25vh" },
+          0
+        );
+      }
   }, [isPlaying]);
 
   return null;
