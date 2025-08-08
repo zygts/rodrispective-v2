@@ -220,17 +220,12 @@ h1 {
         margin-top: 4vh;
     }
     .song-info p {
-        font-size: 1.8vw;
-        line-height: 1.05;
         max-width: 42%;
-        letter-spacing: 0;
     }
     .song-credits {
         margin-top: 4vh !important;
-        font-size: 1.5vw;
     }
     .btn-goto {
-        font-size: 1.5vw;
     }
 }
 
