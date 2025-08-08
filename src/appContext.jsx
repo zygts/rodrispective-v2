@@ -17,6 +17,39 @@ export const AppContextProvider = ({ children, value }) => {
   const [canStartIntroAnimations, setCanStartIntroAnimations] = useState(false);
   const [introAnimationsPlayed, setIntroAnimationsPlayed] = useState(false);
 
+  const [globalAudio, setGlobalAudio] = useState(null);
+  const [playingCubeIndex, setPlayingCubeIndex] = useState(null);
+  const audioContextRef = useRef(null);
+
+  // AÑADIR: Función para detener cualquier audio que esté reproduciéndose
+  const stopAllAudio = () => {
+    if (globalAudio && globalAudio.element) {
+      globalAudio.element.pause();
+      globalAudio.element.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setPlayingCubeIndex(null);
+  };
+
+  // AÑADIR: Función para reproducir audio de un cubo específico
+  const playAudio = (cubeIndex, audioData) => {
+    // Detener cualquier audio anterior
+    stopAllAudio();
+    
+    // Reproducir el nuevo audio
+    setGlobalAudio(audioData);
+    setIsPlaying(true);
+    setPlayingCubeIndex(cubeIndex);
+    
+    if (audioData && audioData.element) {
+      audioData.element.play().catch(error => {
+        console.warn("Audio play failed:", error);
+        setIsPlaying(false);
+        setPlayingCubeIndex(null);
+      });
+    }
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timer);
@@ -49,6 +82,14 @@ export const AppContextProvider = ({ children, value }) => {
         setCanStartIntroAnimations,
         introAnimationsPlayed,
         setIntroAnimationsPlayed,
+        globalAudio,
+        setGlobalAudio,
+        isPlaying,
+        playingCubeIndex,
+        setPlayingCubeIndex,
+        audioContextRef,
+        stopAllAudio,
+        playAudio,
         ...value,
       }}
     >

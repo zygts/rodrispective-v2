@@ -44,7 +44,13 @@ export default function Cube({
     isPlaying,
     setIsPlaying,
     cursorPosition,
+    playingCubeIndex,
+    audioContextRef,
+    stopAllAudio,
+    playAudio,
   } = useContext(AppContext);
+
+  const [localAudio, setLocalAudio] = useState(null);
 
   const handleLinkEnter = useCallback(() => {
     setCursorState("large--filled-red");
@@ -89,20 +95,19 @@ export default function Cube({
     event.stopPropagation();
     onClick(index);
 
-    // Crear o reanudar el AudioContext en respuesta al clic del usuario
-    if (!audioCtx) {
+    // Crear o reanudar el AudioContext si no existe
+    if (!audioContextRef.current) {
       const newAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      setAudioCtx(newAudioCtx);
-      setAudio(newAudioCtx);
-    } else if (audioCtx.state === "suspended") {
-      audioCtx.resume();
+      audioContextRef.current = newAudioCtx;
+    } else if (audioContextRef.current.state === "suspended") {
+      audioContextRef.current.resume();
     }
 
     gsap.to([titleRef.current, authorRef.current, yearRef.current], {
       opacity: 0,
       duration: 0.3,
     });
-  }, [index, onClick, audioCtx, isTouch]);
+  }, [index, onClick, audioCtx, audioContextRef]);
 
   // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
@@ -210,18 +215,94 @@ export default function Cube({
 
   // Función al hacer click en Play
   const spin = () => {
-    setIsPlaying(!isPlaying);
+    if (!localAudio || !localAudio.element) {
+      console.warn("Audio not ready for cube", index);
+      return;
+    }
 
-    // Al hacer click en Play, ocultar todos los detalles
+    const isCurrentlyPlaying = playingCubeIndex === index && isPlaying;
+
+    // Ocultar detalles al hacer click en Play
     document.querySelectorAll(".song-details").forEach((el) => {
       el.style.display = "none";
     });
 
-    if (!isPlaying) {
-      if (audio && audio.element) {
-        audio.element.play();
-      }
+    if (!isCurrentlyPlaying) {
+      // Reproducir este audio
+      playAudio(index, localAudio);
+    } else {
+      // Detener el audio actual
+      stopAllAudio();
+    }
+  };
 
+  // Utiliza setAudio para almacenar tu objeto de audio
+// CAMBIAR el useEffect que crea el audio
+useEffect(() => {
+  if (audioContextRef.current && content.audioFileUrl) {
+    const audioElement = document.createElement("audio");
+    audioElement.src = content.audioFileUrl;
+    audioElement.preload = "metadata";
+
+    const track = audioContextRef.current.createMediaElementSource(audioElement);
+    const analyser = audioContextRef.current.createAnalyser();
+    analyser.fftSize = 256;
+    track.connect(analyser);
+    track.connect(audioContextRef.current.destination);
+
+    const data = new Uint8Array(analyser.frequencyBinCount);
+
+    function getAverageVolume() {
+      analyser.getByteFrequencyData(data);
+      let values = 0;
+      let length = data.length;
+      for (let i = 0; i < length; i++) {
+        values += data[i];
+      }
+      return values / length;
+    }
+
+    setLocalAudio({
+      element: audioElement,
+      getAverageVolume,
+    });
+  }
+}, [audioContextRef.current, content.audioFileUrl]);
+
+
+  // Este efecto se ejecuta cada vez que cambia "isPlaying"
+  useEffect(() => {
+  const isThisCubePlaying = playingCubeIndex === index && isPlaying;
+  
+  if (materialRef && materialRef.current) {
+    gsap.to(materialRef.current.uniforms.uDarken, {
+      value: isThisCubePlaying ? 0.5 : 1,
+      duration: 0.5,
+    });
+
+    let finalValue = isThisCubePlaying ? 1 : 0;
+    gsap.to(materialRef.current.uniforms.uDistortCircular, {
+      duration: 1.2,
+      value: finalValue,
+      ease: "power4.out",
+    });
+
+    gsap
+      .timeline()
+      .to(materialRef.current.uniforms.noiseStrength, {
+        duration: 0.4,
+        value: 0.06,
+        ease: "power1.in",
+      })
+      .to(materialRef.current.uniforms.noiseStrength, {
+        duration: 0.1,
+        value: 0.0,
+        ease: "power1.out",
+      });
+  }
+  
+  if (meshRef && meshRef.current) {
+    if (isThisCubePlaying) {
       gsap.to(meshRef.current.rotation, {
         duration: 8,
         z: "-=6.29*Math.PI",
@@ -230,127 +311,17 @@ export default function Cube({
         overwrite: "none",
       });
     } else {
-      if (audio && audio.element) {
-        audio.element.pause();
-        audio.element.currentTime = 0;
-      }
-    }
-  };
-
-  // Utiliza setAudio para almacenar tu objeto de audio
-// CAMBIAR el useEffect que crea el audio
-useEffect(() => {
-  if (audioCtx && content.audioFileUrl) {
-    const createAudioElement = () => {
-      const audioElement = document.createElement("audio");
-      audioElement.src = content.audioFileUrl;
-      audioElement.preload = "metadata"; // AÑADIR: Precargar metadata
-      
-      // AÑADIR: Manejar eventos de carga
-      audioElement.addEventListener('canplay', () => {
-        console.log("Audio ready:", content.title);
-      });
-      
-      audioElement.addEventListener('error', (e) => {
-        console.error("Audio load error:", e, content.audioFileUrl);
-      });
-
-      const track = audioCtx.createMediaElementSource(audioElement);
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      track.connect(analyser);
-      track.connect(audioCtx.destination);
-
-      const data = new Uint8Array(analyser.frequencyBinCount);
-
-      function getAverageVolume() {
-        analyser.getByteFrequencyData(data);
-        let values = 0;
-        let length = data.length;
-        for (let i = 0; i < length; i++) {
-          values += data[i];
-        }
-        return values / length;
-      }
-
-      setAudio({
-        element: audioElement,
-        getAverageVolume,
-      });
-    };
-
-    // AÑADIR: Pequeño delay para asegurar que todo esté listo
-    const timeoutId = setTimeout(createAudioElement, 100);
-    
-    return () => clearTimeout(timeoutId);
-  }
-}, [audioCtx, content.audioFileUrl, setAudio]); // AÑADIR: dependencias más específicas
-
-  // Este efecto se ejecuta cada vez que cambia "isPlaying"
-  useEffect(() => {
-    if (materialRef && materialRef.current) {
-      gsap.to(materialRef.current.uniforms.uDarken, {
-        value: isPlaying ? 0.5 : 1,
-        duration: 0.5,
-      });
-
-      let finalValue = isPlaying ? 1 : 0;
-      gsap.to(materialRef.current.uniforms.uDistortCircular, {
-        duration: 1.2,
-        value: finalValue,
-        ease: "power4.out",
-      });
-
-      gsap
-        .timeline()
-        .to(materialRef.current.uniforms.noiseStrength, {
-          duration: 0.4,
-          value: 0.06,
-          ease: "power1.in",
-        })
-        .to(materialRef.current.uniforms.noiseStrength, {
-          duration: 0.1,
-          value: 0.0,
-          ease: "power1.out",
-        });
-    }
-    
-    if (meshRef && meshRef.current) {
-      if (isPlaying) {
-        // CAMBIAR: Verificación más robusta del audio
-        if (audio && audio.element && typeof audio.element.play === 'function') {
-          audio.element.play().catch(error => {
-            console.warn("Audio play failed:", error);
-          });
-        } else {
-          console.warn("Audio not ready yet");
-        }
-        
+      gsap.killTweensOf(meshRef.current.rotation);
+      if (initialRotation !== null) {
         gsap.to(meshRef.current.rotation, {
-          duration: 8,
-          z: "-=6.29*Math.PI",
-          repeat: -1,
-          ease: "linear",
-          overwrite: "none",
+          duration: 1,
+          z: initialRotation,
+          ease: "power4.out",
         });
-      } else {
-        // CAMBIAR: Verificación más robusta del audio
-        if (audio && audio.element && typeof audio.element.pause === 'function') {
-          audio.element.pause();
-          audio.element.currentTime = 0;
-        }
-        
-        gsap.killTweensOf(meshRef.current.rotation);
-        if (initialRotation !== null) {
-          gsap.to(meshRef.current.rotation, {
-            duration: 1,
-            z: initialRotation,
-            ease: "power4.out",
-          });
-        }
       }
     }
-  }, [isPlaying, initialRotation, audio]); // AÑADIR: audio como dependencia
+  }
+}, [playingCubeIndex, isPlaying, index, initialRotation]);
 
   useEffect(() => {
     const handleAllResourcesReady = () => {
@@ -498,18 +469,22 @@ useEffect(() => {
           </div>
 
           <button ref={buttonPlayRef} className="btn-play" onClick={spin}>
-            <span className="play-icon play-icon-mobile">{isPlaying ? "■" : "▶"}</span>
-            <span className="play-text">{isPlaying ? "Stop playing" : "Play preview"}</span>
+            <span className="play-icon play-icon-mobile">
+              {playingCubeIndex === index && isPlaying ? "■" : "▶"}
+            </span>
+            <span className="play-text">
+              {playingCubeIndex === index && isPlaying ? "Stop playing" : "Play preview"}
+            </span>
           </button>
+
           <button
             className="btn-back"
             onPointerEnter={handleLinkEnter}
             onPointerLeave={handleLinkLeave}
             onClick={() => {
               onBackClick();
-              setIsPlaying(false);
+              stopAllAudio(); // Detener cualquier audio
 
-              // Solo restaurar visibilidad de song-details en tablet o móvil
               if (isTouch) {
                 document.querySelectorAll(".song-details").forEach((el) => {
                   el.style.display = "block";
