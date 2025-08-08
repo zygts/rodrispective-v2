@@ -234,8 +234,8 @@ h1 {
         margin-top: 3vh;
     }
     .song-info p {
-        font-size: 1.8vw;
-        line-height: 1.05;
+        font-size: 1.85vw;
+        line-height: 1.08;
         max-width: 42%;
         font-family: "Bentham", serif;
         letter-spacing: 0;
@@ -418,4 +418,10 @@ h1 {
     font-weight: 100;
     letter-spacing: 0.2vw;
     font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .instructions p {
+        font-size: 0.8rem;
+    }
 }
