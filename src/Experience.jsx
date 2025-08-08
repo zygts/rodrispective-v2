@@ -24,12 +24,17 @@ export default function Experience({ onLoaded }) {
 
   useEffect(() => {
     const handleResourcesLoaded = () => {
+      console.log("Resources loaded event received"); // Para debug
       onLoaded();
     };
     
+    // Escuchar ambos eventos para mayor compatibilidad
     window.addEventListener("resourcesLoaded", handleResourcesLoaded);
+    window.addEventListener("allTexturesReady", handleResourcesLoaded);
+    
     return () => {
       window.removeEventListener("resourcesLoaded", handleResourcesLoaded);
+      window.removeEventListener("allTexturesReady", handleResourcesLoaded);
     };
   }, [onLoaded]);
 

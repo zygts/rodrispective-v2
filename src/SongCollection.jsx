@@ -336,7 +336,12 @@ export default function CubeGroup({
           texture.generateMipmaps = false;
           texture.minFilter = LinearFilter;
           texture.magFilter = LinearFilter;
-          resolve(texture);
+          
+          // AÑADIR: Esperar a que la textura esté realmente lista
+          texture.needsUpdate = true;
+          
+          // Pequeño delay para asegurar que Three.js procese la textura
+          setTimeout(() => resolve(texture), 50);
         });
       });
     };
@@ -349,7 +354,8 @@ export default function CubeGroup({
       // ====================================
       setTimeout(() => {
         window.dispatchEvent(new Event("resourcesLoaded"));
-      }, 100);
+        window.dispatchEvent(new Event("allTexturesReady"));
+      }, 200);
     });
 
     // ====================================

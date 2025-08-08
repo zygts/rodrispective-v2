@@ -19,7 +19,7 @@ export default function Cube({
   isAnimationFinished,
   onBackClick,
   resetCamera,
-  instructionsAnimationComplete, // Nueva prop necesaria
+  instructionsAnimationComplete,
 }) {
   const { isTouch } = useBreakpoint();
 
@@ -34,7 +34,7 @@ export default function Cube({
 
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
-  const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false); // Para controlar la animación inicial en móvil
+  const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false);
   
   const {
     setCursorState,
@@ -63,7 +63,7 @@ export default function Cube({
     }
   }, []);
 
-  // Animación inicial para móvil/tablet - aparece después de 6 segundos de completarse Instructions
+  // Animación inicial para móvil/tablet - aparece después de completarse Instructions
   useEffect(() => {
     if (isTouch && !hasInitialAnimationRun && instructionsAnimationComplete) {
       // En móvil/tablet, hacer visible el div desde el inicio
@@ -238,10 +238,23 @@ export default function Cube({
   };
 
   // Utiliza setAudio para almacenar tu objeto de audio
-  useEffect(() => {
-    if (audioCtx) {
+// CAMBIAR el useEffect que crea el audio
+useEffect(() => {
+  if (audioCtx && content.audioFileUrl) {
+    const createAudioElement = () => {
       const audioElement = document.createElement("audio");
       audioElement.src = content.audioFileUrl;
+      audioElement.preload = "metadata"; // AÑADIR: Precargar metadata
+      
+      // AÑADIR: Manejar eventos de carga
+      audioElement.addEventListener('canplay', () => {
+        console.log("Audio ready:", content.title);
+      });
+      
+      audioElement.addEventListener('error', (e) => {
+        console.error("Audio load error:", e, content.audioFileUrl);
+      });
+
       const track = audioCtx.createMediaElementSource(audioElement);
       const analyser = audioCtx.createAnalyser();
       analyser.fftSize = 256;
@@ -264,8 +277,14 @@ export default function Cube({
         element: audioElement,
         getAverageVolume,
       });
-    }
-  }, [audioCtx, content, setAudio]);
+    };
+
+    // AÑADIR: Pequeño delay para asegurar que todo esté listo
+    const timeoutId = setTimeout(createAudioElement, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }
+}, [audioCtx, content.audioFileUrl, setAudio]); // AÑADIR: dependencias más específicas
 
   // Este efecto se ejecuta cada vez que cambia "isPlaying"
   useEffect(() => {
@@ -298,9 +317,15 @@ export default function Cube({
     
     if (meshRef && meshRef.current) {
       if (isPlaying) {
-        if (audio) {
-          audio.element.play();
+        // CAMBIAR: Verificación más robusta del audio
+        if (audio && audio.element && typeof audio.element.play === 'function') {
+          audio.element.play().catch(error => {
+            console.warn("Audio play failed:", error);
+          });
+        } else {
+          console.warn("Audio not ready yet");
         }
+        
         gsap.to(meshRef.current.rotation, {
           duration: 8,
           z: "-=6.29*Math.PI",
@@ -309,10 +334,12 @@ export default function Cube({
           overwrite: "none",
         });
       } else {
-        if (audio) {
+        // CAMBIAR: Verificación más robusta del audio
+        if (audio && audio.element && typeof audio.element.pause === 'function') {
           audio.element.pause();
           audio.element.currentTime = 0;
         }
+        
         gsap.killTweensOf(meshRef.current.rotation);
         if (initialRotation !== null) {
           gsap.to(meshRef.current.rotation, {
@@ -323,7 +350,40 @@ export default function Cube({
         }
       }
     }
-  }, [isPlaying, initialRotation]);
+  }, [isPlaying, initialRotation, audio]); // AÑADIR: audio como dependencia
+
+  useEffect(() => {
+    const handleAllResourcesReady = () => {
+      // Esperar un frame adicional para asegurar que Three.js haya procesado todo
+      requestAnimationFrame(() => {
+        if (meshRef.current && elementRef.current) {
+          // Forzar actualización de la matriz del mesh
+          meshRef.current.updateMatrixWorld(true);
+          
+          // Recalcular la rotación inicial
+          meshRef.current.lookAt(new Vector3(0, 0, 0));
+          setInitialRotation(meshRef.current.rotation.z);
+          
+          // Forzar recálculo del elemento HTML
+          const element = elementRef.current;
+          const currentDisplay = element.style.display;
+          element.style.display = 'none';
+          element.offsetHeight; // Trigger reflow
+          element.style.display = currentDisplay;
+          element.style.transform = 'translate(-50%, -50%)';
+        }
+      });
+    };
+
+    // Escuchar tanto el evento de texturas como el de shader
+    window.addEventListener('resourcesLoaded', handleAllResourcesReady); // ← Cambiar aquí
+    window.addEventListener('shaderAnimationComplete', handleAllResourcesReady);
+    
+    return () => {
+      window.removeEventListener('resourcesLoaded', handleAllResourcesReady);
+      window.removeEventListener('shaderAnimationComplete', handleAllResourcesReady);
+    };
+  }, []); // Sin dependencias para que se configure una sola vez
 
   // Leve distorsión animada constante
   useFrame((_, delta) => {
