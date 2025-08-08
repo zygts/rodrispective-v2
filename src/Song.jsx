@@ -35,7 +35,8 @@ export default function Cube({
   const [initialRotation, setInitialRotation] = useState(null);
   const [showHtml, setShowHtml] = useState(false);
   const [hasInitialAnimationRun, setHasInitialAnimationRun] = useState(false);
-  
+  const [isLeaving, setIsLeaving] = useState(false);
+
   const {
     setCursorState,
     activeCube,
@@ -112,11 +113,20 @@ export default function Cube({
   // Retrasa la aparición del HTML para evitar flash
   useEffect(() => {
     let timeout;
+
     if (activeCube === index && isAnimationFinished) {
       timeout = setTimeout(() => setShowHtml(true), 100);
-    } else {
-      setShowHtml(false);
+      setIsLeaving(false); // reiniciar flag
+    } else if (showHtml) {
+      // Si se estaba mostrando y ahora ya no, inicia animación de salida
+      setIsLeaving(true);
+      // Ocultar después de la animación
+      timeout = setTimeout(() => {
+        setShowHtml(false);
+        setIsLeaving(false);
+      }, 500); // duración de animación de salida
     }
+
     return () => clearTimeout(timeout);
   }, [activeCube, index, isAnimationFinished]);
 
@@ -442,7 +452,7 @@ useEffect(() => {
       >
         <div
           className={`song-wrapper ${
-            activeCube === index && isAnimationFinished ? "active" : ""
+            (activeCube === index && isAnimationFinished) || isLeaving ? "active" : ""
           }`}
         >
           <div className="song-preview">
@@ -495,9 +505,14 @@ useEffect(() => {
                 });
               }
 
-              setTimeout(() => {
-                resetCamera();
-              }, 500);
+              // Activa flag de salida
+                setIsLeaving(true);
+
+                // Espera a que termine la animación (coincide con GSAP)
+                setTimeout(() => {
+                  onBackClick(); // Aquí se limpia el estado `activeCube`
+                  resetCamera();
+                }, 500); // igual duración que la animación de salida en GSAP
             }}
           >
             Back to Catalogue
@@ -506,7 +521,11 @@ useEffect(() => {
         </div>
       </Html>
 
-      <CubeAnimations isAnimationFinished={isAnimationFinished} isPlaying={isPlaying} />
+      <CubeAnimations
+        isAnimationFinished={isAnimationFinished}
+        isPlaying={isPlaying}
+        isLeaving={isLeaving}
+      />
     </mesh>
   );
 }

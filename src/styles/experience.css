@@ -177,17 +177,17 @@ h1 {
     }
 }
 
-/* .song-wrapper.hidden {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-} */
-
 .song-wrapper.active {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
   }
+
+  /* .song-wrapper.hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+} */
 
 .song-preview {
     padding: 0 8vw;

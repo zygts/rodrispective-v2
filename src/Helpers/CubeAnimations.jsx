@@ -1,37 +1,28 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 
-function CubeAnimations({ isAnimationFinished, isPlaying }) {
-  // Animación al abrir canción
-  // useEffect(() => {
-  //   if (isAnimationFinished) {
-  //     const showInfoTL = gsap.timeline();
-  //     showInfoTL
-  //       .set([".song-preview", ".song-info"], {
-  //         opacity: 0,
-  //       })
-  //       .to(".song-preview", { opacity: 1, y: 0, duration: 2 });
-  //   }
-  // }, [isAnimationFinished]);
+function CubeAnimations({ isAnimationFinished, isPlaying, isLeaving }) {
 
   useEffect(() => {
     if (isAnimationFinished) {
-      const showInfoTL2 = gsap.timeline();
-      showInfoTL2.fromTo(
+      const showInfoTL = gsap.timeline();
+      showInfoTL.fromTo(
         ".song-preview",
-        { opacity: 0, y: "25vh", x: -100, duration: 2 },
+        { opacity: 0, y: "25vh", x: -100 },
         {
           opacity: 1,
           y: "25vh",
           x: 0,
+          duration: 0.5,
+          ease: "power3.out",
         }
       );
     }
   }, [isAnimationFinished]);
 
-  // Animación al reproducir
   useEffect(() => {
     const tl = gsap.timeline();
+
     if (isPlaying) {
       tl.fromTo(
         ".song-preview",
@@ -40,22 +31,42 @@ function CubeAnimations({ isAnimationFinished, isPlaying }) {
         },
         {
           y: "0",
+          duration: 0.5,
+          ease: "power3.out",
         }
       ).to(".song-info", {
         opacity: 1,
-      });
+        duration: 0.3,
+        ease: "power3.out",
+      }, "<");
     } else {
-        tl.to(".song-info", {
-          opacity: 0,
-        }, 0)
-        .fromTo(
-          ".song-preview",
-          { y: "0" },
-          { y: "25vh" },
-          0
-        );
-      }
+      tl.to(".song-info", {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power3.inOut",
+      }).to(
+        ".song-preview",
+        {
+          y: "25vh",
+          duration: 0.5,
+          ease: "power3.in",
+        },
+        "<"
+      );
+    }
   }, [isPlaying]);
+
+  useEffect(() => {
+    if (isLeaving) {
+      const tl = gsap.timeline();
+      tl.to(".song-preview", {
+        opacity: 0,
+        x: -100,
+        duration: 0.5,
+        ease: "power2.inOut",
+      });
+    }
+  }, [isLeaving]);
 
   return null;
 }
