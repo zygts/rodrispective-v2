@@ -16,7 +16,12 @@ function CubeAnimations({ isAnimationFinished, isPlaying, isLeaving }) {
           duration: 0.5,
           ease: "power3.out",
         }
-      );
+      ).fromTo(".btn-play", {
+        opacity: 0,
+      }, {
+        opacity: 1,
+        duration: 0.2,
+      }, "<");
     }
   }, [isAnimationFinished]);
 
@@ -64,6 +69,10 @@ function CubeAnimations({ isAnimationFinished, isPlaying, isLeaving }) {
         x: -100,
         duration: 0.5,
         ease: "power2.inOut",
+      })
+      .to(".btn-play", {
+        opacity: 0,
+        duration: 0.2,
       });
     }
   }, [isLeaving]);

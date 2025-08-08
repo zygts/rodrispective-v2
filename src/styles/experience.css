@@ -238,6 +238,7 @@ h1 {
         line-height: 1.08;
         max-width: 42%;
         font-family: "Bentham", serif;
+        -webkit-font-smoothing: antialiased;
         letter-spacing: 0;
     }
     .song-credits {
@@ -263,7 +264,8 @@ h1 {
 @media (max-width: 1024px) {
     .song-preview h2,
     .song-preview h3 {
-        font-size: 3.5vw;
+        font-size: 3.75vw;
+        max-width: 42.5%;
     }
 }
 
