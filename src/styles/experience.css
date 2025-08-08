@@ -173,7 +173,7 @@ h1 {
 
 @media (max-width: 1024px) {
     .song-wrapper {
-        padding-top: 22vh;
+        padding-top: 25vh;
     }
 }
 
@@ -217,17 +217,17 @@ h1 {
 
 @media (max-width: 1024px) {
     .song-info {
-        margin-top: 2vh;
+        margin-top: 3vh;
     }
     .song-info p {
-        font-size: 1.7vw;
-        line-height: 1.2;
-        max-width: 40%;
+        font-size: 1.8vw;
+        line-height: 1.05;
+        max-width: 42%;
         font-family: "Bentham", serif;
         letter-spacing: 0;
     }
     .song-credits {
-        margin-top: 3vh;
+        margin-top: 3vh !important;
         font-size: 1.5vw;
     }
     .btn-goto {
@@ -344,9 +344,7 @@ h1 {
 }
 
 .song-details {
-    /*display: none;*/
     pointer-events: none;
-    /* min-width: 500px; */
     position: absolute;
     transform: translate(-50%, -50%);
 }
@@ -371,15 +369,6 @@ h1 {
         height: 10vw;
         margin-top: 3vw;
     }
-   /* #experience-canvas > div:nth-child(2) .song-details,
-   #experience-canvas > div:nth-child(4) .song-details,
-   #experience-canvas > div:nth-child(6) .song-details,
-   #experience-canvas > div:nth-child(8) .song-details,
-    #experience-canvas > div:nth-child(10) .song-details,
-    #experience-canvas > div:nth-child(12) .song-details{
-        margin-top: -2.5vw;
-        margin-left: -5.5vw;
-    }  */
     .song-details p {
         font-size: 0.7rem;
     }

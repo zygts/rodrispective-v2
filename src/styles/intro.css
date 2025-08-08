@@ -203,7 +203,7 @@
     text-transform: uppercase;
     background: transparent;
     position: absolute;
-    bottom: 25%;
+    bottom: 25vh;
     left: 50%;
     transform: translate(-50%,-50%);
     appearance: none;

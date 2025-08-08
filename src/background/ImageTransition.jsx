@@ -51,7 +51,7 @@ const { isTouchDevice } = useBreakpoint();
     position: [-2, 5, 1],
     rotation: [0.5, 0.9, 0.5],
   },
-  config: { tension: 35, friction: 55 },
+  config: { tension: 40, friction: 50 },
   delay: 1200,
 });
   // 🖼️ Cargar texturas y displacement
