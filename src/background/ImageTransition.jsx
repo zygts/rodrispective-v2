@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Images = ({ scrollableRef }) => {
   const { isMobile } = useBreakpoint();
   const { camera, viewport } = useThree();
+  const boost = isMobile ? 1.375 : 1;
 
   // 🚫 El mesh (plano) ajusta proporción; el grupo padre anima escala/pos/rot
   const groupRef = useRef();
@@ -135,13 +136,6 @@ useEffect(() => {
       plane.scale.x = 1;
       plane.scale.y = imageAspect / aspect;
     }
-
-    // Boost solo en móvil (sin distorsionar)
-    if (isMobile) {
-      const boost = 1.1; // ajusta a gusto
-      plane.scale.x *= boost;
-      plane.scale.y *= boost;
-    }
   };
 
   update();
@@ -226,7 +220,7 @@ useEffect(() => {
 
   return (
   <a.group
-    scale={springProps.scale}          // ← spring SOLO aquí
+    scale={springProps.scale.to((x, y, z) => [x * boost, y * boost, z])}
     position={springProps.position}
     rotation={springProps.rotation}
   >
@@ -234,7 +228,7 @@ useEffect(() => {
       <planeGeometry args={[14, 9]} />
       <shaderMaterial
         uniforms={uniforms.current}
-        vertexShader={vertexShader}    // ← sin corrección de aspecto
+        vertexShader={vertexShader} 
         fragmentShader={fragmentShader}
         transparent
       />
