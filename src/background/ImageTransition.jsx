@@ -14,14 +14,17 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Images = ({ scrollableRef }) => {
   const { isMobile } = useBreakpoint();
+  const { camera, viewport } = useThree();
 
-  const { camera } = useThree();
+  // 🚫 El mesh (plano) ajusta proporción; el grupo padre anima escala/pos/rot
+  const groupRef = useRef();
   const meshRef = useRef();
   const glitchAnimationRef = useRef(null);
 
   const [textures, setTextures] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // uniforms (sin corrección de aspecto en el vertex)
   const uniforms = useRef({
     currentTexture: { type: "t", value: null },
     nextTexture: { type: "t", value: null },
@@ -41,8 +44,10 @@ const Images = ({ scrollableRef }) => {
     u_opacity: { value: 1.0 },
   });
 
+  // 🎛️ Spring SOLO para el grupo (escala uniforme / pos / rot)
   const springProps = useSpring({
-    scale: isMobile ? [1.35, 1.35, 1] : [1, 1, 1],
+    // evita duplicar boosts: aquí escala 1, boost lo aplicamos en el plano
+    scale: [1, 1, 1],
     position: isMobile ? [0, 1.65, 3] : [0, 1.4, 3],
     rotation: [0, 0, 0],
     from: {
@@ -52,8 +57,10 @@ const Images = ({ scrollableRef }) => {
     },
     config: { tension: 40, friction: 50 },
     delay: 1200,
+    // depende de isMobile para recolocar
   });
-  // 🖼️ Cargar texturas y displacement
+
+  // 🖼️ Cargar texturas y displacement (no depende de isMobile)
   useEffect(() => {
     const loader = new TextureLoader();
     const textureFiles = [
@@ -89,47 +96,74 @@ const Images = ({ scrollableRef }) => {
     };
 
     loadTextures();
-  }, [isMobile]);
+  }, []);
 
-  // 📐 Resize
+  // 📐 Mantén uResolution/uAspectRatio actualizados para el fragment
   useEffect(() => {
     const handleResize = () => {
       uniforms.current.uResolution.value.x = window.innerWidth;
       uniforms.current.uResolution.value.y = window.innerHeight;
       uniforms.current.uAspectRatio.value =
         window.innerWidth / window.innerHeight;
+      // refresca ScrollTrigger por si cambió el layout
+      ScrollTrigger.refresh();
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+    };
   }, []);
 
-  // 🧱 Ajuste del plano según aspecto
-  useEffect(() => {
-    const adjustPlaneSize = () => {
-      const aspect = window.innerWidth / window.innerHeight;
-      const imageAspect = 20 / 9;
-      const plane = meshRef.current;
+  // 🧱 Ajuste del plano según viewport real (sin tocar el spring)
+// ⛔️ NO usar viewport.getCurrentViewport aquí
+useEffect(() => {
+  const plane = meshRef.current;
+  if (!plane) return;
 
-      if (!plane) return;
+  const update = () => {
+    const aspect = window.innerWidth / window.innerHeight;
+    const imageAspect = 20 / 9;
 
-      if (aspect > imageAspect) {
-        plane.scale.x = aspect / imageAspect;
-        plane.scale.y = 1;
-      } else {
-        plane.scale.x = 1;
-        plane.scale.y = imageAspect / aspect;
-      }
-      // 👇 Boost por breakpoint (mismo factor en X/Y para no distorsionar)
-     const boost = isMobile ? 1.1 : 1;
-     plane.scale.x *= boost;
-     plane.scale.y *= boost;
-    };
+    // Ajuste de aspecto SOLO en el mesh (no en el grupo)
+    if (aspect > imageAspect) {
+      plane.scale.x = aspect / imageAspect;
+      plane.scale.y = 1;
+    } else {
+      plane.scale.x = 1;
+      plane.scale.y = imageAspect / aspect;
+    }
 
-    adjustPlaneSize();
-    window.addEventListener("resize", adjustPlaneSize);
-    return () => window.removeEventListener("resize", adjustPlaneSize);
-  }, [isMobile]);
+    // Boost solo en móvil (sin distorsionar)
+    if (isMobile) {
+      const boost = 1.1; // ajusta a gusto
+      plane.scale.x *= boost;
+      plane.scale.y *= boost;
+    }
+  };
+
+  update();
+
+  // Mejor escucha también orientationchange en móvil
+  const onResize = () => {
+    // evita “storms” de resize en iOS
+    requestAnimationFrame(update);
+  };
+  window.addEventListener('resize', onResize);
+  window.addEventListener('orientationchange', onResize);
+
+  // Si usas ScrollTrigger, refresca tras cambios de layout
+  const refreshId = setTimeout(() => ScrollTrigger.refresh(), 50);
+
+  return () => {
+    window.removeEventListener('resize', onResize);
+    window.removeEventListener('orientationchange', onResize);
+    clearTimeout(refreshId);
+  };
+}, [isMobile]);
+
 
   // 🎞️ Scroll animation
   useScrollAnimation(
@@ -191,21 +225,22 @@ const Images = ({ scrollableRef }) => {
   if (!isLoaded) return null;
 
   return (
-    <a.mesh
-      ref={meshRef}
-      scale={springProps.scale}
-      position={springProps.position}
-      rotation={springProps.rotation}
-    >
+  <a.group
+    scale={springProps.scale}          // ← spring SOLO aquí
+    position={springProps.position}
+    rotation={springProps.rotation}
+  >
+    <mesh ref={meshRef}>
       <planeGeometry args={[14, 9]} />
       <shaderMaterial
         uniforms={uniforms.current}
-        vertexShader={vertexShader}
+        vertexShader={vertexShader}    // ← sin corrección de aspecto
         fragmentShader={fragmentShader}
         transparent
       />
-    </a.mesh>
-  );
+    </mesh>
+  </a.group>
+);
 };
 
 export default Images;
