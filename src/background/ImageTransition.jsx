@@ -1,5 +1,5 @@
 // Images.jsx
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { TextureLoader } from "three";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -108,7 +108,7 @@ const Images = ({ scrollableRef }) => {
   }, [size.width, size.height]);
 
   // Ajuste de aspecto del plano en el mesh (sin boost, sin spring)
-  useEffect(() => {
+  useLayoutEffect(() => {
     const plane = meshRef.current;
     if (!plane) return;
 

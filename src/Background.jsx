@@ -67,7 +67,7 @@ export function BackgroundCanvas({ scrollableRef }) {
         left: 0,
         zIndex: -1,
         pointerEvents: "none",
-        height: "100vh",
+        height: "100dvh",
         width: "100vw",
         backgroundColor: "#0E0C0C",
       }}

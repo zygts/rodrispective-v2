@@ -23,6 +23,21 @@ const OrientationWarning = () => {
     };
   }, []);
 
+  // 👇 Cuando pasamos a landscape, dispara un "resize" tardío (iPad Safe)
+  useEffect(() => {
+    if (isPortrait) return;
+    const fire = () => {
+      window.dispatchEvent(new Event("resize"));
+    };
+   // doble rAF para esperar reflow + un fallback timeout para iPad
+   const raf1 = requestAnimationFrame(() => {
+     const raf2 = requestAnimationFrame(fire);
+     setTimeout(fire, 250);
+     setTimeout(fire, 600);
+   });
+   return () => cancelAnimationFrame(raf1);
+ }, [isPortrait]);
+
   if (!isPortrait) return null;
 
   return (
