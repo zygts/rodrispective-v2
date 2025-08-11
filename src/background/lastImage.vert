@@ -1,4 +1,3 @@
-// Mantén uResolution solo si lo necesitas en el fragment
 uniform float uDisplacementFactor;
 
 varying vec2 vUv;

@@ -108,28 +108,12 @@ const Images = ({ scrollableRef }) => {
   }, [size.width, size.height]);
 
   // Ajuste de aspecto del plano en el mesh (sin boost, sin spring)
-  useLayoutEffect(() => {
-    const plane = meshRef.current;
-    if (!plane) return;
-
-    const imageAspect = 20 / 9;
-
-    const update = () => {
-      const aspect = size.width / size.height;
-
-      if (aspect > imageAspect) {
-        plane.scale.x = aspect / imageAspect;
-        plane.scale.y = 1;
-      } else {
-        plane.scale.x = 1;
-        plane.scale.y = imageAspect / aspect;
-      }
-      // Z se mantiene en 1
-    };
-
-    update();
-    // Recalcula automáticamente cuando cambie el canvas (móvil/tablet/rotaciones)
-  }, [size.width, size.height]);
+  useEffect(() => {
+  const plane = meshRef.current;
+  if (!plane) return;
+  const fixX = (20/9) / (14/9); // = 20/14 = 10/7
+  plane.scale.set(fixX, 1, 1);
+}, []);
 
   // Animación de scroll (transiciones de texturas, cámara, etc.)
   useScrollAnimation(
