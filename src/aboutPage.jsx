@@ -213,13 +213,13 @@ const AboutPage = () => {
           </h2>
           <div className="preview__column preview__column--start">
             <span className="preview__column-title preview__column-title--main oh">
-              <span className="oh__inner">From raw home recordings to digital landscapes</span>
+              <span className="oh__inner">From raw home recordings to digital experience</span>
             </span>
             {[
               "Music has always been a big part of my life. Since I was a kid, I’ve been making up melodies, turning thoughts and feelings into songs, even before I fully understood what I was doing.",
-              "At around 18 years old, I started recording at home with whatever equipment I could get my hands on—an old computer and a secondhand microphone. It wasn’t much, but it was enough to bring my ideas to life. For the next two decades, I continued making music—not for recognition, but because I couldn’t imagine not doing it. The songs kept coming, even when no one was listening.",
-              "Life, as it often does, took me down other roads. But the creative spark never faded—it simply found new forms: web design, development, and art. In a way, they all feel connected, different ways of building and expressing ideas.",
-              "This website is a mix of all those things—a place where my interests in music, art, and digital creation come together.",
+              "At around 18 years old, I started recording at home with whatever equipment I could get my hands on: an old computer and a secondhand microphone. It wasn’t much, but it was enough to bring my ideas to life. For the next two decades, I continued making music. Not for recognition, but because I couldn’t imagine not doing it. The songs kept coming, even when no one was listening.",
+              "Life, as it often does, took me down other roads. But the creative spark never faded. It simply found new forms: graphic and web design, web development, and art. In a way, they all feel connected, different ways of building and expressing ideas.",
+              "I made this website as a mix of all those things: a place where my interests in music, art, and digital creation come together.",
               "A little homage to myself and the creative work I’ve pursued for most of my life.",
             ].map((text, i) => (
               <p key={i} ref={(el) => (textRefs.current[i] = el)}>
