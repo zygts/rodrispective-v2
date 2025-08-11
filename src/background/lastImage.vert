@@ -1,4 +1,4 @@
-uniform vec2 uResolution;
+// Mantén uResolution solo si lo necesitas en el fragment
 uniform float uDisplacementFactor;
 
 varying vec2 vUv;
@@ -8,43 +8,34 @@ attribute float triangleID;
 
 void main() {
     vUv = uv;
+    vTriangleID = triangleID;
+
     vec3 pos = position;
 
-    // Desplazamiento basado en el triangleID
+    // --- Desplazamiento (solo una vez; decide si pre o post-rotación) ---
     pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
 
+    // --- Centro correcto del mesh (plano centrado en el origen) ---
+    vec3 center = vec3(0.0);
 
-  float aspect = uResolution.x / uResolution.y;
-  float imageAspect = 20.0 / 9.0;
+    // Vector hacia el centro
+    vec3 toCenter = center - pos;
 
-  // Ajuste para mantener la relación de aspecto de la imagen
-  if (aspect > imageAspect) {
-    pos.y *= aspect / imageAspect;
-  } else {
-    pos.x *= imageAspect / aspect;
-  }
-
-    // Coordenadas del centro del mesh
-    vec3 center = vec3(0.5, 0.5, 0.0);
-
-    // Vector desde el vértice actual hasta el centro
-    vec3 toCenter = center - pos.xyz;
-
-    // Ángulo de rotación basado en el ID del triángulo y el factor de desplazamiento
+    // Ángulo en función del ID y factor
     float angle = triangleID * 0.1 + uDisplacementFactor * 2.0;
 
-    // Matriz de rotación
+    // Rotación en Z
     mat3 rotation = mat3(
-        cos(angle), sin(angle), 0,
-        -sin(angle), cos(angle), 0,
-        0, 0, 1
+        cos(angle),  sin(angle), 0.0,
+       -sin(angle),  cos(angle), 0.0,
+        0.0,         0.0,        1.0
     );
 
-    // Aplica la rotación y el desplazamiento
-    pos.xyz = pos.xyz + rotation * toCenter * uDisplacementFactor;
+    // Aplica rotación alrededor del centro + desplazamiento adicional si quieres
+    pos += rotation * toCenter * uDisplacementFactor;
 
-    // Desplazamiento basado en el triangleID
-    pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
-    
+    // (Opcional) Si prefieres el desplazamiento *después* de rotar, muévelo aquí:
+    // pos.y += cos(triangleID * 2.0) * uDisplacementFactor;
+
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

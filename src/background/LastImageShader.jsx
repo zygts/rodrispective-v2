@@ -14,7 +14,7 @@ import vertexShader from "./lastImage.vert";
 import fragmentShader from "./lastImage.frag";
 
 const LastImageShader = ({ scrollableRef }) => {
-  const { isTouchDevice } = useBreakpoint();
+  const { isMobile } = useBreakpoint();
   const { startButtonClicked, setStartButtonClicked } = useContext(AppContext);
 
   const [texture, setTexture] = useState(null);
@@ -107,17 +107,16 @@ const LastImageShader = ({ scrollableRef }) => {
   useEffect(() => {
     const plane = planeRef.current;
     if (!plane) return;
-
-    const scale = isTouchDevice ? 1.3 : 1;
-    plane.scale.set(scale, scale, scale);
-  }, [isTouchDevice]);
+    const boost = isMobile ? 1.375 : 1;
+    plane.scale.set(boost, boost, 1);
+  }, [isMobile]);
 
   return (
     <mesh
       ref={planeRef}
       geometry={geometry}
       material={material}
-      position={[0, isTouchDevice ? 1.6 : 1.45, 4]}
+      position={[0, isMobile ? 1.75 : 1.45, 4]}
     />
   );
 };

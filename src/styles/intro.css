@@ -212,12 +212,17 @@
     transition: transform 0.2s ease-in-out;
 }
 
-/* @media (max-width: 1336px) {
+@media (max-width: 1336px) {
     .start-btn {
-        bottom: 15%;
+        bottom: 24.5vh;
     }
 }
-*/
+
+@media (max-width: 1024px) {
+    .start-btn {
+        bottom: 18.5vh;
+    }
+}
 
 .loader__svg {
     transform-origin: center;

@@ -13,7 +13,7 @@ import { AppContext } from "./appContext";
 
 export function BackgroundCanvas({ scrollableRef }) {
   const [isAnimationComplete, setAnimationComplete] = useState(false);
-  const animationContainerRef = useRef(); // Referencia al contenedor de animación
+  const animationContainerRef = useRef();
   const { startButtonClicked } = useContext(AppContext);
 
   useEffect(() => {

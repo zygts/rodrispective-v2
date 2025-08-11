@@ -13,8 +13,7 @@ import { useBreakpoint } from "../hooks/useBreakpoint";
 gsap.registerPlugin(ScrollTrigger);
 
 const Images = ({ scrollableRef }) => {
-
-const { isTouchDevice } = useBreakpoint();
+  const { isMobile } = useBreakpoint();
 
   const { camera } = useThree();
   const meshRef = useRef();
@@ -43,17 +42,17 @@ const { isTouchDevice } = useBreakpoint();
   });
 
   const springProps = useSpring({
-  scale: isTouchDevice ? [1.3, 1.3, 1] : [1, 1, 1],
-  position: isTouchDevice ? [0, 1.6, 3] : [0, 1.4, 3],
-  rotation: [0, 0, 0],
-  from: {
-    scale: [0.3, 0.3, 0.3],
-    position: [-2, 5, 1],
-    rotation: [0.5, 0.9, 0.5],
-  },
-  config: { tension: 40, friction: 50 },
-  delay: 1200,
-});
+    scale: isMobile ? [1.35, 1.35, 1] : [1, 1, 1],
+    position: isMobile ? [0, 1.65, 3] : [0, 1.4, 3],
+    rotation: [0, 0, 0],
+    from: {
+      scale: [0.3, 0.3, 0.3],
+      position: [-2, 5, 1],
+      rotation: [0.5, 0.9, 0.5],
+    },
+    config: { tension: 40, friction: 50 },
+    delay: 1200,
+  });
   // 🖼️ Cargar texturas y displacement
   useEffect(() => {
     const loader = new TextureLoader();
@@ -72,7 +71,8 @@ const { isTouchDevice } = useBreakpoint();
     const loadTextures = async () => {
       const textures = await Promise.all(
         textureFiles.map(
-          (file) => new Promise((res) => loader.load(`./img/homepage/${file}`, res))
+          (file) =>
+            new Promise((res) => loader.load(`./img/homepage/${file}`, res))
         )
       );
 
@@ -89,14 +89,15 @@ const { isTouchDevice } = useBreakpoint();
     };
 
     loadTextures();
-  }, []);
+  }, [isMobile]);
 
   // 📐 Resize
   useEffect(() => {
     const handleResize = () => {
       uniforms.current.uResolution.value.x = window.innerWidth;
       uniforms.current.uResolution.value.y = window.innerHeight;
-      uniforms.current.uAspectRatio.value = window.innerWidth / window.innerHeight;
+      uniforms.current.uAspectRatio.value =
+        window.innerWidth / window.innerHeight;
     };
 
     window.addEventListener("resize", handleResize);
@@ -119,15 +120,25 @@ const { isTouchDevice } = useBreakpoint();
         plane.scale.x = 1;
         plane.scale.y = imageAspect / aspect;
       }
+      // 👇 Boost por breakpoint (mismo factor en X/Y para no distorsionar)
+     const boost = isMobile ? 1.1 : 1;
+     plane.scale.x *= boost;
+     plane.scale.y *= boost;
     };
 
     adjustPlaneSize();
     window.addEventListener("resize", adjustPlaneSize);
     return () => window.removeEventListener("resize", adjustPlaneSize);
-  }, []);
+  }, [isMobile]);
 
   // 🎞️ Scroll animation
-  useScrollAnimation(uniforms.current, textures, scrollableRef, camera, glitchAnimationRef);
+  useScrollAnimation(
+    uniforms.current,
+    textures,
+    scrollableRef,
+    camera,
+    glitchAnimationRef
+  );
 
   // 🔁 Glitch animation
   useEffect(() => {
