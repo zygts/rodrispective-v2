@@ -34,16 +34,26 @@ const useTextLinesReveal = (textRefs) => {
       return { textEl, splitInstance };
     });
 
-    // Animación de entrada
+    // Animación de entrada con scroll
     animateIn.current = () => {
       splitInstances.forEach(({ textEl, splitInstance }) => {
-        gsap.set(splitInstance.lines, { yPercent: 105 });
-        gsap.to(textEl, { opacity: 1, duration: 0.2 });
+        // Estado inicial consistente (nada en px + offset en %)
+        gsap.set(splitInstance.lines, { y: 0, yPercent: 105 });
+        gsap.set(textEl, { autoAlpha: 1 });
         gsap.to(splitInstance.lines, {
           yPercent: 0,
+          y: 0,
           stagger: 0.05,
-          duration: 1.1,
+          duration: 1,
           ease: "power4.inOut",
+          overwrite: "auto",
+          scrollTrigger: {
+            trigger: textEl,
+            start: "top bottom",
+            // end: "top 30%",
+            // scrub: false,
+            invalidateOnRefresh: true,
+          },
         });
       });
     };
@@ -63,6 +73,11 @@ const useTextLinesReveal = (textRefs) => {
 
     return () => {
       splitInstances.forEach(({ splitInstance }) => splitInstance.revert());
+      splitInstances.forEach(({ textEl }) => {
+        ScrollTrigger.getAll()
+        .filter(t => t.trigger === textEl)
+        .forEach(t => t.kill());
+  });
     };
   }, [textRefs]);
 

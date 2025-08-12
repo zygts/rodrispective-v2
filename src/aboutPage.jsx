@@ -166,7 +166,7 @@ const AboutPage = () => {
         .add(() => {
           animateOut.current();
           reverseAnimateFourthGrid();
-        }, "start+=0.6")
+        }, "start+=0.1")
         .to(overlayRows, {
           scaleY: 0,
           onComplete: () => {
