@@ -15,7 +15,7 @@
       top: calc(60vh + 1rem);
     }
     .preview__title {
-      margin: 0 0 0 15px;
+      margin: 0 0 0 0.6rem;
       position: absolute;
       top: 20%;
   }
@@ -25,7 +25,7 @@
   position: absolute;
   left: 50%;
   top: calc(60vh + 1rem);
-  width: calc(50vw - 2rem);
+  width: calc(50vw - 1rem);
 }
 
 .contact-form {
@@ -125,9 +125,16 @@
 .success-message {
   position: absolute;
   width: 100%;
-  bottom: -5rem;
+  margin-bottom: 0;
+  bottom: -6rem;
   color: #ff5353 !important;
   opacity: 1 !important;
+}
+
+@media (max-width: 1280px) {
+  .success-message {
+    bottom: -8rem;
+  }
 }
 
 @media (max-width: 1336px) {
@@ -166,5 +173,6 @@
     transform: translate(-50%, -50%);
     text-align: center;
     bottom: auto;
+    font-size: 4.5vw;
   }
 }

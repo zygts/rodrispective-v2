@@ -103,7 +103,7 @@ p, h1, h2, h3, h4, h5 {
 .header nav {
     display: flex;
     justify-content: space-between;
-    padding: 2vh 2.6vw;
+    padding: 1.2rem;
 }
 
 .header nav span {

@@ -13,7 +13,7 @@ const ContactPage = () => {
   const textRefs = useRef({});
   const { animateIn, animateOut } = useTextLinesReveal(textRefs);
 
-  const [formData, setFormData] = useState({ email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -30,8 +30,10 @@ const ContactPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
+          name: formData.name,
           email: formData.email,
           message: formData.message,
         }),
@@ -39,8 +41,8 @@ const ContactPage = () => {
   
       if (res.ok) {
         setSuccess(true);
-        setFormData({ email: "", message: "" });
-              setTimeout(() => setSuccess(false), 5000);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setSuccess(false), 5000);
       } else {
         setError("Hubo un problema al enviar el mensaje.");
       }
@@ -196,11 +198,11 @@ const ContactPage = () => {
                   onPointerEnter={() => setCursorState("large--filled-red")}
                   onPointerLeave={() => setCursorState("default")}>
                   <input
-                    type="name"
+                    type="text"
                     id="name"
                     name="name"
                     placeholder="Your name"
-                    value={formData.name || ""}
+                    value={formData.name}
                     onChange={handleChange}
                   />
                 </div>
