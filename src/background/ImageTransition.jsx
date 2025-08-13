@@ -175,7 +175,7 @@ const Images = ({ scrollableRef }) => {
   if (!isLoaded) return null;
 
   // Boost solo en móvil (uniforme, multiplicando el spring del grupo)
-  const boost = isMobile ? 1.1 : 1;
+  const boost = isMobile ? 1.375 : 1;
 
   return (
     <a.group
